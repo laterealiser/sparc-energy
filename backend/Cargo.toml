@@ -3,9 +3,11 @@ name = "carbon-credit-backend"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "carbon-credit-backend"
+path = "src/main.rs"
+
 [dependencies]
-shuttle-runtime = "0.48"
-shuttle-actix-web = "0.48"
 actix-web = "4"
 actix-cors = "0.7"
 actix-web-httpauth = "0.8"

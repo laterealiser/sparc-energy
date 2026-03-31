@@ -2,10 +2,10 @@
 // Sparc Energy — API Helper
 // ═══════════════════════════════════════════════════════════════
 
-// IMPORTANT: Change this URL after deploying your backend to Shuttle.rs
-// During local development: http://localhost:8080
-// After deployment: https://your-app-name.shuttleapp.rs
-const API_BASE = 'https://sparc-energy-backend.shuttleapp.rs/api';
+// NOTE: Change this URL to your Render.com backend URL after it deploys!
+// Example: const API_BASE = 'https://sparc-energy-backend-x1y2.onrender.com/api';
+const API_BASE = 'http://localhost:8080/api'; // Temporarily local while you setup Render
+
 
 /**
  * Main API fetch wrapper
