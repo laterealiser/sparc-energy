@@ -5,7 +5,7 @@
 // IMPORTANT: Change this URL after deploying your backend to Shuttle.rs
 // During local development: http://localhost:8080
 // After deployment: https://your-app-name.shuttleapp.rs
-const API_BASE = 'http://localhost:8080/api';
+const API_BASE = 'https://sparc-energy-backend.shuttleapp.rs/api';
 
 /**
  * Main API fetch wrapper
