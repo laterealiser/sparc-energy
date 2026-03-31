@@ -1,0 +1,122 @@
+-- Carbon Credit Market Platform - Database Schema
+
+CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY,
+    email TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    name TEXT NOT NULL,
+    role TEXT NOT NULL DEFAULT 'buyer',
+    balance REAL NOT NULL DEFAULT 10000.0,
+    total_credits_owned REAL NOT NULL DEFAULT 0.0,
+    avatar_url TEXT,
+    kyc_verified INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS carbon_projects (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    project_type TEXT NOT NULL,
+    location TEXT NOT NULL,
+    country TEXT NOT NULL,
+    owner_id TEXT NOT NULL REFERENCES users(id),
+    total_credits REAL NOT NULL DEFAULT 0.0,
+    credits_issued REAL NOT NULL DEFAULT 0.0,
+    credits_retired REAL NOT NULL DEFAULT 0.0,
+    verified INTEGER NOT NULL DEFAULT 0,
+    certification TEXT,
+    image_url TEXT,
+    sdg_goals TEXT,
+    co2_reduction_per_year REAL,
+    project_start_date TEXT,
+    project_end_date TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS carbon_credits (
+    id TEXT PRIMARY KEY,
+    project_id TEXT NOT NULL REFERENCES carbon_projects(id),
+    seller_id TEXT NOT NULL REFERENCES users(id),
+    price_per_ton REAL NOT NULL,
+    quantity_tons REAL NOT NULL,
+    quantity_available REAL NOT NULL,
+    status TEXT NOT NULL DEFAULT 'active',
+    vintage_year INTEGER NOT NULL,
+    certification TEXT NOT NULL,
+    serial_number TEXT UNIQUE,
+    co2_type TEXT NOT NULL DEFAULT 'CO2e',
+    methodology TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS market_orders (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL REFERENCES users(id),
+    credit_id TEXT NOT NULL REFERENCES carbon_credits(id),
+    order_type TEXT NOT NULL,
+    quantity_tons REAL NOT NULL,
+    price_per_ton REAL NOT NULL,
+    total_amount REAL NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS transactions (
+    id TEXT PRIMARY KEY,
+    buyer_id TEXT NOT NULL REFERENCES users(id),
+    seller_id TEXT NOT NULL REFERENCES users(id),
+    credit_id TEXT NOT NULL REFERENCES carbon_credits(id),
+    project_id TEXT NOT NULL REFERENCES carbon_projects(id),
+    quantity_tons REAL NOT NULL,
+    price_per_ton REAL NOT NULL,
+    total_price REAL NOT NULL,
+    tx_hash TEXT UNIQUE,
+    certification TEXT NOT NULL,
+    vintage_year INTEGER NOT NULL,
+    status TEXT NOT NULL DEFAULT 'completed',
+    retired INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS portfolio (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL REFERENCES users(id),
+    credit_id TEXT NOT NULL REFERENCES carbon_credits(id),
+    project_id TEXT NOT NULL REFERENCES carbon_projects(id),
+    quantity_tons REAL NOT NULL DEFAULT 0.0,
+    average_buy_price REAL NOT NULL DEFAULT 0.0,
+    total_invested REAL NOT NULL DEFAULT 0.0,
+    retired_tons REAL NOT NULL DEFAULT 0.0,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    UNIQUE(user_id, credit_id)
+);
+
+CREATE TABLE IF NOT EXISTS price_history (
+    id TEXT PRIMARY KEY,
+    credit_id TEXT NOT NULL REFERENCES carbon_credits(id),
+    price REAL NOT NULL,
+    volume REAL NOT NULL DEFAULT 0.0,
+    recorded_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS watchlist (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL REFERENCES users(id),
+    credit_id TEXT NOT NULL REFERENCES carbon_credits(id),
+    added_at TEXT NOT NULL,
+    UNIQUE(user_id, credit_id)
+);
+
+-- Indexes for performance
+CREATE INDEX IF NOT EXISTS idx_credits_status ON carbon_credits(status);
+CREATE INDEX IF NOT EXISTS idx_credits_seller ON carbon_credits(seller_id);
+CREATE INDEX IF NOT EXISTS idx_transactions_buyer ON transactions(buyer_id);
+CREATE INDEX IF NOT EXISTS idx_transactions_seller ON transactions(seller_id);
+CREATE INDEX IF NOT EXISTS idx_portfolio_user ON portfolio(user_id);
+CREATE INDEX IF NOT EXISTS idx_price_history_credit ON price_history(credit_id);

@@ -1,0 +1,7 @@
+E:\Carbon Credit Project\backend\target_fresh\debug\deps\pin_project_lite-53ba8b2f4c52301c.d: C:\Users\veera\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\pin-project-lite-0.2.17\src\lib.rs
+
+E:\Carbon Credit Project\backend\target_fresh\debug\deps\libpin_project_lite-53ba8b2f4c52301c.rlib: C:\Users\veera\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\pin-project-lite-0.2.17\src\lib.rs
+
+E:\Carbon Credit Project\backend\target_fresh\debug\deps\libpin_project_lite-53ba8b2f4c52301c.rmeta: C:\Users\veera\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\pin-project-lite-0.2.17\src\lib.rs
+
+C:\Users\veera\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\pin-project-lite-0.2.17\src\lib.rs:

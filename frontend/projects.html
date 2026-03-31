@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carbon Projects — Sparc Energy</title>
+  <meta name="description" content="Browse verified carbon projects on Sparc Energy — reforestation, solar, wind, blue carbon. Powered by Verra VCS and Gold Standard." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .project-detail-modal .modal { max-width: 640px; }
+    .sdg-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .sdg-item {
+      width: 48px; height: 48px; border-radius: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-green);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: var(--sparc-green);
+      flex-direction: column; gap: 2px;
+    }
+    .project-tabs { margin-bottom: 32px; }
+    .type-filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+  </style>
+</head>
+<body>
+
+<div class="ticker-bar"><div class="ticker-track" id="tickerTrack"></div></div>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon">⚡</div>
+    <div><span class="logo-text">Sparc Energy</span><span class="logo-sub">CARBON MARKET</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">🏠 Home</a>
+    <a href="marketplace.html" class="nav-link">📈 Marketplace</a>
+    <a href="projects.html" class="nav-link active">🌿 Projects</a>
+    <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+  </div>
+  <div class="nav-actions">
+    <div id="nav-auth-guest"><a href="auth.html" class="btn btn-secondary btn-sm">Login</a><a href="auth.html?mode=register" class="btn btn-primary btn-sm">Register</a></div>
+    <div id="nav-auth-user" class="hidden" style="display:flex;gap:10px;align-items:center;">
+      <span style="font-size:13px;color:var(--text-secondary)">Balance: <strong style="color:var(--sparc-green)" id="nav-balance">—</strong></span>
+      <a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a>
+      <button class="btn btn-ghost btn-sm" onclick="logout()">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Header -->
+<div style="background:var(--bg-secondary);border-bottom:1px solid var(--border);">
+  <div class="container" style="padding-top:32px;padding-bottom:24px;">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Carbon Projects</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+      <div>
+        <h1 class="page-title">🌍 Carbon Projects Registry</h1>
+        <p class="page-sub">Verified climate projects generating carbon credits · Powered by Verra VCS & Gold Standard</p>
+      </div>
+      <button class="btn btn-primary" onclick="openSubmitModal()">+ Submit Project</button>
+    </div>
+  </div>
+</div>
+
+<div class="container" style="padding-top:32px;padding-bottom:60px;">
+  <!-- Stats Row -->
+  <div class="grid-4" style="margin-bottom:32px;">
+    <div class="stat-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div class="stat-label">Total Projects</div>
+        <div class="stat-icon" style="background:rgba(0,212,161,0.1);">🌿</div>
+      </div>
+      <div class="stat-value" id="ps-total">—</div>
+      <div class="stat-change up" id="ps-verified">— Verified</div>
+    </div>
+    <div class="stat-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div class="stat-label">CO₂ Reduction</div>
+        <div class="stat-icon" style="background:rgba(79,142,247,0.1);">🌡️</div>
+      </div>
+      <div class="stat-value" id="ps-co2">220K</div>
+      <div style="font-size:12px;color:var(--text-secondary)">tons per year</div>
+    </div>
+    <div class="stat-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div class="stat-label">Credits Issued</div>
+        <div class="stat-icon" style="background:rgba(245,197,24,0.1);">📜</div>
+      </div>
+      <div class="stat-value" id="ps-issued">900K</div>
+      <div style="font-size:12px;color:var(--text-secondary)">tCO₂e total</div>
+    </div>
+    <div class="stat-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div class="stat-label">Countries</div>
+        <div class="stat-icon" style="background:rgba(167,139,250,0.1);">🌐</div>
+      </div>
+      <div class="stat-value">3</div>
+      <div style="font-size:12px;color:var(--text-secondary)">Brazil, India, Norway</div>
+    </div>
+  </div>
+
+  <!-- Type Filter -->
+  <div class="type-filter-bar">
+    <div class="filter-chip active" onclick="filterByType(this,'')">🌐 All Types</div>
+    <div class="filter-chip" onclick="filterByType(this,'reforestation')">🌳 Reforestation</div>
+    <div class="filter-chip" onclick="filterByType(this,'solar')">☀️ Solar</div>
+    <div class="filter-chip" onclick="filterByType(this,'wind')">💨 Wind</div>
+    <div class="filter-chip" onclick="filterByType(this,'blue_carbon')">🌊 Blue Carbon</div>
+    <div class="filter-chip" onclick="filterByType(this,'methane')">🔥 Methane Capture</div>
+    <div style="margin-left:auto;">
+      <input class="form-input" style="width:240px;" type="text" id="projSearch" placeholder="🔍 Search projects..." oninput="applyProjectFilter()" />
+    </div>
+  </div>
+
+  <!-- Projects Grid -->
+  <div class="grid-auto" id="projectsGrid">
+    <div class="skeleton" style="height:340px;border-radius:16px;"></div>
+    <div class="skeleton" style="height:340px;border-radius:16px;"></div>
+    <div class="skeleton" style="height:340px;border-radius:16px;"></div>
+  </div>
+</div>
+
+<!-- Project Detail Modal -->
+<div class="modal-overlay" id="projectModal">
+  <div class="modal" style="max-width:640px;">
+    <button class="modal-close" onclick="closeModal('projectModal')">×</button>
+    <div id="projectModalContent">Loading...</div>
+  </div>
+</div>
+
+<!-- Submit Project Modal -->
+<div class="modal-overlay" id="submitModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('submitModal')">×</button>
+    <h2 class="modal-title">Submit Carbon Project</h2>
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px;">Submit your climate project for verification on Sparc Energy</p>
+    <form id="submitProjectForm" onsubmit="submitProject(event)" style="display:flex;flex-direction:column;gap:14px;">
+      <div class="form-group">
+        <label class="form-label">Project Name *</label>
+        <input class="form-input" id="pName" placeholder="e.g., Maharashtra Wind Farm" required />
+      </div>
+      <div class="grid-2" style="gap:12px;">
+        <div class="form-group">
+          <label class="form-label">Project Type *</label>
+          <select class="form-select" id="pType" required>
+            <option value="">Select type</option>
+            <option value="reforestation">🌳 Reforestation</option>
+            <option value="solar">☀️ Solar</option>
+            <option value="wind">💨 Wind</option>
+            <option value="blue_carbon">🌊 Blue Carbon</option>
+            <option value="methane">🔥 Methane</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Certification *</label>
+          <select class="form-select" id="pCert" required>
+            <option value="">Select standard</option>
+            <option value="Verra VCS">Verra VCS</option>
+            <option value="Gold Standard">Gold Standard</option>
+            <option value="CDM">CDM</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-2" style="gap:12px;">
+        <div class="form-group">
+          <label class="form-label">Location</label>
+          <input class="form-input" id="pLocation" placeholder="State / Region" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Country *</label>
+          <input class="form-input" id="pCountry" placeholder="e.g., India" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Total Credits (tCO₂e) *</label>
+        <input class="form-input" type="number" id="pCredits" placeholder="e.g., 50000" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-input" id="pDesc" rows="3" placeholder="Describe your climate project..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">CO₂ Reduction per Year (tons)</label>
+        <input class="form-input" type="number" id="pCo2" placeholder="e.g., 15000" />
+      </div>
+      <button type="submit" class="btn btn-primary w-full">Submit for Review</button>
+      <div id="submitProjectMsg" style="font-size:13px;text-align:center;"></div>
+    </form>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none;padding-top:0;">
+      <div>© 2024 Sparc Energy Pvt. Ltd. All rights reserved.</div>
+      <div style="display:flex;gap:12px;">
+        <span class="badge badge-verra">🌿 Verra VCS</span>
+        <span class="badge badge-gold">🥇 Gold Standard</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast-container" id="toastContainer"></div>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/projects.js"></script>
+</body>
+</html>

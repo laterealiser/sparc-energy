@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login / Register — Sparc Energy</title>
+  <meta name="description" content="Sign in or create your free Sparc Energy account to start trading carbon credits." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .strength-bar { height: 4px; background: var(--bg-secondary); border-radius: 2px; margin-top: 4px; overflow: hidden; }
+    .strength-fill { height: 100%; border-radius: 2px; transition: width 0.3s, background 0.3s; }
+    .features-list { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+    .feature-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-secondary); }
+    .feature-item span:first-child { font-size: 16px; }
+  </style>
+</head>
+<body>
+<div class="auth-page">
+  <div style="max-width:900px;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
+
+    <!-- Left Branding -->
+    <div style="padding:20px;">
+      <a href="index.html" class="nav-logo" style="margin-bottom:32px;display:inline-flex;">
+        <div class="logo-icon">⚡</div>
+        <div><span class="logo-text" style="font-size:20px;">Sparc Energy</span><span class="logo-sub">CARBON MARKET</span></div>
+      </a>
+      <h1 style="font-family:var(--font-display);font-size:32px;font-weight:800;margin:24px 0 12px;line-height:1.2;">
+        Trade <em style="background:linear-gradient(135deg,var(--sparc-green),var(--sparc-blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Carbon Credits</em><br>Build a Greener Future
+      </h1>
+      <p style="color:var(--text-secondary);font-size:14px;line-height:1.7;margin-bottom:24px;">
+        Join thousands of companies and individuals on India's most trusted carbon credit marketplace.
+      </p>
+      <div class="features-list">
+        <div class="feature-item"><span>✅</span><span>Verra VCS & Gold Standard verified credits</span></div>
+        <div class="feature-item"><span>📈</span><span>Real-time pricing, live order book</span></div>
+        <div class="feature-item"><span>🏅</span><span>Instant retirement certificates</span></div>
+        <div class="feature-item"><span>🔒</span><span>Bank-grade security & KYC verified</span></div>
+        <div class="feature-item"><span>💰</span><span>Start free with ₹10,000 demo balance</span></div>
+      </div>
+      <div style="margin-top:32px;padding:16px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);font-size:12px;color:var(--text-secondary);">
+        <strong style="color:var(--sparc-green);">Demo Credentials</strong><br>
+        Admin: admin@sparcenergy.com / Admin@123<br>
+        Demo Buyer: demo@sparcenergy.com / Demo@123
+      </div>
+    </div>
+
+    <!-- Right Auth Card -->
+    <div class="auth-card">
+      <!-- Tabs -->
+      <div class="tabs" style="margin-bottom:24px;">
+        <button class="tab-btn active" id="loginTabBtn" onclick="switchAuthTab('login')">Login</button>
+        <button class="tab-btn" id="registerTabBtn" onclick="switchAuthTab('register')">Create Account</button>
+      </div>
+
+      <!-- Login Form -->
+      <div id="loginForm">
+        <h2 class="auth-title" style="text-align:left;font-size:20px;margin-bottom:4px;">Welcome back</h2>
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px;">Sign in to your Sparc Energy account</p>
+        <form onsubmit="handleLogin(event)" style="display:flex;flex-direction:column;gap:14px;">
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input class="form-input" type="email" id="loginEmail" placeholder="you@example.com" required autocomplete="email" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="input-group">
+              <input class="form-input" type="password" id="loginPassword" placeholder="Enter password" required autocomplete="current-password" />
+              <button type="button" class="input-suffix" style="cursor:pointer;background:none;border:none;color:var(--text-secondary);" onclick="togglePwd('loginPassword',this)">👁</button>
+            </div>
+          </div>
+          <div id="loginError" style="color:var(--sparc-red);font-size:13px;display:none;padding:10px;background:rgba(240,62,62,0.08);border-radius:8px;"></div>
+          <button type="submit" class="btn btn-primary w-full btn-lg" id="loginBtn">
+            <span id="loginBtnText">Sign In →</span>
+            <div class="loading-spinner" id="loginSpinner" style="display:none;"></div>
+          </button>
+        </form>
+        <div class="auth-divider">or</div>
+        <button class="btn btn-secondary w-full" onclick="demoLogin()">🚀 Try Demo Account</button>
+        <div style="text-align:center;margin-top:16px;font-size:13px;color:var(--text-secondary);">
+          Don't have an account? <a href="#" onclick="switchAuthTab('register')" style="color:var(--sparc-green);font-weight:600;">Create free account</a>
+        </div>
+      </div>
+
+      <!-- Register Form -->
+      <div id="registerForm" style="display:none;">
+        <h2 class="auth-title" style="text-align:left;font-size:20px;margin-bottom:4px;">Create your account</h2>
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px;">Start trading carbon credits in minutes</p>
+        <form onsubmit="handleRegister(event)" style="display:flex;flex-direction:column;gap:14px;">
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            <input class="form-input" type="text" id="regName" placeholder="Enter your full name" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address *</label>
+            <input class="form-input" type="email" id="regEmail" placeholder="you@example.com" required autocomplete="email" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Account Type</label>
+            <select class="form-select" id="regRole">
+              <option value="buyer">🛒 Buyer — Purchase carbon credits</option>
+              <option value="seller">📦 Seller — List project credits</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password *</label>
+            <input class="form-input" type="password" id="regPassword" placeholder="Min 6 characters" required oninput="checkStrength(this.value)" />
+            <div class="strength-bar"><div class="strength-fill" id="strengthFill" style="width:0%;background:var(--sparc-red);"></div></div>
+            <div id="strengthText" style="font-size:11px;color:var(--text-muted);margin-top:3px;"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm Password *</label>
+            <input class="form-input" type="password" id="regConfirm" placeholder="Repeat password" required />
+          </div>
+          <div style="display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--text-secondary);">
+            <input type="checkbox" id="agreeTerms" required style="margin-top:2px;accent-color:var(--sparc-green);" />
+            <label for="agreeTerms">I agree to Sparc Energy's <a href="#" style="color:var(--sparc-green);">Terms of Use</a> and <a href="#" style="color:var(--sparc-green);">Privacy Policy</a></label>
+          </div>
+          <div id="registerError" style="color:var(--sparc-red);font-size:13px;display:none;padding:10px;background:rgba(240,62,62,0.08);border-radius:8px;"></div>
+          <button type="submit" class="btn btn-primary w-full btn-lg" id="registerBtn">
+            <span id="registerBtnText">Create Account →</span>
+            <div class="loading-spinner" id="registerSpinner" style="display:none;"></div>
+          </button>
+        </form>
+        <div style="text-align:center;margin-top:16px;font-size:13px;color:var(--text-secondary);">
+          Already have an account? <a href="#" onclick="switchAuthTab('login')" style="color:var(--sparc-green);font-weight:600;">Sign in</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+// Switch modes via URL param
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('mode') === 'register') switchAuthTab('register');
+
+function switchAuthTab(tab) {
+  const isLogin = tab === 'login';
+  document.getElementById('loginForm').style.display = isLogin ? 'block' : 'none';
+  document.getElementById('registerForm').style.display = isLogin ? 'none' : 'block';
+  document.getElementById('loginTabBtn').classList.toggle('active', isLogin);
+  document.getElementById('registerTabBtn').classList.toggle('active', !isLogin);
+}
+
+function togglePwd(id, btn) {
+  const input = document.getElementById(id);
+  input.type = input.type === 'password' ? 'text' : 'password';
+  btn.textContent = input.type === 'password' ? '👁' : '🙈';
+}
+
+function checkStrength(pwd) {
+  const fill = document.getElementById('strengthFill');
+  const text = document.getElementById('strengthText');
+  let score = 0;
+  if (pwd.length >= 6) score++;
+  if (pwd.length >= 10) score++;
+  if (/[A-Z]/.test(pwd)) score++;
+  if (/[0-9]/.test(pwd)) score++;
+  if (/[^A-Za-z0-9]/.test(pwd)) score++;
+  const labels = ['','Weak','Fair','Good','Strong','Very Strong'];
+  const colors = ['','#f03e3e','#f59e0b','#f5c518','#00d4a1','#10b981'];
+  fill.style.width = (score/5*100)+'%';
+  fill.style.background = colors[score]||'#f03e3e';
+  text.textContent = labels[score]||'';
+  text.style.color = colors[score]||'#f03e3e';
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  document.getElementById('loginError').style.display = 'none';
+  document.getElementById('loginBtnText').style.display = 'none';
+  document.getElementById('loginSpinner').style.display = 'flex';
+  document.getElementById('loginBtn').disabled = true;
+
+  try {
+    const res = await api('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: document.getElementById('loginEmail').value,
+        password: document.getElementById('loginPassword').value,
+      })
+    });
+    if (res.success) {
+      localStorage.setItem('sparc_token', res.data.token);
+      localStorage.setItem('sparc_user', JSON.stringify(res.data.user));
+      showToast('success', '✅ Welcome back, ' + res.data.user.name, 'Redirecting to dashboard...');
+      setTimeout(() => location.href = 'dashboard.html', 1000);
+    } else {
+      document.getElementById('loginError').textContent = res.error || 'Invalid credentials';
+      document.getElementById('loginError').style.display = 'block';
+    }
+  } catch(err) {
+    document.getElementById('loginError').textContent = 'Cannot connect to server. Please start the backend.';
+    document.getElementById('loginError').style.display = 'block';
+  }
+  document.getElementById('loginBtnText').style.display = 'inline';
+  document.getElementById('loginSpinner').style.display = 'none';
+  document.getElementById('loginBtn').disabled = false;
+}
+
+async function handleRegister(e) {
+  e.preventDefault();
+  const pwd = document.getElementById('regPassword').value;
+  const confirm = document.getElementById('regConfirm').value;
+  if (pwd !== confirm) {
+    document.getElementById('registerError').textContent = 'Passwords do not match';
+    document.getElementById('registerError').style.display = 'block';
+    return;
+  }
+  document.getElementById('registerError').style.display = 'none';
+  document.getElementById('registerBtnText').style.display = 'none';
+  document.getElementById('registerSpinner').style.display = 'flex';
+  document.getElementById('registerBtn').disabled = true;
+
+  try {
+    const res = await api('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: document.getElementById('regName').value,
+        email: document.getElementById('regEmail').value,
+        password: pwd,
+        role: document.getElementById('regRole').value,
+      })
+    });
+    if (res.success) {
+      localStorage.setItem('sparc_token', res.data.token);
+      localStorage.setItem('sparc_user', JSON.stringify(res.data.user));
+      showToast('success', '🎉 Account created!', 'Welcome to Sparc Energy!');
+      setTimeout(() => location.href = 'dashboard.html', 1000);
+    } else {
+      document.getElementById('registerError').textContent = res.error || 'Registration failed';
+      document.getElementById('registerError').style.display = 'block';
+    }
+  } catch(err) {
+    document.getElementById('registerError').textContent = 'Cannot connect to server. Please start the backend.';
+    document.getElementById('registerError').style.display = 'block';
+  }
+  document.getElementById('registerBtnText').style.display = 'inline';
+  document.getElementById('registerSpinner').style.display = 'none';
+  document.getElementById('registerBtn').disabled = false;
+}
+
+async function demoLogin() {
+  document.getElementById('loginEmail').value = 'demo@sparcenergy.com';
+  document.getElementById('loginPassword').value = 'Demo@123';
+  document.getElementById('loginBtn').click();
+}
+
+// If already logged in, redirect
+if (localStorage.getItem('sparc_token')) {
+  location.href = 'dashboard.html';
+}
+</script>
+</body>
+</html>

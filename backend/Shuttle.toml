@@ -1,0 +1,4 @@
+name = "sparc-energy-backend"
+
+[deploy]
+project = "sparc-energy"

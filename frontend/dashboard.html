@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Sparc Energy</title>
+  <meta name="description" content="Your carbon credit portfolio on Sparc Energy. Track investments, retirement certificates, and market performance." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .dash-wrapper { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 64px); }
+    .dash-side {
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      padding: 24px 16px;
+      position: sticky;
+      top: 64px;
+      height: calc(100vh - 64px);
+      overflow-y: auto;
+    }
+    .dash-content { padding: 28px; }
+    .portfolio-donut { max-width: 200px; margin: 0 auto; }
+    .timeline-item { 
+      display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .timeline-icon { width: 36px; height: 36px; border-radius: 50%; display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0; }
+    .timeline-icon.buy { background: rgba(0,212,161,0.12); }
+    .timeline-icon.sell { background: rgba(240,62,62,0.12); }
+    .timeline-icon.retire { background: rgba(245,197,24,0.12); }
+    .cert-card {
+      background: linear-gradient(135deg, rgba(0,212,161,0.08), rgba(79,142,247,0.05));
+      border: 1px solid var(--border-green);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cert-card::before {
+      content:'RETIRED';
+      position:absolute;top:16px;right:-24px;
+      background:var(--sparc-green);color:#000;
+      font-size:10px;font-weight:900;letter-spacing:2px;
+      padding:4px 32px;transform:rotate(30deg);
+    }
+    @media (max-width:768px) { .dash-wrapper { grid-template-columns: 1fr; } .dash-side { display:none; } }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon">⚡</div>
+    <div><span class="logo-text">Sparc Energy</span><span class="logo-sub">CARBON MARKET</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">🏠 Home</a>
+    <a href="marketplace.html" class="nav-link">📈 Marketplace</a>
+    <a href="projects.html" class="nav-link">🌿 Projects</a>
+    <a href="dashboard.html" class="nav-link active">📊 Dashboard</a>
+  </div>
+  <div class="nav-actions">
+    <div id="nav-auth-guest"><a href="auth.html" class="btn btn-secondary btn-sm">Login</a><a href="auth.html?mode=register" class="btn btn-primary btn-sm">Register</a></div>
+    <div id="nav-auth-user" class="hidden" style="display:flex;gap:10px;align-items:center;">
+      <span style="font-size:13px;color:var(--text-secondary)">Balance: <strong style="color:var(--sparc-green)" id="nav-balance">—</strong></span>
+      <a href="marketplace.html" class="btn btn-primary btn-sm">+ Buy Credits</a>
+      <button class="btn btn-ghost btn-sm" onclick="logout()">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Login wall -->
+<div id="loginWall" style="display:none;min-height:calc(100vh - 64px);display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center;padding:40px;">
+  <div style="font-size:64px;">🔐</div>
+  <h2 style="font-size:24px;font-weight:700;">Sign in to your Dashboard</h2>
+  <p style="color:var(--text-secondary);">View your portfolio, retirement history, and market performance.</p>
+  <a href="auth.html" class="btn btn-primary btn-lg">Login to Sparc Energy</a>
+  <a href="auth.html?mode=register" class="btn btn-secondary">Create Free Account</a>
+</div>
+
+<!-- Main Dashboard -->
+<div id="dashMain" class="dash-wrapper">
+  <!-- Sidebar -->
+  <div class="dash-side">
+    <!-- User Card -->
+    <div style="text-align:center;padding:16px 0 20px;border-bottom:1px solid var(--border);margin-bottom:20px;">
+      <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--sparc-green),var(--sparc-blue));display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 10px;">👤</div>
+      <div id="dash-user-name" style="font-size:14px;font-weight:600;color:var(--text-primary);">—</div>
+      <div id="dash-user-role" style="font-size:11px;color:var(--sparc-green);margin-top:2px;text-transform:uppercase;letter-spacing:0.5px;">—</div>
+      <div style="margin-top:12px;background:var(--bg-card);border-radius:var(--radius-md);padding:10px 14px;text-align:left;">
+        <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Available Balance</div>
+        <div id="dash-balance" style="font-size:20px;font-weight:800;color:var(--sparc-green);font-family:var(--font-display);">$—</div>
+      </div>
+    </div>
+
+    <!-- Sidebar Nav -->
+    <div class="dash-nav">
+      <a href="#section-overview" class="dash-nav-link active" onclick="setDashSection(this,'section-overview')">
+        <span class="dash-nav-icon">📊</span> Overview
+      </a>
+      <a href="#section-portfolio" class="dash-nav-link" onclick="setDashSection(this,'section-portfolio')">
+        <span class="dash-nav-icon">🌿</span> Portfolio
+      </a>
+      <a href="#section-history" class="dash-nav-link" onclick="setDashSection(this,'section-history')">
+        <span class="dash-nav-icon">📋</span> Transactions
+      </a>
+      <a href="#section-retire" class="dash-nav-link" onclick="setDashSection(this,'section-retire')">
+        <span class="dash-nav-icon">🏅</span> Certificates
+      </a>
+    </div>
+
+    <div class="divider"></div>
+    <a href="marketplace.html" class="btn btn-primary w-full" style="margin-top:8px;">🛒 Buy Credits</a>
+    <a href="projects.html" class="btn btn-secondary w-full" style="margin-top:8px;">🌿 Projects</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="dash-content">
+
+    <!-- Overview Section -->
+    <div id="section-overview">
+      <div style="margin-bottom:24px;">
+        <h2 class="page-title">Portfolio Overview</h2>
+        <p class="page-sub">Your carbon credit positions · Live market values</p>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="grid-4" style="margin-bottom:24px;">
+        <div class="stat-card" style="border-color:var(--border-green);">
+          <div style="display:flex;justify-content:space-between;">
+            <div class="stat-label">Total Invested</div>
+            <div class="stat-icon" style="background:rgba(0,212,161,0.1);">💰</div>
+          </div>
+          <div class="stat-value" id="d-invested">$—</div>
+          <div style="font-size:12px;color:var(--text-secondary);">Across all credits</div>
+        </div>
+        <div class="stat-card">
+          <div style="display:flex;justify-content:space-between;">
+            <div class="stat-label">Current Value</div>
+            <div class="stat-icon" style="background:rgba(79,142,247,0.1);">📈</div>
+          </div>
+          <div class="stat-value" id="d-value">$—</div>
+          <div class="stat-change" id="d-pnl-badge">—</div>
+        </div>
+        <div class="stat-card">
+          <div style="display:flex;justify-content:space-between;">
+            <div class="stat-label">Credits Owned</div>
+            <div class="stat-icon" style="background:rgba(245,197,24,0.1);">🌿</div>
+          </div>
+          <div class="stat-value" id="d-credits">—</div>
+          <div style="font-size:12px;color:var(--text-secondary);">tons CO₂e</div>
+        </div>
+        <div class="stat-card">
+          <div style="display:flex;justify-content:space-between;">
+            <div class="stat-label">CO₂ Retired</div>
+            <div class="stat-icon" style="background:rgba(16,185,129,0.1);">🏅</div>
+          </div>
+          <div class="stat-value" id="d-retired">—</div>
+          <div style="font-size:12px;color:var(--sparc-green);">tons offset</div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="grid-2" style="margin-bottom:24px;gap:20px;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Portfolio Value (30 Days)</div>
+          </div>
+          <div class="chart-container">
+            <canvas id="portfolioChart"></canvas>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Credit Allocation</div>
+          </div>
+          <div class="portfolio-donut">
+            <canvas id="allocationChart"></canvas>
+          </div>
+          <div id="allocationLegend" style="margin-top:14px;display:flex;flex-direction:column;gap:6px;font-size:12px;"></div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Quick Actions</div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="marketplace.html" class="btn btn-primary">🛒 Buy Credits</a>
+          <button class="btn btn-secondary" onclick="setDashSection(document.querySelector('.dash-nav-link:nth-child(4)'),'section-retire')">🏅 View Certificates</button>
+          <a href="projects.html" class="btn btn-secondary">🌿 Browse Projects</a>
+          <button class="btn btn-ghost" onclick="loadDashboard()">🔄 Refresh</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Portfolio Section -->
+    <div id="section-portfolio" style="display:none;">
+      <div style="margin-bottom:24px;">
+        <h2 class="page-title">🌿 My Portfolio</h2>
+        <p class="page-sub">All carbon credit positions — click Retire to offset emissions</p>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Project</th>
+              <th>Certification</th>
+              <th>Qty (t)</th>
+              <th>Avg. Price</th>
+              <th>Current</th>
+              <th>P&L</th>
+              <th>% Change</th>
+              <th>Retired</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="portfolioTableBody">
+            <tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:32px;">Loading portfolio...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Transactions Section -->
+    <div id="section-history" style="display:none;">
+      <div style="margin-bottom:24px;">
+        <h2 class="page-title">📋 Transaction History</h2>
+        <p class="page-sub">All your buy, sell, and retirement transactions</p>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Project</th>
+              <th>Qty (t)</th>
+              <th>Price/t</th>
+              <th>Total</th>
+              <th>Cert.</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="txTableBody">
+            <tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:32px;">Loading transactions...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Certificates Section -->
+    <div id="section-retire" style="display:none;">
+      <div style="margin-bottom:24px;">
+        <h2 class="page-title">🏅 Retirement Certificates</h2>
+        <p class="page-sub">Permanently retire credits to offset your carbon footprint</p>
+      </div>
+
+      <!-- Retire Form -->
+      <div class="card" style="margin-bottom:24px;border-color:var(--border-green);">
+        <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">Retire Carbon Credits</h3>
+        <div class="grid-2" style="gap:14px;margin-bottom:14px;">
+          <div class="form-group">
+            <label class="form-label">Select Credit from Portfolio</label>
+            <select class="form-select" id="retireCredit">
+              <option value="">Choose credit...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Quantity to Retire (tons)</label>
+            <div class="input-group">
+              <input class="form-input" type="number" id="retireQty" min="1" placeholder="e.g. 10" step="1" />
+              <span class="input-suffix">tCO₂e</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">Retirement Reason (Optional)</label>
+          <input class="form-input" id="retireReason" placeholder="e.g., Annual corporate carbon offset 2024" />
+        </div>
+        <div id="retireInfo" style="background:var(--bg-card);border-radius:var(--radius-md);padding:12px;margin-bottom:14px;font-size:12px;display:none;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:var(--text-muted)">CO₂ Offset</span><span id="ri-co2" style="color:var(--sparc-green);font-weight:700;"></span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted)">Equivalent to</span><span id="ri-equiv" style="color:var(--text-secondary);"></span></div>
+        </div>
+        <button class="btn btn-gold" onclick="executeRetire()">🏅 Retire & Get Certificate</button>
+        <div id="retireMsg" style="margin-top:10px;font-size:13px;"></div>
+      </div>
+
+      <!-- Certificates List -->
+      <div id="certificatesList" style="display:flex;flex-direction:column;gap:16px;"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Retire Confirm Modal -->
+<div class="modal-overlay" id="retireModal">
+  <div class="modal" style="max-width:440px;text-align:center;">
+    <div style="font-size:56px;margin-bottom:16px;">🏅</div>
+    <h2 class="modal-title">Certificate Issued!</h2>
+    <p style="color:var(--text-secondary);font-size:14px;margin-bottom:20px;" id="retireModalDesc">—</p>
+    <div class="cert-card">
+      <div style="font-family:var(--font-display);font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--sparc-green);margin-bottom:4px;">Sparc Energy · Carbon Retirement</div>
+      <div id="certId" style="font-size:18px;font-weight:700;font-family:monospace;margin-bottom:8px;"></div>
+      <div id="certQty" style="font-size:14px;color:var(--text-secondary);"></div>
+    </div>
+    <button class="btn btn-primary w-full" style="margin-top:20px;" onclick="closeModal('retireModal')">✓ Done</button>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
