@@ -1,5 +1,5 @@
 # Build stage
-FROM rust:1.80-slim-bullseye AS builder
+FROM rust:1.85-slim-bullseye AS builder
 
 # Install build dependencies for SQLite and OpenSSL
 RUN apt-get update && apt-get install -y pkg-config libssl-dev libsqlite3-dev build-essential
