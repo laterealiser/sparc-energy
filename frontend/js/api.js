@@ -2,9 +2,8 @@
 // Sparc Energy — API Helper
 // ═══════════════════════════════════════════════════════════════
 
-// NOTE: Change this URL to your Render.com backend URL after it deploys!
-// Example: const API_BASE = 'https://sparc-energy-backend-x1y2.onrender.com/api';
-const API_BASE = 'http://localhost:8080/api'; // Temporarily local while you setup Render
+// Connect exactly to your newly-deployed Render Cloud DB Service!
+const API_BASE = 'https://sparc-energy.onrender.com/api';
 
 
 /**
