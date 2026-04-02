@@ -28,3 +28,4 @@ log = "0.4"
 rand = "0.8"
 thiserror = "1"
 validator = { version = "0.18", features = ["derive"] }
+url = "2"
