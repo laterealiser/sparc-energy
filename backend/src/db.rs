@@ -9,12 +9,10 @@ pub async fn create_pool() -> DbPool {
     let database_url = env::var("DATABASE_URL")
         .expect("DATABASE_URL must be set (postgresql://postgres:[password]@db.[project-id].supabase.co:5432/postgres)");
 
-    use sqlx::postgres::PgConnectOptions;
-    use std::str::FromStr;
-
+    // Supabase Transaction Pooler (port 6543) requires statement_cache_capacity(0)
     let options = PgConnectOptions::from_str(&database_url)
-        .expect("Failed to parse DATABASE_URL. Ensure symbols like $ are percent-encoded as %24.")
-        .disable_statement_cache();
+        .expect("Failed to parse DATABASE_URL. Ensure special characters are percent-encoded.")
+        .statement_cache_capacity(0);
 
     PgPoolOptions::new()
         .max_connections(10)
