@@ -8,41 +8,39 @@
   <link rel="stylesheet" href="css/styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    .dash-wrapper { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 64px); }
+    .dash-wrapper { display: flex; min-height: calc(100vh - 72px); }
     .dash-side {
-      background: var(--bg-secondary);
-      border-right: 1px solid var(--border);
-      padding: 24px 16px;
+      width: 280px;
+      background: var(--bg-primary);
+      border-right: 1px solid var(--glass-border);
+      display: flex;
+      flex-direction: column;
       position: sticky;
-      top: 64px;
-      height: calc(100vh - 64px);
-      overflow-y: auto;
+      top: 72px;
+      height: calc(100vh - 72px);
     }
-    .dash-content { padding: 28px; }
-    .portfolio-donut { max-width: 200px; margin: 0 auto; }
+    .dash-content { flex: 1; padding: 40px; background: var(--bg-primary); }
+    .portfolio-donut { max-width: 220px; margin: 0 auto; }
     .timeline-item { 
-      display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.03);
+      display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--glass-border);
     }
-    .timeline-icon { width: 36px; height: 36px; border-radius: 50%; display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0; }
-    .timeline-icon.buy { background: rgba(0,212,161,0.12); }
-    .timeline-icon.sell { background: rgba(240,62,62,0.12); }
-    .timeline-icon.retire { background: rgba(245,197,24,0.12); }
+    .timeline-icon { width: 40px; height: 40px; border-radius: 12px; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; background: var(--bg-secondary); border: 1px solid var(--glass-border); }
     .cert-card {
-      background: linear-gradient(135deg, rgba(0,212,161,0.08), rgba(79,142,247,0.05));
-      border: 1px solid var(--border-green);
+      background: var(--glass-bg);
+      border: 1px solid var(--sparc-green-border);
       border-radius: var(--radius-lg);
-      padding: 24px;
+      padding: 32px;
       position: relative;
       overflow: hidden;
+      box-shadow: var(--glow-green);
     }
     .cert-card::before {
-      content:'RETIRED';
-      position:absolute;top:16px;right:-24px;
-      background:var(--sparc-green);color:#000;
-      font-size:10px;font-weight:900;letter-spacing:2px;
-      padding:4px 32px;transform:rotate(30deg);
+      content:'VERIFIED RETIREMENT';
+      position:absolute; top:24px; right:-40px;
+      background:var(--sparc-green); color:#000;
+      font-size:10px; font-weight:900; letter-spacing:2px;
+      padding:6px 48px; transform:rotate(35deg);
     }
-    @media (max-width:768px) { .dash-wrapper { grid-template-columns: 1fr; } .dash-side { display:none; } }
   </style>
 </head>
 <body>
@@ -50,18 +48,20 @@
 <nav class="navbar">
   <a href="index.html" class="nav-logo">
     <div class="logo-icon">⚡</div>
-    <div><span class="logo-text">Sparc Energy</span><span class="logo-sub">CARBON MARKET</span></div>
+    <div>
+      <span class="logo-text">Sparc Energy</span>
+      <span class="logo-sub">ACCOUNT CONSOLE</span>
+    </div>
   </a>
   <div class="nav-links">
-    <a href="index.html" class="nav-link">🏠 Home</a>
-    <a href="marketplace.html" class="nav-link">📈 Marketplace</a>
+    <a href="index.html" class="nav-link">🏠 Overview</a>
+    <a href="marketplace.html" class="nav-link">📈 Exchange</a>
     <a href="projects.html" class="nav-link">🌿 Projects</a>
-    <a href="dashboard.html" class="nav-link active">📊 Dashboard</a>
+    <a href="dashboard.html" class="nav-link active">📊 Portfolio</a>
   </div>
   <div class="nav-actions">
-    <div id="nav-auth-guest"><a href="auth.html" class="btn btn-secondary btn-sm">Login</a><a href="auth.html?mode=register" class="btn btn-primary btn-sm">Register</a></div>
-    <div id="nav-auth-user" class="hidden" style="display:flex;gap:10px;align-items:center;">
-      <span style="font-size:13px;color:var(--text-secondary)">Balance: <strong style="color:var(--sparc-green)" id="nav-balance">—</strong></span>
+    <div id="nav-auth-user" style="display:flex;gap:10px;align-items:center;">
+      <span style="font-size:13px;color:var(--text-secondary)">WALLET: <strong style="color:var(--sparc-green)" id="nav-balance">$0.00</strong></span>
       <a href="marketplace.html" class="btn btn-primary btn-sm">+ Buy Credits</a>
       <button class="btn btn-ghost btn-sm" onclick="logout()">Logout</button>
     </div>
@@ -81,36 +81,32 @@
 <div id="dashMain" class="dash-wrapper">
   <!-- Sidebar -->
   <div class="dash-side">
-    <!-- User Card -->
-    <div style="text-align:center;padding:16px 0 20px;border-bottom:1px solid var(--border);margin-bottom:20px;">
-      <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--sparc-green),var(--sparc-blue));display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 10px;">👤</div>
-      <div id="dash-user-name" style="font-size:14px;font-weight:600;color:var(--text-primary);">—</div>
-      <div id="dash-user-role" style="font-size:11px;color:var(--sparc-green);margin-top:2px;text-transform:uppercase;letter-spacing:0.5px;">—</div>
-      <div style="margin-top:12px;background:var(--bg-card);border-radius:var(--radius-md);padding:10px 14px;text-align:left;">
-        <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Available Balance</div>
-        <div id="dash-balance" style="font-size:20px;font-weight:800;color:var(--sparc-green);font-family:var(--font-display);">$—</div>
-      </div>
+    <div style="padding: 32px 24px;">
+      <div style="width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,var(--sparc-green),var(--sparc-blue));display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:16px;box-shadow: var(--glow-green);">👤</div>
+      <div id="dash-user-name" style="font-size:18px;font-weight:800;color:var(--text-primary);">—</div>
+      <div id="dash-user-role" style="font-size:10px;color:var(--sparc-green);margin-top:2px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Verified Institutional Buyer</div>
     </div>
 
     <!-- Sidebar Nav -->
-    <div class="dash-nav">
-      <a href="#section-overview" class="dash-nav-link active" onclick="setDashSection(this,'section-overview')">
+    <div class="dash-nav" style="flex:1;">
+      <a href="#overview" class="dash-nav-link active" onclick="setDashSection(this,'section-overview')">
         <span class="dash-nav-icon">📊</span> Overview
       </a>
-      <a href="#section-portfolio" class="dash-nav-link" onclick="setDashSection(this,'section-portfolio')">
-        <span class="dash-nav-icon">🌿</span> Portfolio
+      <a href="#portfolio" class="dash-nav-link" onclick="setDashSection(this,'section-portfolio')">
+        <span class="dash-nav-icon">🌿</span> Portfolio Assets
       </a>
-      <a href="#section-history" class="dash-nav-link" onclick="setDashSection(this,'section-history')">
-        <span class="dash-nav-icon">📋</span> Transactions
+      <a href="#history" class="dash-nav-link" onclick="setDashSection(this,'section-history')">
+        <span class="dash-nav-icon">📋</span> Activity Logs
       </a>
-      <a href="#section-retire" class="dash-nav-link" onclick="setDashSection(this,'section-retire')">
-        <span class="dash-nav-icon">🏅</span> Certificates
+      <a href="#certificates" class="dash-nav-link" onclick="setDashSection(this,'section-retire')">
+        <span class="dash-nav-icon">🏅</span> Official Certificates
       </a>
     </div>
 
-    <div class="divider"></div>
-    <a href="marketplace.html" class="btn btn-primary w-full" style="margin-top:8px;">🛒 Buy Credits</a>
-    <a href="projects.html" class="btn btn-secondary w-full" style="margin-top:8px;">🌿 Projects</a>
+    <div style="padding: 24px; border-top: 1px solid var(--glass-border);">
+        <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Account Status</div>
+        <div class="badge badge-verra w-full" style="justify-content:center; padding:8px;">✅ Fully Verified</div>
+    </div>
   </div>
 
   <!-- Main Content -->
@@ -118,44 +114,44 @@
 
     <!-- Overview Section -->
     <div id="section-overview">
-      <div style="margin-bottom:24px;">
-        <h2 class="page-title">Portfolio Overview</h2>
-        <p class="page-sub">Your carbon credit positions · Live market values</p>
+      <div style="margin-bottom:32px;">
+        <h2 class="page-title">Accounts Overview</h2>
+        <p class="page-sub">Comprehensive view of your carbon asset portfolio and market performance.</p>
       </div>
 
       <!-- Summary Cards -->
-      <div class="grid-4" style="margin-bottom:24px;">
-        <div class="stat-card" style="border-color:var(--border-green);">
-          <div style="display:flex;justify-content:space-between;">
-            <div class="stat-label">Total Invested</div>
-            <div class="stat-icon" style="background:rgba(0,212,161,0.1);">💰</div>
+      <div class="grid-4" style="margin-bottom:32px; gap:20px;">
+        <div class="card card-glow" style="border-color:var(--sparc-green-border);">
+          <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+            <div class="stat-label">TOTAL LISTED VALUE</div>
+            <div class="stat-icon" style="background:var(--sparc-green-glow); color:var(--sparc-green); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px;">💰</div>
           </div>
-          <div class="stat-value" id="d-invested">$—</div>
-          <div style="font-size:12px;color:var(--text-secondary);">Across all credits</div>
+          <div class="stat-value" id="d-invested" style="font-size:28px; font-weight:800; color:var(--text-primary);">$0.00</div>
+          <div style="font-size:11px;color:var(--text-muted); margin-top:4px;">Across all verified projects</div>
         </div>
-        <div class="stat-card">
-          <div style="display:flex;justify-content:space-between;">
-            <div class="stat-label">Current Value</div>
-            <div class="stat-icon" style="background:rgba(79,142,247,0.1);">📈</div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+            <div class="stat-label">LIVE MARKET VALUE</div>
+            <div class="stat-icon" style="background:var(--sparc-blue-glow); color:var(--sparc-blue); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px;">📈</div>
           </div>
-          <div class="stat-value" id="d-value">$—</div>
-          <div class="stat-change" id="d-pnl-badge">—</div>
+          <div class="stat-value" id="d-value" style="font-size:28px; font-weight:800; color:var(--text-primary);">$0.00</div>
+          <div class="stat-change" id="d-pnl-badge" style="font-size:11px; margin-top:4px;">+0.0%</div>
         </div>
-        <div class="stat-card">
-          <div style="display:flex;justify-content:space-between;">
-            <div class="stat-label">Credits Owned</div>
-            <div class="stat-icon" style="background:rgba(245,197,24,0.1);">🌿</div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+            <div class="stat-label">CREDITS OWNED</div>
+            <div class="stat-icon" style="background:rgba(255,204,0,0.1); color:var(--sparc-gold); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px;">🌿</div>
           </div>
-          <div class="stat-value" id="d-credits">—</div>
-          <div style="font-size:12px;color:var(--text-secondary);">tons CO₂e</div>
+          <div class="stat-value" id="d-credits" style="font-size:28px; font-weight:800; color:var(--text-primary);">0.00</div>
+          <div style="font-size:11px;color:var(--text-muted); margin-top:4px;">Metric tons CO₂e</div>
         </div>
-        <div class="stat-card">
-          <div style="display:flex;justify-content:space-between;">
-            <div class="stat-label">CO₂ Retired</div>
-            <div class="stat-icon" style="background:rgba(16,185,129,0.1);">🏅</div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+            <div class="stat-label">OFFICIALLY RETIRED</div>
+            <div class="stat-icon" style="background:var(--sparc-green-glow); color:var(--sparc-green); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px;">🏅</div>
           </div>
-          <div class="stat-value" id="d-retired">—</div>
-          <div style="font-size:12px;color:var(--sparc-green);">tons offset</div>
+          <div class="stat-value" id="d-retired" style="font-size:28px; font-weight:800; color:var(--sparc-green);">0.00</div>
+          <div style="font-size:11px;color:var(--text-muted); margin-top:4px;">Permanently offset</div>
         </div>
       </div>
 
@@ -196,9 +192,9 @@
 
     <!-- Portfolio Section -->
     <div id="section-portfolio" style="display:none;">
-      <div style="margin-bottom:24px;">
-        <h2 class="page-title">🌿 My Portfolio</h2>
-        <p class="page-sub">All carbon credit positions — click Retire to offset emissions</p>
+      <div style="margin-bottom:32px;">
+        <h2 class="page-title">🌿 Managed Assets</h2>
+        <p class="page-sub">Detailed breakdown of your active carbon credit positions.</p>
       </div>
       <div class="card" style="padding:0;overflow:hidden;">
         <table class="data-table">
@@ -224,9 +220,9 @@
 
     <!-- Transactions Section -->
     <div id="section-history" style="display:none;">
-      <div style="margin-bottom:24px;">
-        <h2 class="page-title">📋 Transaction History</h2>
-        <p class="page-sub">All your buy, sell, and retirement transactions</p>
+      <div style="margin-bottom:32px;">
+        <h2 class="page-title">📋 Institutional Logs</h2>
+        <p class="page-sub">Audit-ready transaction history for all account movements.</p>
       </div>
       <div class="card" style="padding:0;overflow:hidden;">
         <table class="data-table">

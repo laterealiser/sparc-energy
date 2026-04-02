@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login / Register — Sparc Energy</title>
-  <meta name="description" content="Sign in or create your free Sparc Energy account to start trading carbon credits." />
+  <title>Institutional Access — Sparc Energy</title>
+  <meta name="description" content="Secure portal for the Sparc Energy institutional carbon exchange." />
   <link rel="stylesheet" href="css/styles.css" />
   <style>
     .strength-bar { height: 4px; background: var(--bg-secondary); border-radius: 2px; margin-top: 4px; overflow: hidden; }
@@ -16,34 +16,33 @@
 </head>
 <body>
 <div class="auth-page">
-  <div style="max-width:900px;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
+  <div style="max-width:1040px;width:100%;display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:center;">
 
     <!-- Left Branding -->
-    <div style="padding:20px;">
-      <a href="index.html" class="nav-logo" style="margin-bottom:32px;display:inline-flex;">
-        <div class="logo-icon">⚡</div>
-        <div><span class="logo-text" style="font-size:20px;">Sparc Energy</span><span class="logo-sub">CARBON MARKET</span></div>
+    <div style="padding:40px;" class="animate-float">
+      <a href="index.html" class="nav-logo" style="margin-bottom:48px;display:inline-flex;">
+        <div class="logo-icon" style="font-size:32px;">⚡</div>
+        <div><span class="logo-text" style="font-size:24px;">Sparc Energy</span><span class="logo-sub" style="letter-spacing:2px;">CARBON TERMINAL</span></div>
       </a>
-      <h1 style="font-family:var(--font-display);font-size:32px;font-weight:800;margin:24px 0 12px;line-height:1.2;">
-        Trade <em style="background:linear-gradient(135deg,var(--sparc-green),var(--sparc-blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Carbon Credits</em><br>Build a Greener Future
+      <h1 style="font-family:var(--font-display);font-size:48px;font-weight:800;margin:32px 0 16px;line-height:1.1;letter-spacing:-1.5px;">
+        Powering <br><em style="background:linear-gradient(135deg,var(--sparc-green),var(--sparc-blue));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-style:normal;">Net Zero</em><br>Future
       </h1>
-      <p style="color:var(--text-secondary);font-size:14px;line-height:1.7;margin-bottom:24px;">
-        Join thousands of companies and individuals on India's most trusted carbon credit marketplace.
+      <p style="color:var(--text-secondary);font-size:16px;line-height:1.6;margin-bottom:40px;max-width:400px;">
+        Join the institutional ecosystem for carbon asset management. Trade, verify, and retire credits with absolute transparency.
       </p>
-      <div class="features-list">
-        <div class="feature-item"><span>✅</span><span>Verra VCS & Gold Standard verified credits</span></div>
-        <div class="feature-item"><span>📈</span><span>Real-time pricing, live order book</span></div>
-        <div class="feature-item"><span>🏅</span><span>Instant retirement certificates</span></div>
-        <div class="feature-item"><span>🔒</span><span>Bank-grade security & KYC verified</span></div>
+      <div class="features-list" style="gap:16px;">
+        <div class="feature-item" style="font-size:14px;"><span style="color:var(--sparc-green)">✓</span><span>VCS & Gold Standard Institutional Registry</span></div>
+        <div class="feature-item" style="font-size:14px;"><span style="color:var(--sparc-green)">✓</span><span>Deep Liquidity & Real-time Execution</span></div>
+        <div class="feature-item" style="font-size:14px;"><span style="color:var(--sparc-green)">✓</span><span>Bank-Grade Security & KYC Compliance</span></div>
       </div>
     </div>
 
     <!-- Right Auth Card -->
     <div class="auth-card">
       <!-- Tabs -->
-      <div class="tabs" style="margin-bottom:24px;">
-        <button class="tab-btn active" id="loginTabBtn" onclick="switchAuthTab('login')">Login</button>
-        <button class="tab-btn" id="registerTabBtn" onclick="switchAuthTab('register')">Create Account</button>
+      <div class="tabs" style="margin-bottom:32px; background:var(--bg-secondary); padding:4px; border-radius:12px; border:1px solid var(--glass-border);">
+        <button class="tab-btn active" id="loginTabBtn" onclick="switchAuthTab('login')" style="flex:1; border-radius:8px;">Sign In</button>
+        <button class="tab-btn" id="registerTabBtn" onclick="switchAuthTab('register')" style="flex:1; border-radius:8px;">Enroll</button>
       </div>
 
       <!-- Login Form -->

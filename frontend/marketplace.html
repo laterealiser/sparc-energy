@@ -7,89 +7,188 @@
   <link rel="stylesheet" href="css/styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    .market-layout { display: grid; grid-template-columns: 320px 1fr 320px; gap: 20px; height: calc(100vh - 140px); margin-top: 100px; }
-    .market-col { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
-    .col-header { padding: 16px; border-bottom: 1px solid var(--border-color); font-weight: 700; font-size: 14px; text-transform: uppercase; color: var(--text-muted); }
-    .order-book-row { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 8px 16px; font-size: 12px; }
-    .order-book-row.ask { color: var(--sparc-red); }
-    .order-book-row.bid { color: var(--sparc-green); }
-    .trade-row { display: grid; grid-template-columns: 1fr 1fr; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .market-layout { 
+      display: grid; 
+      grid-template-columns: 320px 1fr 340px; 
+      gap: 1px; 
+      height: calc(100vh - 112px); 
+      background: var(--glass-border);
+      border-top: 1px solid var(--glass-border);
+    }
+    .market-col { 
+      background: var(--bg-primary); 
+      display: flex; 
+      flex-direction: column; 
+    }
+    .col-header { 
+      padding: 12px 16px; 
+      border-bottom: 1px solid var(--glass-border); 
+      font-weight: 700; 
+      font-size: 11px; 
+      text-transform: uppercase; 
+      letter-spacing: 0.5px;
+      color: var(--text-muted); 
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .order-book-row { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr 1fr; 
+      padding: 4px 16px; 
+      font-size: 11px; 
+      font-family: var(--font-mono);
+      position: relative;
+    }
+    .order-book-row .vol-bg {
+      position: absolute;
+      top: 0; bottom: 0; right: 0; opacity: 0.1;
+      transition: width 0.3s ease;
+    }
+    .row-ask { color: var(--sparc-red); }
+    .row-bid { color: var(--sparc-green); }
+    .trade-row { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr 1fr; 
+      padding: 8px 16px; 
+      font-size: 11px; 
+      border-bottom: 1px solid rgba(255,255,255,0.02); 
+    }
+    .terminal-active-price {
+      padding: 16px;
+      background: var(--bg-secondary);
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
   </style>
 </head>
 <body>
-<nav class="nav">
-  <div class="nav-container">
-    <a href="index.html" class="nav-logo">
-      <div class="logo-icon">⚡</div>
+<nav class="navbar" style="position:static;">
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon">⚡</div>
+    <div>
       <span class="logo-text">Sparc Energy</span>
-    </a>
-    <div class="nav-links">
-      <a href="marketplace.html" class="nav-link active">Marketplace</a>
-      <a href="projects.html" class="nav-link">Projects</a>
-      <a href="dashboard.html" class="nav-link">Portfolio</a>
-      <div id="nav-auth-user" style="display:flex;gap:12px;align-items:center;">
-        <span class="balance-pill" id="nav-balance">$0.00</span>
-        <button class="btn btn-secondary" onclick="logout()">Sign Out</button>
-      </div>
+      <span class="logo-sub">CARBON TERMINAL</span>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">🏠 Overview</a>
+    <a href="marketplace.html" class="nav-link active">📈 Exchange</a>
+    <a href="projects.html" class="nav-link">🌿 Projects</a>
+    <a href="dashboard.html" class="nav-link">📊 Portfolio</a>
+  </div>
+  <div class="nav-actions">
+    <div id="nav-auth-user" style="display:flex;gap:12px;align-items:center;">
+      <span style="font-size:12px;color:var(--text-secondary);">WALLET: <strong style="color:var(--sparc-green);" id="nav-balance">$0.00</strong></span>
+      <button class="btn btn-secondary btn-sm" onclick="logout()">Sign Out</button>
     </div>
   </div>
 </nav>
 
+<div class="market-overview-bar">
+  <div class="market-overview-item">
+    <span class="market-overview-name">🌍 GLOBAL AVG (VCS)</span>
+    <span class="market-overview-price">$18.42</span>
+    <span class="market-overview-change moc-up">+2.4% ▲</span>
+  </div>
+  <div class="market-overview-item">
+    <span class="market-overview-name">🇮🇳 INDIA SOLAR (GS)</span>
+    <span class="market-overview-price">$22.75</span>
+    <span class="market-overview-change moc-up">+1.8% ▲</span>
+  </div>
+  <div class="market-overview-item">
+    <span class="market-overview-name">🇧🇷 AMAZON REDD+</span>
+    <span class="market-overview-price">$14.20</span>
+    <span class="market-overview-change moc-down">-0.5% ▼</span>
+  </div>
+  <div class="market-overview-item">
+    <span class="market-overview-name">🔥 METHANE CAPTURE</span>
+    <span class="market-overview-price">$12.80</span>
+    <span class="market-overview-change moc-up">+5.2% ▲</span>
+  </div>
+</div>
+
 <div class="container-fluid" style="padding: 0 40px;">
-  <div class="market-layout">
+<div class="market-layout">
     
     <!-- LEFT: Order Book -->
-    <aside class="market-col">
-      <div class="col-header">Order Book</div>
-      <div style="padding:10px 16px;font-size:11px;color:var(--text-muted);display:grid;grid-template-columns:1fr 1fr 1fr;">
-        <span>Price ($)</span><span>Qty (T)</span><span>Total ($)</span>
+    <aside class="market-col" style="border-right: 1px solid var(--glass-border);">
+      <div class="col-header">
+        <span>Order Book</span>
+        <span style="color:var(--sparc-green); font-size:10px;">LIVE 📡</span>
       </div>
-      <div id="asks" style="display:flex;flex-direction:column-reverse;gap:2px;">
+      <div style="padding:10px 16px;font-size:10px;color:var(--text-muted);display:grid;grid-template-columns:1fr 1fr 1fr; border-bottom: 1px solid var(--glass-border);">
+        <span>PRICE ($)</span><span>QTY (t)</span><span class="text-right">TOTAL</span>
+      </div>
+      <div id="asks" style="display:flex;flex-direction:column-reverse;gap:1px; padding: 4px 0;">
         <!-- Sellers (Asks) -->
       </div>
-      <div style="text-align:center;padding:12px;font-size:18px;font-weight:700;background:rgba(255,255,255,0.02);">
-        $24.50 <span style="font-size:12px;color:var(--sparc-green);">+5.4%</span>
+      <div class="terminal-active-price">
+        <span style="font-size:24px;font-weight:800;color:var(--sparc-green);" id="lastPrice">$18.50</span>
+        <span style="font-size:13px;color:var(--sparc-green);font-weight:600;">▲ 3.2%</span>
       </div>
-      <div id="bids">
+      <div id="bids" style="display:flex;flex-direction:column;gap:1px; padding: 4px 0;">
         <!-- Buyers (Bids) -->
       </div>
     </aside>
 
-    <!-- CENTER: Charts & Listing Detail -->
-    <main class="market-col" style="background:transparent;border:none;">
-      <div class="market-col" style="flex:1;margin-bottom:20px;">
-        <div class="col-header">Market Chart — VCS Forestry 2024</div>
-        <div style="flex:1;padding:20px;">
+    <!-- CENTER: Main Charts -->
+    <main class="market-col">
+      <div style="flex:1; display:flex; flex-direction:column;">
+        <div class="col-header" style="background:var(--bg-secondary);">
+          <div style="display:flex; gap:16px; align-items:center;">
+             <span>MARKET CHART</span>
+             <span style="color:var(--text-primary); font-weight:600;">VCS-AFOLU-2024</span>
+          </div>
+          <div class="chart-controls">
+            <button class="chart-period active">1H</button>
+            <button class="chart-period">1D</button>
+            <button class="chart-period">1W</button>
+          </div>
+        </div>
+        <div style="flex:1; padding:24px; position:relative;">
            <canvas id="marketChart"></canvas>
         </div>
       </div>
-      <div class="market-col" style="height:350px;background:var(--bg-secondary);padding:32px;">
-        <h2 style="font-size:20px;margin-bottom:20px;">Place Market Order</h2>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      
+      <!-- Bottom: Execution Panel -->
+      <div style="height:280px; background:var(--bg-secondary); border-top: 1px solid var(--glass-border); padding:24px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+           <h2 style="font-size:15px; font-weight:700;">EXECUTION PANEL</h2>
+           <div style="font-size:12px; color:var(--text-muted);">Available: <strong style="color:var(--text-primary);" id="userBalance">$0.00</strong></div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
           <div class="form-group">
-            <label class="form-label">Price Per Ton ($)</label>
-            <input type="number" class="form-input" id="orderPrice" value="24.50" />
+            <label class="form-label">BID PRICE ($)</label>
+            <div class="input-group">
+              <input type="number" class="form-input" id="orderPrice" value="18.50" />
+              <span class="input-suffix">USD</span>
+            </div>
           </div>
           <div class="form-group">
-            <label class="form-label">Quantity (Tons)</label>
-            <input type="number" class="form-input" id="orderQty" placeholder="0.00" />
+            <label class="form-label">QUANTITY (TONS)</label>
+            <div class="input-group">
+              <input type="number" class="form-input" id="orderQty" placeholder="0.00" />
+              <span class="input-suffix">tCO₂e</span>
+            </div>
           </div>
         </div>
-        <div style="display:flex;gap:12px;margin-top:24px;">
-          <button class="btn btn-primary flex-1" style="background:var(--sparc-green);line-height:1.2;" onclick="placeOrder('bid')">BUY <br><span style="font-size:10px;font-weight:400;">Bidding Order</span></button>
-          <button class="btn btn-primary flex-1" style="background:var(--sparc-red);line-height:1.2;" onclick="placeOrder('ask')">SELL <br><span style="font-size:10px;font-weight:400;">Asking Order</span></button>
+        <div style="display:flex;gap:16px;margin-top:24px;">
+          <button class="btn btn-primary w-full" style="padding: 16px; background: var(--sparc-green);" onclick="placeOrder('bid')">BUY LONG</button>
+          <button class="btn btn-primary w-full" style="padding: 16px; background: var(--sparc-red);" onclick="placeOrder('ask')">SELL SHORT</button>
         </div>
       </div>
     </main>
 
-    <!-- RIGHT: Recent Trades -->
-    <aside class="market-col">
-      <div class="col-header">Market Trades</div>
+    <!-- RIGHT: Market Trades -->
+    <aside class="market-col" style="border-left: 1px solid var(--glass-border);">
+      <div class="col-header">RECENT TRADES</div>
+      <div style="padding:10px 16px;font-size:10px;color:var(--text-muted);display:grid;grid-template-columns:1fr 1fr 1fr; border-bottom: 1px solid var(--glass-border);">
+        <span>TIME</span><span>QTY (t)</span><span class="text-right">PRICE</span>
+      </div>
       <div id="recentTrades" style="flex:1;overflow-y:auto;">
-        <div class="trade-row">
-           <span style="font-size:12px;color:var(--sparc-green);">14:50:22</span>
-           <span style="font-size:13px;font-weight:600;text-align:right;">12.4 T @ $24.20</span>
-        </div>
+        <!-- Populated by JS -->
       </div>
     </aside>
 

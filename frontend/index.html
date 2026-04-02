@@ -180,70 +180,72 @@
 
 <!-- Hero Section -->
 <section class="hero">
-  <div class="container" style="display:flex;align-items:center;gap:60px;">
-    <div class="hero-content">
-      <div class="hero-eyebrow">
-        <span class="green-dot"></span>
-        Live Carbon Market · Verified Credits Only
+  <div class="container" style="display:flex;align-items:center;gap:80px;position:relative;">
+    <div class="hero-content" style="flex:1;">
+      <div class="hero-eyebrow animate-float">
+        <span class="green-dot animate-pulse-green"></span>
+        INSTITUTIONAL CARBON EXCHANGE · ASIA PACIFIC
       </div>
       <h1 class="hero-title">
-        The Future of<br><em>Carbon Trading</em><br>is Here
+        Powering the<br><em>Net Zero</em><br>Economy
       </h1>
       <p class="hero-desc">
-        Sparc Energy is India's most trusted carbon credit marketplace — powering net-zero commitments with Verra VCS and Gold Standard certified credits from reforestation, solar, and wind projects worldwide.
+        The most liquid and transparent carbon credit marketplace in India. Trade Verra and Gold Standard certified assets with bank-grade security and instant retirement.
       </p>
       <div class="hero-cta">
-        <a href="marketplace.html" class="btn btn-primary btn-lg">
-          Explore Market →
-        </a>
-        <a href="projects.html" class="btn btn-secondary btn-lg">
-          View Projects
-        </a>
-        <a href="auth.html?mode=register" class="btn btn-ghost btn-lg">
-          Open Free Account
-        </a>
+        <a href="marketplace.html" class="btn btn-primary btn-lg">🚀 Start Trading</a>
+        <a href="projects.html" class="btn btn-secondary btn-lg">Explore Projects</a>
       </div>
-      <div class="hero-stats">
+      <div class="hero-stats" style="margin-top:60px;">
         <div class="hero-stat-item">
-          <span class="hero-stat-value" id="hs-credits">1,65,000+</span>
-          <span class="hero-stat-label">Credits Available</span>
+          <span class="hero-stat-value" id="hs-credits">165K+</span>
+          <span class="hero-stat-label">Credits Listed</span>
         </div>
-        <div class="hero-stat-item">
+        <div class="hero-stat-item" style="border-left:1px solid var(--glass-border);padding-left:32px;">
           <span class="hero-stat-value" id="hs-projects">4+</span>
           <span class="hero-stat-label">Verified Projects</span>
         </div>
-        <div class="hero-stat-item">
-          <span class="hero-stat-value" id="hs-offset">₹0</span>
-          <span class="hero-stat-label">Volume Traded</span>
+        <div class="hero-stat-item" style="border-left:1px solid var(--glass-border);padding-left:32px;">
+          <span class="hero-stat-value" id="hs-volume">₹2.8Cr+</span>
+          <span class="hero-stat-label">Global Volume</span>
         </div>
       </div>
     </div>
-    <!-- Hero Visual -->
-    <div class="hero-right" style="position:relative;min-width:360px;">
-      <div class="globe-visual">🌍
-        <div class="globe-orbit orbit-1">
-          <div class="orbit-dot" style="background:var(--sparc-green)"></div>
+    
+    <!-- Hero Visual: Floating 3D Cards -->
+    <div class="hero-right animate-float" style="flex:1.2; position:relative; min-height:500px; display:flex; align-items:center; justify-content:center;">
+      <div class="globe-visual" style="opacity:0.6; filter:blur(40px); background:radial-gradient(circle, var(--sparc-green) 0%, transparent 70%);"></div>
+      
+      <!-- Primary Card -->
+      <div class="card card-glow animate-float" style="width:340px; position:absolute; z-index:10; transform:rotate(-4deg);">
+        <div style="display:flex;justify-content:space-between;margin-bottom:16px;">
+          <span class="badge badge-verra">🌿 Verified VCS</span>
+          <span style="font-size:10px;color:var(--text-muted);">2024 VINTAGE</span>
         </div>
-        <div class="globe-orbit orbit-2">
-          <div class="orbit-dot" style="background:var(--sparc-blue)"></div>
+        <div style="font-size:20px;font-weight:800;color:var(--text-primary);margin-bottom:4px;">Amazon Reforestation</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:20px;">BRAZIL · PROJECT ID: 4821</div>
+        <div style="display:flex;align-items:baseline;gap:8px;">
+          <span style="font-size:32px;font-weight:900;color:var(--sparc-green);">$18.50</span>
+          <span style="font-size:12px;color:var(--text-muted);">/ TONNE</span>
+        </div>
+        <div class="progress-bar" style="margin-top:20px;">
+          <div class="progress-fill" style="width:68%"></div>
         </div>
       </div>
-      <div class="floating-card floating-card-1 fade-in">
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">Verra VCS · Brazil 🇧🇷</div>
-        <div style="font-size:15px;font-weight:700;color:var(--sparc-green)">$18.50 <span style="font-size:11px;color:var(--sparc-green)">▲ 3.2%</span></div>
-        <div style="font-size:11px;color:var(--text-secondary)">Amazon Reforestation</div>
+
+      <!-- Secondary Float Cards -->
+      <div class="card glass animate-float" style="width:240px; position:absolute; top:40px; right:-20px; z-index:5; animation-delay: -1s; transform: rotate(12deg);">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">GOLD STANDARD · 🇮🇳</div>
+        <div style="font-size:16px;font-weight:700;color:var(--sparc-gold);">$22.75 <span style="font-size:10px;color:var(--sparc-green);">▲ 2.4%</span></div>
+        <div style="font-size:11px;color:var(--text-secondary);">Rajasthan Solar Farm</div>
       </div>
-      <div class="floating-card floating-card-2">
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">Gold Standard · India 🇮🇳</div>
-        <div style="font-size:15px;font-weight:700;color:var(--sparc-gold)">$22.75 <span style="font-size:11px;color:var(--sparc-green)">▲ 1.8%</span></div>
-        <div style="font-size:11px;color:var(--text-secondary)">Rajasthan Solar Farm</div>
-      </div>
-      <div class="floating-card floating-card-3">
-        <div style="display:flex;align-items:center;gap:6px;">
-          <span style="font-size:18px;">✅</span>
+
+      <div class="card glass animate-float" style="width:220px; position:absolute; bottom:60px; left:-40px; z-index:15; animation-delay: -2s; transform: rotate(-8deg);">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:rgba(0,245,184,0.1);display:flex;align-items:center;justify-content:center;font-size:16px;">🏅</div>
           <div>
-            <div style="font-size:12px;font-weight:600;color:var(--text-primary)">Purchase Confirmed</div>
-            <div style="font-size:11px;color:var(--text-secondary)">500 tons CO₂e retired</div>
+            <div style="font-size:12px;font-weight:700;">Certificate Issued</div>
+            <div style="font-size:10px;color:var(--text-secondary);">Order #9401 Verified</div>
           </div>
         </div>
       </div>
@@ -252,24 +254,24 @@
 </section>
 
 <!-- Impact Stats -->
-<section class="section-sm" style="background:var(--bg-secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+<section class="section-sm" style="background:var(--bg-secondary); border-top:1px solid var(--glass-border); border-bottom:1px solid var(--glass-border);">
   <div class="container">
-    <div class="impact-grid" id="impactGrid">
-      <div class="impact-cell">
+    <div class="impact-grid" id="impactGrid" style="background:transparent; border:none; gap:24px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+      <div class="card impact-cell card-glow">
         <div class="impact-value" id="imp-credits">165K</div>
-        <div class="impact-label">🌿 Credits Available</div>
+        <div class="impact-label">🌿 CREDITS LISTED</div>
       </div>
-      <div class="impact-cell">
-        <div class="impact-value" id="imp-co2">0</div>
-        <div class="impact-label">🌍 Tons CO₂e Offset</div>
+      <div class="card impact-cell">
+        <div class="impact-value" id="imp-co2">24.8K</div>
+        <div class="impact-label">🌍 TONS OFFSET</div>
       </div>
-      <div class="impact-cell">
+      <div class="card impact-cell">
         <div class="impact-value" id="imp-projects">4</div>
-        <div class="impact-label">✅ Verified Projects</div>
+        <div class="impact-label">✅ VERIFIED PROJECTS</div>
       </div>
-      <div class="impact-cell">
-        <div class="impact-value" id="imp-volume">$0</div>
-        <div class="impact-label">💰 Market Volume</div>
+      <div class="card impact-cell">
+        <div class="impact-value" id="imp-volume">₹2.8Cr</div>
+        <div class="impact-label">💰 NET LIQUIDITY</div>
       </div>
     </div>
   </div>
@@ -332,28 +334,28 @@
 <!-- How It Works -->
 <section class="section">
   <div class="container">
-    <div class="text-center" style="margin-bottom:48px;">
-      <h2 class="section-title">How Sparc Energy Works</h2>
-      <p class="section-sub">Three simple steps to start trading and offsetting carbon emissions</p>
+    <div class="text-center" style="margin-bottom:60px;">
+      <h2 class="section-title">Institutional Grade Trading</h2>
+      <p class="section-sub">Three simple steps to manage your carbon portfolio and offset emissions</p>
     </div>
-    <div class="grid-3">
+    <div class="grid-3" style="gap:32px;">
       <div class="card how-step card-hover">
-        <div class="step-num">1</div>
+        <div class="step-num">01</div>
         <div class="step-icon">🔐</div>
-        <div class="feature-item"><span>🏅</span><span>Instant retirement certificates</span></div>
-        <div class="feature-item"><span>🔒</span><span>Bank-grade security & KYC verified</span></div>
+        <div class="step-title">Secure KYC Onboarding</div>
+        <div class="step-desc">Complete our bank-grade KYC process in minutes to start institutional trading.</div>
       </div>
-      <div class="card how-step card-hover" style="border-color:var(--border-green)">
-        <div class="step-num">2</div>
-        <div class="step-icon">🌿</div>
-        <div class="step-title">Browse & Buy Credits</div>
-        <div class="step-desc">Filter by Verra VCS, Gold Standard, project type, country and vintage year. Buy verified credits instantly.</div>
+      <div class="card how-step card-hover" style="border-color:var(--sparc-green-border); box-shadow: var(--glow-green);">
+        <div class="step-num" style="background:var(--sparc-green); color:#000;">02</div>
+        <div class="step-icon">📊</div>
+        <div class="step-title">Execute Market Orders</div>
+        <div class="step-desc">Access live order books for Verra and Gold Standard credits with deep liquidity.</div>
       </div>
       <div class="card how-step card-hover">
-        <div class="step-num">3</div>
+        <div class="step-num">03</div>
         <div class="step-icon">🏅</div>
-        <div class="step-title">Retire & Get Certificate</div>
-        <div class="step-desc">Permanently retire credits to offset your carbon footprint. Receive a blockchain-verified certificate instantly.</div>
+        <div class="step-title">Instant Retirement</div>
+        <div class="step-desc">Retire credits permanently and receive blockchain-verified certificates instantly.</div>
       </div>
     </div>
   </div>
@@ -410,17 +412,17 @@
 </section>
 
 <!-- CTA Section -->
-<section class="section-sm" style="background:linear-gradient(135deg,rgba(0,212,161,0.08),rgba(79,142,247,0.06));border-top:1px solid var(--border-green);border-bottom:1px solid var(--border-green);">
+<section class="section-sm" style="background: linear-gradient(135deg, rgba(0, 245, 184, 0.08), rgba(61, 139, 255, 0.06)); border-top: 1px solid var(--sparc-green-border); border-bottom: 1px solid var(--sparc-green-border);">
   <div class="container text-center">
-    <h2 style="font-family:var(--font-display);font-size:36px;font-weight:800;margin-bottom:12px;">
-      Ready to Go <em style="background:linear-gradient(135deg,var(--sparc-green),var(--sparc-blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Net Zero?</em>
+    <h2 style="font-family: var(--font-display); font-size: 42px; font-weight: 800; margin-bottom: 16px; letter-spacing: -1px;">
+      Ready to Achieve <em style="background: linear-gradient(135deg, var(--sparc-green), var(--sparc-blue)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-style: normal;">Net Zero?</em>
     </h2>
-    <p style="color:var(--text-secondary);font-size:16px;margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto;">
-      Join Sparc Energy today. Trade carbon credits, offset emissions, and earn returns on the green economy.
+    <p style="color: var(--text-secondary); font-size: 18px; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+      Join Sparc Energy's institutional ecosystem. Trade high-quality carbon assets and automate your sustainability reports.
     </p>
-    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-      <a href="auth.html?mode=register" class="btn btn-primary btn-lg">🚀 Start Trading Free</a>
-      <a href="marketplace.html" class="btn btn-secondary btn-lg">Browse Marketplace</a>
+    <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+      <a href="auth.html?mode=register" class="btn btn-primary btn-lg" style="padding: 16px 40px;">🚀 Get Started Free</a>
+      <a href="marketplace.html" class="btn btn-secondary btn-lg" style="padding: 16px 40px;">Live Exchange</a>
     </div>
   </div>
 </section>
