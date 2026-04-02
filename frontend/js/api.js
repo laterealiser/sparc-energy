@@ -1,17 +1,22 @@
 // ═══════════════════════════════════════════════════════════════
-// Sparc Energy — API Helper
+// Sparc Energy — Professional Marketplace API & BaaS Helper
 // ═══════════════════════════════════════════════════════════════
 
-// Connect exactly to your newly-deployed Render Cloud DB Service!
-const API_BASE = 'https://sparc-energy.onrender.com/api';
+// 1. Initialize Supabase Client (BaaS)
+const SUPABASE_URL = 'https://loldpnnmjqttgvsxcgnr.supabase.co'; 
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxvbGRwbm5tanF0dGd2c3hjZ25yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMzEzODYsImV4cCI6MjA5MDcwNzM4Nn0.Jy12HHwMsWgrFA-TKdJ8WcWOMZYB97G9-SSJGdvwT3w'; 
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// 2. Custom Rust API Base (Supabase-ready Matching Engine)
+const API_BASE = 'https://sparc-energy.onrender.com/api'; // Render Deployment URL
 
 /**
- * Main API fetch wrapper
- * Automatically attaches JWT token and handles JSON parsing
+ * Main API fetch wrapper for Custom Rust endpoints
  */
 async function api(endpoint, options = {}) {
-  const token = localStorage.getItem('sparc_token');
+  const { data: { session } } = await supabase.auth.getSession();
+  const token = session?.access_token;
+  
   const headers = {
     'Content-Type': 'application/json',
     ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
@@ -23,105 +28,81 @@ async function api(endpoint, options = {}) {
       ...options,
       headers,
     });
-
-    const data = await response.json();
-
-    // Handle token expiry
-    if (response.status === 401) {
-      localStorage.removeItem('sparc_token');
-      localStorage.removeItem('sparc_user');
-    }
-
-    return data;
+    return await response.json();
   } catch (error) {
     console.error(`API Error [${endpoint}]:`, error);
     throw error;
   }
 }
 
-// ── Toast Notifications ───────────────────────────────────────────────────────
-function showToast(type, message, sub = '') {
-  const container = document.getElementById('toastContainer');
-  if (!container) return;
-  const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
-  const el = document.createElement('div');
-  el.className = `toast toast-${type}`;
-  el.innerHTML = `
-    <div class="toast-icon">${icons[type]||'ℹ️'}</div>
-    <div>
-      <div class="toast-msg">${message}</div>
-      ${sub ? `<div class="toast-sub">${sub}</div>` : ''}
-    </div>`;
-  container.appendChild(el);
-  setTimeout(() => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateX(20px)';
-    el.style.transition = 'all 0.3s ease';
-    setTimeout(() => el.remove(), 300);
-  }, 4000);
+// ── Auth Logic (via Supabase) ────────────────────────────────────────────────
+
+async function login(email, password) {
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) throw error;
+  return data;
 }
 
-// ── Modal Helpers ─────────────────────────────────────────────────────────────
-function openModal(id) { document.getElementById(id)?.classList.add('open'); }
-function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
-document.addEventListener('click', e => {
-  if (e.target.classList.contains('modal-overlay')) {
-    e.target.classList.remove('open');
-  }
-});
-
-// ── Number Formatting ─────────────────────────────────────────────────────────
-function fmt(n, decimals = 2) { return Number(n).toFixed(decimals); }
-function fmtCurrency(n) { return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
-function fmtNum(n) {
-  n = Number(n);
-  if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
-  if (n >= 1000) return (n/1000).toFixed(1) + 'K';
-  return n.toLocaleString();
-}
-function fmtDate(str) {
-  return new Date(str).toLocaleDateString('en-IN', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+async function register(email, password, fullName) {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: { data: { full_name: fullName } }
+  });
+  if (error) throw error;
+  return data;
 }
 
-// ── Ticker Builder ────────────────────────────────────────────────────────────
-const TICKER_DATA = [
-  { name:'AMZN-REFOR-VCS', price:18.50, change:3.2 },
-  { name:'RAJ-SOLAR-GS', price:22.75, change:1.8 },
-  { name:'NORDIC-WIND-GS', price:31.20, change:-0.5 },
-  { name:'GUJ-BLUE-VCS', price:14.80, change:2.1 },
-  { name:'AMZN-VCS-22', price:16.40, change:-1.2 },
-  { name:'KA-SOLAR-BEE', price:19.60, change:4.1 },
-  { name:'BRA-REDD-CDM', price:12.30, change:0.8 },
-  { name:'GH-COOK-GS', price:8.90, change:1.5 },
-  { name:'MH-WIND-VCS', price:21.10, change:0.9 },
-  { name:'SEA-MANGROVE-GS', price:17.30, change:2.6 },
-];
-
-function buildTickerTrack() {
-  const el = document.getElementById('tickerTrack');
-  if (!el) return;
-  const doubled = [...TICKER_DATA, ...TICKER_DATA];
-  el.innerHTML = doubled.map(t => `
-    <div class="ticker-item">
-      <div class="t-dot"></div>
-      <span class="t-name">${t.name}</span>
-      <span class="t-price">$${t.price.toFixed(2)}</span>
-      <span class="t-change ${t.change >= 0 ? 'up' : 'down'}">${t.change >= 0 ? '+' : ''}${t.change}%</span>
-    </div>`).join('');
-  // Live price simulation
-  setInterval(() => {
-    TICKER_DATA.forEach(t => {
-      t.price += (Math.random() - 0.48) * 0.1;
-      t.price = Math.max(5, t.price);
-      t.change = parseFloat(((Math.random() - 0.4) * 5).toFixed(2));
-    });
-    el.innerHTML = [...TICKER_DATA, ...TICKER_DATA].map(t => `
-      <div class="ticker-item">
-        <div class="t-dot"></div>
-        <span class="t-name">${t.name}</span>
-        <span class="t-price">$${t.price.toFixed(2)}</span>
-        <span class="t-change ${t.change >= 0 ? 'up' : 'down'}">${t.change >= 0 ? '+' : ''}${t.change}%</span>
-      </div>`).join('');
-  }, 3000);
+async function logout() {
+  await supabase.auth.signOut();
+  location.href = 'index.html';
 }
-buildTickerTrack();
+
+// ── KYC & Documents (via Supabase Storage) ────────────────────────────────────
+
+async function uploadKYC(file, userId) {
+  const { data, error } = await supabase.storage
+    .from('kyc-documents')
+    .upload(`${userId}/id_proof_${Date.now()}`, file);
+  
+  if (error) throw error;
+  return data.path; // Return the path to store in Oracle DB
+}
+
+// ── Real-time Updates (via Supabase Realtime) ───────────────────────────────
+
+function subscribeToMarket() {
+  supabase
+    .channel('market-updates')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'trades' }, payload => {
+      console.log('💎 New Trade Matched!', payload);
+      // Update UI in real-time
+    })
+    .subscribe();
+}
+
+// ── Payments Integration ─────────────────────────────────────────────────────
+
+function initRazorpay(amount, orderId) {
+  const options = {
+    key: "rzp_test_...", // From Supabase config / .env
+    amount: amount * 100, // In paise
+    currency: "INR",
+    name: "Sparc Energy",
+    description: "Credit Purchase Settlement",
+    order_id: orderId,
+    handler: async function (res) {
+      await api('/payments/razorpay', {
+        method: 'POST',
+        body: JSON.stringify({
+          order_id: orderId,
+          payment_id: res.razorpay_payment_id,
+          signature: res.razorpay_signature
+        })
+      });
+      showToast('success', '💰 Payment Successful!', 'Credits updating...');
+    }
+  };
+  const rzp = new Razorpay(options);
+  rzp.open();
+}

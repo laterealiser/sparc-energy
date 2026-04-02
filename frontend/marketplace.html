@@ -3,368 +3,148 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marketplace — Sparc Energy Carbon Market</title>
-  <meta name="description" content="Buy and sell verified carbon credits on Sparc Energy. Filter by Verra VCS, Gold Standard. Real-time pricing like Binance." />
+  <title>Global Carbon Marketplace — Sparc Energy</title>
   <link rel="stylesheet" href="css/styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body { padding-top: 0; }
-    .market-page { display: grid; grid-template-columns: 300px 1fr 320px; gap: 0; min-height: calc(100vh - 105px); }
-    .filter-sidebar {
-      background: var(--bg-secondary);
-      border-right: 1px solid var(--border);
-      padding: 20px;
-      overflow-y: auto;
-      position: sticky;
-      top: 105px;
-      height: calc(100vh - 105px);
-    }
-    .main-market { padding: 20px; overflow-x: hidden; }
-    .buy-sidebar {
-      background: var(--bg-secondary);
-      border-left: 1px solid var(--border);
-      padding: 20px;
-      position: sticky;
-      top: 105px;
-      height: calc(100vh - 105px);
-      overflow-y: auto;
-    }
-    .credit-list-item {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr 80px 100px;
-      align-items: center;
-      padding: 14px 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
-      cursor: pointer;
-      transition: var(--transition);
-      gap: 12px;
-    }
-    .credit-list-item:hover { background: var(--bg-card); }
-    .credit-list-item.selected { background: var(--sparc-green-glow); border-left: 2px solid var(--sparc-green); }
-    .credit-list-header {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr 80px 100px;
-      padding: 10px 16px;
-      gap: 12px;
-      background: var(--bg-secondary);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 5;
-    }
-    .order-book-container { max-height: 200px; overflow: hidden; }
-    .depth-bar {
-      height: 4px;
-      background: var(--bg-secondary);
-      border-radius: var(--radius-full);
-      margin: 6px 0;
-      overflow: hidden;
-    }
-    .depth-fill-ask { height: 100%; background: rgba(240,62,62,0.4); border-radius: 2px; }
-    .depth-fill-bid { height: 100%; background: rgba(0,212,161,0.4); border-radius: 2px; }
-    .spread-row { padding: 6px 12px; background: rgba(255,255,255,0.03); font-size:11px; color:var(--text-muted); text-align:center; border-radius: 4px; margin: 2px 0; }
-    @media (max-width:1200px) { .market-page { grid-template-columns: 1fr; } .filter-sidebar,.buy-sidebar { display:none; } }
+    .market-layout { display: grid; grid-template-columns: 320px 1fr 320px; gap: 20px; height: calc(100vh - 140px); margin-top: 100px; }
+    .market-col { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+    .col-header { padding: 16px; border-bottom: 1px solid var(--border-color); font-weight: 700; font-size: 14px; text-transform: uppercase; color: var(--text-muted); }
+    .order-book-row { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 8px 16px; font-size: 12px; }
+    .order-book-row.ask { color: var(--sparc-red); }
+    .order-book-row.bid { color: var(--sparc-green); }
+    .trade-row { display: grid; grid-template-columns: 1fr 1fr; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); }
   </style>
 </head>
 <body>
-
-<!-- Ticker -->
-<div class="ticker-bar">
-  <div class="ticker-track" id="tickerTrack"></div>
-</div>
-
-<!-- Navbar -->
-<nav class="navbar">
-  <a href="index.html" class="nav-logo">
-    <div class="logo-icon">⚡</div>
-    <div><span class="logo-text">Sparc Energy</span><span class="logo-sub">CARBON MARKET</span></div>
-  </a>
-  <div class="nav-links">
-    <a href="index.html" class="nav-link">🏠 Home</a>
-    <a href="marketplace.html" class="nav-link active">📈 Marketplace</a>
-    <a href="projects.html" class="nav-link">🌿 Projects</a>
-    <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
-  </div>
-  <div class="nav-actions">
-    <div id="nav-auth-guest"><a href="auth.html" class="btn btn-secondary btn-sm">Login</a><a href="auth.html?mode=register" class="btn btn-primary btn-sm">Register</a></div>
-    <div id="nav-auth-user" class="hidden" style="display:flex;gap:10px;align-items:center;">
-      <span style="font-size:13px;color:var(--text-secondary)">Balance: <strong style="color:var(--sparc-green)" id="nav-balance">—</strong></span>
-      <a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a>
-      <button class="btn btn-ghost btn-sm" onclick="logout()">Logout</button>
+<nav class="nav">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-text">Sparc Energy</span>
+    </a>
+    <div class="nav-links">
+      <a href="marketplace.html" class="nav-link active">Marketplace</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="dashboard.html" class="nav-link">Portfolio</a>
+      <div id="nav-auth-user" style="display:flex;gap:12px;align-items:center;">
+        <span class="balance-pill" id="nav-balance">$0.00</span>
+        <button class="btn btn-secondary" onclick="logout()">Sign Out</button>
+      </div>
     </div>
   </div>
 </nav>
 
-<!-- Market Overview Bar (like Binance top bar) -->
-<div class="market-overview-bar" id="overviewBar">
-  <div class="market-overview-item">
-    <div class="market-overview-name">🌿 Amazon Refor (VCS)</div>
-    <div class="market-overview-price" style="color:var(--sparc-green)">$18.50</div>
-    <div class="market-overview-change moc-up">▲ +3.2%</div>
-  </div>
-  <div class="market-overview-item">
-    <div class="market-overview-name">☀️ Raj Solar (Gold Std)</div>
-    <div class="market-overview-price" style="color:var(--sparc-gold)">$22.75</div>
-    <div class="market-overview-change moc-up">▲ +1.8%</div>
-  </div>
-  <div class="market-overview-item">
-    <div class="market-overview-name">💨 Nordic Wind (GS)</div>
-    <div class="market-overview-price" style="color:var(--text-primary)">$31.20</div>
-    <div class="market-overview-change moc-down">▼ -0.5%</div>
-  </div>
-  <div class="market-overview-item">
-    <div class="market-overview-name">🌊 Gujarat Blue Carbon</div>
-    <div class="market-overview-price" style="color:var(--text-primary)">$14.80</div>
-    <div class="market-overview-change moc-up">▲ +2.1%</div>
-  </div>
-  <div style="margin-left:auto;display:flex;align-items:center;gap:20px;flex-shrink:0;">
-    <div class="market-overview-item">
-      <div class="market-overview-name">Total Credits</div>
-      <div class="market-overview-price" id="tot-credits" style="color:var(--text-primary)">—</div>
-    </div>
-    <div class="market-overview-item">
-      <div class="market-overview-name">24h Volume</div>
-      <div class="market-overview-price" id="tot-vol" style="color:var(--sparc-green)">—</div>
-    </div>
-    <div class="market-overview-item">
-      <div class="market-overview-name">Projects</div>
-      <div class="market-overview-price" id="tot-proj" style="color:var(--text-primary)">—</div>
-    </div>
-  </div>
-</div>
-
-<!-- 3-column Market Layout -->
-<div class="market-page">
-
-  <!-- Left: Filters -->
-  <div class="filter-sidebar">
-    <div style="font-size:13px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:16px;">Filters</div>
-
-    <div class="form-group" style="margin-bottom:14px;">
-      <label class="form-label">Certification</label>
-      <select class="form-select" id="fCert" onchange="applyFilters()">
-        <option value="">All Standards</option>
-        <option value="Verra VCS">🌿 Verra VCS</option>
-        <option value="Gold Standard">🥇 Gold Standard</option>
-        <option value="CDM">🌐 CDM</option>
-      </select>
-    </div>
-
-    <div class="form-group" style="margin-bottom:14px;">
-      <label class="form-label">Project Type</label>
-      <select class="form-select" id="fType" onchange="applyFilters()">
-        <option value="">All Types</option>
-        <option value="reforestation">🌳 Reforestation</option>
-        <option value="solar">☀️ Solar</option>
-        <option value="wind">💨 Wind</option>
-        <option value="blue_carbon">🌊 Blue Carbon</option>
-        <option value="methane">🔥 Methane</option>
-      </select>
-    </div>
-
-    <div class="form-group" style="margin-bottom:14px;">
-      <label class="form-label">Min Price ($/tCO₂e)</label>
-      <input class="form-input" type="number" id="fMinPrice" placeholder="0" onchange="applyFilters()" />
-    </div>
-    <div class="form-group" style="margin-bottom:14px;">
-      <label class="form-label">Max Price ($/tCO₂e)</label>
-      <input class="form-input" type="number" id="fMaxPrice" placeholder="1000" onchange="applyFilters()" />
-    </div>
-
-    <div class="form-group" style="margin-bottom:14px;">
-      <label class="form-label">Vintage Year</label>
-      <select class="form-select" id="fVintage" onchange="applyFilters()">
-        <option value="">Any Year</option>
-        <option value="2024">2024</option>
-        <option value="2023">2023</option>
-        <option value="2022">2022</option>
-        <option value="2021">2021</option>
-        <option value="2020">2020</option>
-      </select>
-    </div>
-
-    <div class="form-group" style="margin-bottom:20px;">
-      <label class="form-label">Country</label>
-      <select class="form-select" id="fCountry" onchange="applyFilters()">
-        <option value="">All Countries</option>
-        <option value="India">🇮🇳 India</option>
-        <option value="Brazil">🇧🇷 Brazil</option>
-        <option value="Norway">🇳🇴 Norway</option>
-      </select>
-    </div>
-
-    <button class="btn btn-secondary w-full" onclick="resetFilters()" style="margin-bottom:24px;">Reset Filters</button>
-
-    <!-- SDG Filter -->
-    <div style="font-size:13px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">SDG Goals</div>
-    <div style="display:flex;flex-wrap:wrap;gap:6px;" id="sdgFilter">
-      <div class="sdg-chip filter-chip active" onclick="toggleSDG(this,'7')">SDG 7</div>
-      <div class="sdg-chip filter-chip active" onclick="toggleSDG(this,'13')">SDG 13</div>
-      <div class="sdg-chip filter-chip" onclick="toggleSDG(this,'14')">SDG 14</div>
-      <div class="sdg-chip filter-chip" onclick="toggleSDG(this,'15')">SDG 15</div>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- Recent Trades Feed -->
-    <div style="font-size:13px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">Recent Trades</div>
-    <div id="recentTradesSmall" style="display:flex;flex-direction:column;gap:6px;font-size:11px;">
-      <!-- Populated by JS -->
-    </div>
-  </div>
-
-  <!-- Center: Credit List + Chart -->
-  <div class="main-market">
-    <!-- Search + Sort -->
-    <div style="display:flex;gap:12px;margin-bottom:16px;align-items:center;">
-      <div class="input-group" style="flex:1;">
-        <span class="input-prefix">🔍</span>
-        <input class="form-input" type="text" id="searchInput" placeholder="Search projects, certifications..." oninput="applyFilters()" />
+<div class="container-fluid" style="padding: 0 40px;">
+  <div class="market-layout">
+    
+    <!-- LEFT: Order Book -->
+    <aside class="market-col">
+      <div class="col-header">Order Book</div>
+      <div style="padding:10px 16px;font-size:11px;color:var(--text-muted);display:grid;grid-template-columns:1fr 1fr 1fr;">
+        <span>Price ($)</span><span>Qty (T)</span><span>Total ($)</span>
       </div>
-      <select class="form-select" style="width:180px;" id="sortBy" onchange="applyFilters()">
-        <option value="created_at">Latest First</option>
-        <option value="price_asc">Price: Low to High</option>
-        <option value="price_desc">Price: High to Low</option>
-        <option value="quantity">Most Available</option>
-      </select>
-      <div class="tabs" style="background:var(--bg-card);">
-        <button class="tab-btn active" onclick="setView(this,'list')">☰ List</button>
-        <button class="tab-btn" onclick="setView(this,'grid')">⊞ Grid</button>
+      <div id="asks" style="display:flex;flex-direction:column-reverse;gap:2px;">
+        <!-- Sellers (Asks) -->
       </div>
-    </div>
+      <div style="text-align:center;padding:12px;font-size:18px;font-weight:700;background:rgba(255,255,255,0.02);">
+        $24.50 <span style="font-size:12px;color:var(--sparc-green);">+5.4%</span>
+      </div>
+      <div id="bids">
+        <!-- Buyers (Bids) -->
+      </div>
+    </aside>
 
-    <!-- Selected Credit Chart (shown when credit is selected) -->
-    <div id="selectedCreditPanel" class="card" style="display:none;margin-bottom:16px;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;">
-        <div>
-          <div id="sc-name" style="font-size:18px;font-weight:700;color:var(--text-primary)">—</div>
-          <div id="sc-meta" style="font-size:12px;color:var(--text-secondary)">—</div>
-        </div>
-        <div class="text-right">
-          <div id="sc-price" class="price-display">—</div>
-          <div id="sc-change" class="price-change-badge" style="margin-top:4px;">—</div>
+    <!-- CENTER: Charts & Listing Detail -->
+    <main class="market-col" style="background:transparent;border:none;">
+      <div class="market-col" style="flex:1;margin-bottom:20px;">
+        <div class="col-header">Market Chart — VCS Forestry 2024</div>
+        <div style="flex:1;padding:20px;">
+           <canvas id="marketChart"></canvas>
         </div>
       </div>
-      <div class="chart-container" style="height:200px;">
-        <canvas id="creditChart"></canvas>
-      </div>
-      <div style="display:flex;gap:8px;margin-top:10px;">
-        <button class="chart-period active" onclick="switchPeriod(this)">7D</button>
-        <button class="chart-period" onclick="switchPeriod(this)">1M</button>
-        <button class="chart-period" onclick="switchPeriod(this)">3M</button>
-      </div>
-    </div>
-
-    <!-- Credit Table Header -->
-    <div class="credit-list-header" id="creditListHeader">
-      <div style="font-size:11px;font-weight:600;text-transform:uppercase;color:var(--text-muted);">Project / Credit</div>
-      <div style="font-size:11px;font-weight:600;text-transform:uppercase;color:var(--text-muted);">Price</div>
-      <div style="font-size:11px;font-weight:600;text-transform:uppercase;color:var(--text-muted);">24H</div>
-      <div style="font-size:11px;font-weight:600;text-transform:uppercase;color:var(--text-muted);">Available</div>
-      <div style="font-size:11px;font-weight:600;text-transform:uppercase;color:var(--text-muted);">Cert</div>
-      <div></div>
-    </div>
-
-    <!-- Credit Items -->
-    <div id="creditsList">
-      <div class="skeleton" style="height:56px;border-radius:0;margin-bottom:2px;"></div>
-      <div class="skeleton" style="height:56px;border-radius:0;margin-bottom:2px;"></div>
-      <div class="skeleton" style="height:56px;border-radius:0;"></div>
-    </div>
-
-    <!-- Grid View -->
-    <div id="creditsGrid" class="grid-auto" style="display:none;margin-top:16px;"></div>
-
-    <!-- Pagination -->
-    <div style="display:flex;justify-content:center;gap:8px;margin-top:20px;" id="pagination"></div>
-  </div>
-
-  <!-- Right: Buy Panel + Order Book -->
-  <div class="buy-sidebar">
-    <div id="buyPanelEmpty" style="text-align:center;padding:40px 0;color:var(--text-muted);">
-      <div style="font-size:40px;margin-bottom:12px;">📈</div>
-      <div style="font-size:14px;">Select a credit listing<br>to view details and buy</div>
-    </div>
-
-    <div id="buyPanel" style="display:none;">
-      <!-- Credit Info -->
-      <div style="margin-bottom:16px;">
-        <div id="bp-name" style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:4px;">—</div>
-        <div id="bp-serial" style="font-size:11px;color:var(--text-muted);font-family:monospace;">—</div>
-      </div>
-
-      <!-- Price Display -->
-      <div style="background:var(--bg-card);border-radius:var(--radius-md);padding:16px;margin-bottom:16px;text-align:center;">
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">CURRENT PRICE</div>
-        <div id="bp-price" style="font-size:32px;font-weight:800;color:var(--sparc-green);font-family:var(--font-display);">—</div>
-        <div style="font-size:11px;color:var(--text-secondary);margin-top:2px;">per tCO₂e</div>
-      </div>
-
-      <!-- Meta Info -->
-      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;font-size:12px;">
-        <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted)">Certification</span><span id="bp-cert" style="font-weight:600;">—</span></div>
-        <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted)">Vintage Year</span><span id="bp-vintage" style="font-weight:600;">—</span></div>
-        <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted)">Available</span><span id="bp-avail" style="font-weight:600;color:var(--sparc-green);">—</span></div>
-        <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted)">Seller</span><span id="bp-seller" style="font-weight:600;">—</span></div>
-        <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted)">Methodology</span><span id="bp-method" style="font-weight:600;color:var(--text-secondary);">—</span></div>
-      </div>
-
-      <!-- Buy Form -->
-      <div style="border-top:1px solid var(--border);padding-top:16px;">
-        <div style="display:flex;border-radius:var(--radius-md);overflow:hidden;margin-bottom:14px;border:1px solid var(--border);">
-          <button id="buyTab" class="tab-btn active" style="flex:1;padding:10px;border-radius:0;background:var(--sparc-green-glow);color:var(--sparc-green);" onclick="switchTrade('buy')">Buy</button>
-          <button id="sellTab" class="tab-btn" style="flex:1;padding:10px;border-radius:0;" onclick="switchTrade('sell')">Retire</button>
-        </div>
-
-        <div class="form-group" style="margin-bottom:12px;">
-          <label class="form-label">Quantity (tons CO₂e)</label>
-          <div class="input-group">
-            <input class="form-input" type="number" id="buyQty" placeholder="e.g. 100" min="1" step="1" oninput="calcTotal()" />
-            <span class="input-suffix">tCO₂e</span>
+      <div class="market-col" style="height:350px;background:var(--bg-secondary);padding:32px;">
+        <h2 style="font-size:20px;margin-bottom:20px;">Place Market Order</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div class="form-group">
+            <label class="form-label">Price Per Ton ($)</label>
+            <input type="number" class="form-input" id="orderPrice" value="24.50" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Quantity (Tons)</label>
+            <input type="number" class="form-input" id="orderQty" placeholder="0.00" />
           </div>
         </div>
-
-        <div style="background:var(--bg-card);border-radius:var(--radius-md);padding:12px;margin-bottom:14px;font-size:12px;">
-          <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:var(--text-muted)">Price/ton</span><span id="calc-price">$0.00</span></div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:var(--text-muted)">Platform Fee (2.5%)</span><span id="calc-fee" style="color:var(--text-muted);">$0.00</span></div>
-          <div style="height:1px;background:var(--border);margin:8px 0;"></div>
-          <div style="display:flex;justify-content:space-between;font-weight:700;"><span>Total</span><span id="calc-total" style="color:var(--sparc-green);">$0.00</span></div>
-        </div>
-
-        <div id="buyBalWarning" style="display:none;font-size:12px;color:var(--sparc-red);margin-bottom:10px;padding:8px;background:rgba(240,62,62,0.08);border-radius:8px;">⚠️ Insufficient balance</div>
-
-        <button class="btn btn-primary w-full" id="buyBtn" onclick="executeBuy()">
-          🛒 Buy Carbon Credits
-        </button>
-
-        <div style="margin-top:10px;font-size:11px;color:var(--text-muted);text-align:center;">
-          Your Balance: <span id="bp-balance" style="color:var(--sparc-green);font-weight:600;">Login to buy</span>
+        <div style="display:flex;gap:12px;margin-top:24px;">
+          <button class="btn btn-primary flex-1" style="background:var(--sparc-green);line-height:1.2;" onclick="placeOrder('bid')">BUY <br><span style="font-size:10px;font-weight:400;">Bidding Order</span></button>
+          <button class="btn btn-primary flex-1" style="background:var(--sparc-red);line-height:1.2;" onclick="placeOrder('ask')">SELL <br><span style="font-size:10px;font-weight:400;">Asking Order</span></button>
         </div>
       </div>
-    </div>
+    </main>
 
-    <!-- Order Book -->
-    <div style="margin-top:24px;">
-      <div style="font-size:13px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Order Book</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;font-size:10px;color:var(--text-muted);padding:0 8px;margin-bottom:4px;">
-        <span>Price</span><span class="text-right">Size (t)</span><span class="text-right">Total</span>
+    <!-- RIGHT: Recent Trades -->
+    <aside class="market-col">
+      <div class="col-header">Market Trades</div>
+      <div id="recentTrades" style="flex:1;overflow-y:auto;">
+        <div class="trade-row">
+           <span style="font-size:12px;color:var(--sparc-green);">14:50:22</span>
+           <span style="font-size:13px;font-weight:600;text-align:right;">12.4 T @ $24.20</span>
+        </div>
       </div>
-      <div id="orderBookAsks" class="order-book-container" style="display:flex;flex-direction:column;gap:2px;"></div>
-      <div class="spread-row" id="spreadRow">Spread: $0.12 (0.64%)</div>
-      <div id="orderBookBids" class="order-book-container" style="display:flex;flex-direction:column;gap:2px;"></div>
-    </div>
+    </aside>
 
-    <!-- Trade History -->
-    <div style="margin-top:20px;">
-      <div style="font-size:13px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Trade History</div>
-      <div id="tradeHistory" style="display:flex;flex-direction:column;gap:2px;font-size:11px;font-family:monospace;"></div>
-    </div>
   </div>
 </div>
 
-<div class="toast-container" id="toastContainer"></div>
 <script src="js/api.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/marketplace.js"></script>
+<script>
+  // Initialize Chart
+  const ctx = document.getElementById('marketChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['10am','11am','12pm','1pm','2pm','3pm','4pm','5pm'],
+      datasets: [{
+        label: 'VCS Carbon Credits',
+        data: [22, 23.5, 23.2, 24.1, 23.8, 24.5, 24.8, 24.5],
+        borderColor: '#10b981',
+        tension: 0.4,
+        fill: true,
+        backgroundColor: 'rgba(16,185,129,0.1)'
+      }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+  });
+
+  async function placeOrder(type) {
+    const price = document.getElementById('orderPrice').value;
+    const qty = document.getElementById('orderQty').value;
+    
+    // Check KYC before allowing trade
+    const user = await api('/auth/me');
+    if (user.data.kyc_status !== 'verified') {
+      alert('Verification required. Redirecting to KYC panel...');
+      location.href = 'kyc.html';
+      return;
+    }
+
+    const res = await api('/credits/order', {
+      method: 'POST',
+      body: JSON.stringify({
+        credit_id: 'default_credit_id',
+        order_type: type,
+        price: parseFloat(price),
+        quantity: parseFloat(qty)
+      })
+    });
+    
+    if (res.success) {
+      alert('Order placed on the registry book!');
+    }
+  }
+
+  // Subscribe to Real-time updates via Supabase
+  subscribeToMarket();
+</script>
 </body>
 </html>

@@ -1,114 +1,11 @@
 use actix_web::{web, HttpRequest, HttpResponse};
-use sqlx::PgPool;
-use uuid::Uuid;
-use chrono::Utc;
-use bcrypt::{hash, verify, DEFAULT_COST};
 use crate::models::*;
-use crate::auth::{generate_token, require_auth};
+use crate::auth::require_auth;
+use crate::db::DbPool;
 
-pub async fn register(
-    pool: web::Data<PgPool>,
-    body: web::Json<RegisterRequest>,
-) -> HttpResponse {
-    // Validate input
-    if body.name.trim().is_empty() || body.email.trim().is_empty() || body.password.len() < 6 {
-        return HttpResponse::BadRequest().json(ErrorResponse::new(
-            "Name, email are required and password must be at least 6 characters"
-        ));
-    }
-
-    // Check if user exists
-    let existing: Option<(String,)> = sqlx::query_as(
-        "SELECT id FROM users WHERE email = $1"
-    )
-    .bind(&body.email)
-    .fetch_optional(pool.as_ref())
-    .await
-    .unwrap_or(None);
-
-    if existing.is_some() {
-        return HttpResponse::Conflict().json(ErrorResponse::new("Email already registered"));
-    }
-
-    let password_hash = match hash(&body.password, DEFAULT_COST) {
-        Ok(h) => h,
-        Err(_) => return HttpResponse::InternalServerError().json(ErrorResponse::new("Server error")),
-    };
-
-    let id = Uuid::new_v4().to_string();
-    let now = Utc::now().to_rfc3339();
-    let role = body.role.as_deref().unwrap_or("buyer").to_string();
-
-    let result = sqlx::query(
-        "INSERT INTO users (id, email, password_hash, name, role, balance, kyc_verified, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)"
-    )
-    .bind(&id).bind(&body.email).bind(&password_hash)
-    .bind(&body.name).bind(&role).bind(10000.0).bind(0)
-    .bind(&now).bind(&now)
-    .execute(pool.as_ref())
-    .await;
-
-    match result {
-        Ok(_) => {
-            let token = generate_token(&id, &body.email, &role).unwrap();
-            let user = UserPublic {
-                id,
-                email: body.email.clone(),
-                name: body.name.clone(),
-                role,
-                balance: 10000.0,
-                total_credits_owned: 0.0,
-                kyc_verified: 0,
-                created_at: now,
-            };
-            HttpResponse::Created().json(ApiResponse::ok_msg(AuthResponse { token, user }, "Account created successfully"))
-        }
-        Err(e) => {
-            log::error!("Register error: {}", e);
-            HttpResponse::InternalServerError().json(ErrorResponse::new("Failed to create account"))
-        }
-    }
-}
-
-pub async fn login(
-    pool: web::Data<PgPool>,
-    body: web::Json<LoginRequest>,
-) -> HttpResponse {
-    let user: Option<User> = sqlx::query_as(
-        "SELECT * FROM users WHERE email = $1"
-    )
-    .bind(&body.email)
-    .fetch_optional(pool.as_ref())
-    .await
-    .unwrap_or(None);
-
-    let user = match user {
-        Some(u) => u,
-        None => return HttpResponse::Unauthorized().json(ErrorResponse::new("Invalid email or password")),
-    };
-
-    match verify(&body.password, &user.password_hash) {
-        Ok(true) => {}
-        _ => return HttpResponse::Unauthorized().json(ErrorResponse::new("Invalid email or password")),
-    }
-
-    let token = generate_token(&user.id, &user.email, &user.role).unwrap();
-    let user_public = UserPublic {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-        balance: user.balance,
-        total_credits_owned: user.total_credits_owned,
-        kyc_verified: user.kyc_verified,
-        created_at: user.created_at,
-    };
-
-    HttpResponse::Ok().json(ApiResponse::ok_msg(AuthResponse { token, user: user_public }, "Login successful"))
-}
-
+// 1. Get current user profile from PostgreSql (Supabase)
 pub async fn me(
-    pool: web::Data<PgPool>,
+    pool: web::Data<DbPool>,
     req: HttpRequest,
 ) -> HttpResponse {
     let claims = match require_auth(&req) {
@@ -116,16 +13,68 @@ pub async fn me(
         Err(e) => return HttpResponse::Unauthorized().json(ErrorResponse::new(&e.to_string())),
     };
 
-    let user: Option<UserPublic> = sqlx::query_as(
-        "SELECT id, email, name, role, balance, total_credits_owned, kyc_verified, created_at FROM users WHERE id = $1"
-    )
-    .bind(&claims.sub)
-    .fetch_optional(pool.as_ref())
-    .await
-    .unwrap_or(None);
+    let sql = "SELECT id, email, name, role, balance, kyc_status, two_factor_enabled, created_at 
+               FROM users WHERE id = $1";
+    
+    let user = sqlx::query_as::<_, User>(sql)
+        .bind(&claims.sub)
+        .fetch_optional(pool.get_ref())
+        .await;
 
     match user {
-        Some(u) => HttpResponse::Ok().json(ApiResponse::ok(u)),
-        None => HttpResponse::NotFound().json(ErrorResponse::new("User not found")),
+        Ok(Some(u)) => HttpResponse::Ok().json(ApiResponse::ok(u)),
+        Ok(None) => HttpResponse::NotFound().json(ErrorResponse::new("User profile not found")),
+        Err(e) => {
+            log::error!("Database error in /me: {}", e);
+            HttpResponse::InternalServerError().json(ErrorResponse::new("Database error"))
+        }
+    }
+}
+
+// 2. Submit KYC application (Mega for documents)
+pub async fn submit_kyc(
+    pool: web::Data<DbPool>,
+    req: HttpRequest,
+    body: web::Json<KYCRequest>,
+) -> HttpResponse {
+    let claims = match require_auth(&req) {
+        Ok(c) => c,
+        Err(_) => return HttpResponse::Unauthorized().json(ErrorResponse::new("Authentication required")),
+    };
+
+    let kyc_id = uuid::Uuid::new_v4().to_string();
+
+    // Use Postgres for the transaction record
+    let sql = "INSERT INTO kyc_applications (id, user_id, first_name, last_name, id_type, id_number, document_url, status)
+               VALUES ($1, $2, $3, $4, $5, $6, $7, 'submitted')";
+    
+    let result = sqlx::query(sql)
+        .bind(&kyc_id)
+        .bind(&claims.sub)
+        .bind(&body.first_name)
+        .bind(&body.last_name)
+        .bind(&body.id_type)
+        .bind(&body.id_number)
+        .bind(&body.document_url) // This URL will now point to Mega/Supabase
+        .execute(pool.get_ref())
+        .await;
+
+    match result {
+        Ok(_) => {
+            // Update user status
+            let _ = sqlx::query("UPDATE users SET kyc_status = 'submitted' WHERE id = $1")
+                .bind(&claims.sub)
+                .execute(pool.get_ref())
+                .await;
+
+            HttpResponse::Ok().json(ApiResponse::ok_msg(
+                serde_json::json!({ "application_id": kyc_id }),
+                "KYC application submitted successfully. Documents moved to secure storage."
+            ))
+        }
+        Err(e) => {
+            log::error!("KYC error: {}", e);
+            HttpResponse::InternalServerError().json(ErrorResponse::new("Failed to submit KYC"))
+        }
     }
 }

@@ -11,14 +11,17 @@ path = "src/main.rs"
 actix-web = "4"
 actix-cors = "0.7"
 actix-web-httpauth = "0.8"
-sqlx = { version = "0.7", features = ["postgres", "runtime-tokio-rustls", "uuid", "chrono", "macros"] }
+sqlx = { version = "0.7", features = ["postgres", "runtime-tokio-rustls", "chrono", "uuid", "macros"] }
+# r2d2 is no longer needed as sqlx has a built-in pool
 tokio = { version = "1", features = ["full"] }
+tokio-tungstenite = "0.21" # WebSockets for Live Market Data
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 jsonwebtoken = "9"
 bcrypt = "0.15"
 uuid = { version = "1", features = ["v4"] }
 chrono = { version = "0.4", features = ["serde"] }
+reqwest = { version = "0.11", features = ["json"] } # For Supabase Auth/Functions
 dotenvy = "0.15"
 env_logger = "0.11"
 log = "0.4"

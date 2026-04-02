@@ -2,29 +2,32 @@ use actix_web::{HttpMessage, HttpRequest, web};
 use jsonwebtoken::{decode, encode, DecodingKey, EncodingKey, Header, Validation};
 use crate::models::Claims;
 
-pub const JWT_SECRET: &str = "sparc_energy_super_secret_jwt_key_2024_carbon_market";
+pub fn jwt_secret() -> String {
+    std::env::var("JWT_SECRET").expect("JWT_SECRET environment variable must be set in production")
+}
+
 pub const JWT_EXPIRY_HOURS: usize = 24 * 7; // 7 days
 
 pub fn generate_token(user_id: &str, email: &str, role: &str) -> Result<String, jsonwebtoken::errors::Error> {
-    let now = chrono::Utc::now().timestamp() as usize;
+    let now = chrono::Utc::now().timestamp();
     let claims = Claims {
         sub: user_id.to_string(),
         email: email.to_string(),
         role: role.to_string(),
         iat: now,
-        exp: now + (JWT_EXPIRY_HOURS * 3600),
+        exp: now + (JWT_EXPIRY_HOURS as i64 * 3600),
     };
     encode(
         &Header::default(),
         &claims,
-        &EncodingKey::from_secret(JWT_SECRET.as_bytes()),
+        &EncodingKey::from_secret(jwt_secret().as_bytes()),
     )
 }
 
 pub fn verify_token(token: &str) -> Result<Claims, jsonwebtoken::errors::Error> {
     let data = decode::<Claims>(
         token,
-        &DecodingKey::from_secret(JWT_SECRET.as_bytes()),
+        &DecodingKey::from_secret(jwt_secret().as_bytes()),
         &Validation::default(),
     )?;
     Ok(data.claims)

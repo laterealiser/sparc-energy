@@ -4,7 +4,8 @@ import bcrypt
 from datetime import datetime
 import random
 
-DATABASE_URL = "postgresql://neondb_owner:npg_V28glLuFXozr@ep-gentle-math-am7g1h2t-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require"
+# Supabase PostgreSQL (Standard Port 5432)
+DATABASE_URL = "postgresql://postgres:PROGRAMMER-CHANDU7%24c@db.loldpnnmjqttgvsxcgnr.supabase.co:5432/postgres"
 
 def seed():
     conn = None

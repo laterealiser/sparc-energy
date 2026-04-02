@@ -1,79 +1,51 @@
 use serde::{Deserialize, Serialize};
-use sqlx::FromRow;
 
-// ─── User Models ────────────────────────────────────────────────────────────
+// ─── User & KYC Models ───────────────────────────────────────────────────────
 
-#[derive(Debug, Serialize, Deserialize, FromRow, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, sqlx::FromRow)]
 pub struct User {
     pub id: String,
     pub email: String,
-    #[serde(skip_serializing)]
-    pub password_hash: String,
     pub name: String,
     pub role: String,
     pub balance: f64,
-    pub total_credits_owned: f64,
-    pub avatar_url: Option<String>,
-    pub kyc_verified: i64,
+    pub kyc_status: String,
+    pub two_factor_enabled: bool,
     pub created_at: String,
-    pub updated_at: String,
 }
 
-#[derive(Debug, Serialize, Deserialize, FromRow)]
+#[derive(Debug, Serialize, Deserialize, Clone, sqlx::FromRow)]
 pub struct UserPublic {
     pub id: String,
     pub email: String,
     pub name: String,
     pub role: String,
     pub balance: f64,
-    pub total_credits_owned: f64,
-    pub kyc_verified: i64,
-    pub created_at: String,
 }
 
 #[derive(Debug, Deserialize)]
-pub struct RegisterRequest {
-    pub name: String,
-    pub email: String,
-    pub password: String,
-    pub role: Option<String>,
+pub struct KYCRequest {
+    pub first_name: String,
+    pub last_name: String,
+    pub id_type: String,
+    pub id_number: String,
+    pub document_url: String, // Link to Supabase Storage
 }
 
-#[derive(Debug, Deserialize)]
-pub struct LoginRequest {
-    pub email: String,
-    pub password: String,
-}
+// ─── Project & Credit Registry ───────────────────────────────────────────────
 
-#[derive(Debug, Serialize)]
-pub struct AuthResponse {
-    pub token: String,
-    pub user: UserPublic,
-}
-
-// ─── Carbon Project Models ───────────────────────────────────────────────────
-
-#[derive(Debug, Serialize, Deserialize, FromRow, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, sqlx::FromRow)]
 pub struct CarbonProject {
     pub id: String,
+    pub owner_id: String,
     pub name: String,
     pub description: Option<String>,
     pub project_type: String,
-    pub location: String,
     pub country: String,
-    pub owner_id: String,
+    pub methodology_standard: String,
+    pub verification_status: String,
     pub total_credits: f64,
     pub credits_issued: f64,
-    pub credits_retired: f64,
-    pub verified: i64,
-    pub certification: Option<String>,
-    pub image_url: Option<String>,
-    pub sdg_goals: Option<String>,
-    pub co2_reduction_per_year: Option<f64>,
-    pub project_start_date: Option<String>,
-    pub project_end_date: Option<String>,
-    pub created_at: String,
-    pub updated_at: String,
 }
 
 #[derive(Debug, Deserialize)]
@@ -84,33 +56,36 @@ pub struct CreateProjectRequest {
     pub location: String,
     pub country: String,
     pub total_credits: f64,
-    pub certification: Option<String>,
-    pub sdg_goals: Option<String>,
-    pub co2_reduction_per_year: Option<f64>,
-    pub project_start_date: Option<String>,
+    pub certification: String,
+    pub sdg_goals: String,
+    pub co2_reduction_per_year: f64,
+    pub project_start_date: String,
 }
 
-// ─── Carbon Credit Models ────────────────────────────────────────────────────
-
-#[derive(Debug, Serialize, Deserialize, FromRow, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, sqlx::FromRow)]
 pub struct CarbonCredit {
     pub id: String,
     pub project_id: String,
     pub seller_id: String,
-    pub price_per_ton: f64,
+    pub vintage_year: i32,
     pub quantity_tons: f64,
     pub quantity_available: f64,
+    pub price_per_ton: f64,
+    pub serial_number_start: String,
+    pub serial_number_end: String,
     pub status: String,
-    pub vintage_year: i64,
-    pub certification: String,
-    pub serial_number: Option<String>,
-    pub co2_type: String,
-    pub methodology: Option<String>,
-    pub created_at: String,
-    pub updated_at: String,
 }
 
-#[derive(Debug, Serialize, Deserialize, FromRow)]
+#[derive(Debug, Deserialize)]
+pub struct CreateCreditRequest {
+    pub project_id: String,
+    pub vintage_year: i32,
+    pub quantity_tons: f64,
+    pub price_per_ton: f64,
+    pub certification: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, sqlx::FromRow)]
 pub struct CreditWithProject {
     pub id: String,
     pub project_id: String,
@@ -123,126 +98,82 @@ pub struct CreditWithProject {
     pub quantity_tons: f64,
     pub quantity_available: f64,
     pub status: String,
-    pub vintage_year: i64,
+    pub vintage_year: i32,
     pub certification: String,
-    pub serial_number: Option<String>,
-    pub methodology: Option<String>,
+    pub serial_number_start: String,
+    pub serial_number_end: String,
     pub created_at: String,
 }
 
-#[derive(Debug, Deserialize)]
-pub struct CreateCreditRequest {
-    pub project_id: String,
-    pub price_per_ton: f64,
-    pub quantity_tons: f64,
-    pub vintage_year: i64,
-    pub certification: String,
-    pub methodology: Option<String>,
-}
+// ─── Marketplace (Order Book) ────────────────────────────────────────────────
 
-#[derive(Debug, Deserialize)]
-pub struct BuyRequest {
-    pub credit_id: String,
-    pub quantity_tons: f64,
-}
-
-// ─── Transaction Models ──────────────────────────────────────────────────────
-
-#[derive(Debug, Serialize, Deserialize, FromRow)]
-pub struct Transaction {
-    pub id: String,
-    pub buyer_id: String,
-    pub seller_id: String,
-    pub credit_id: String,
-    pub project_id: String,
-    pub quantity_tons: f64,
-    pub price_per_ton: f64,
-    pub total_price: f64,
-    pub tx_hash: Option<String>,
-    pub certification: String,
-    pub vintage_year: i64,
-    pub status: String,
-    pub retired: i64,
-    pub created_at: String,
-}
-
-#[derive(Debug, Serialize, Deserialize, FromRow)]
-pub struct TransactionDetail {
-    pub id: String,
-    pub buyer_id: String,
-    pub buyer_name: String,
-    pub seller_id: String,
-    pub seller_name: String,
-    pub project_name: String,
-    pub project_type: String,
-    pub quantity_tons: f64,
-    pub price_per_ton: f64,
-    pub total_price: f64,
-    pub certification: String,
-    pub vintage_year: i64,
-    pub status: String,
-    pub retired: i64,
-    pub created_at: String,
-}
-
-// ─── Portfolio Models ────────────────────────────────────────────────────────
-
-#[derive(Debug, Serialize, Deserialize, FromRow)]
-pub struct PortfolioItem {
+#[derive(Debug, Serialize, Deserialize, Clone, sqlx::FromRow)]
+pub struct MarketOrder {
     pub id: String,
     pub user_id: String,
     pub credit_id: String,
-    pub project_id: String,
-    pub quantity_tons: f64,
-    pub average_buy_price: f64,
-    pub total_invested: f64,
-    pub retired_tons: f64,
-    pub created_at: String,
-    pub updated_at: String,
-}
-
-#[derive(Debug, Serialize, Deserialize, FromRow)]
-pub struct PortfolioWithDetails {
-    pub id: String,
-    pub credit_id: String,
-    pub project_name: String,
-    pub project_type: String,
-    pub country: String,
-    pub certification: String,
-    pub current_price: f64,
-    pub quantity_tons: f64,
-    pub average_buy_price: f64,
-    pub total_invested: f64,
-    pub current_value: f64,
-    pub pnl: f64,
-    pub retired_tons: f64,
-}
-
-// ─── Market Models ───────────────────────────────────────────────────────────
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct MarketStats {
-    pub total_credits_listed: f64,
-    pub total_volume_24h: f64,
-    pub total_transactions: i64,
-    pub avg_price: f64,
-    pub highest_price: f64,
-    pub lowest_price: f64,
-    pub total_co2_offset: f64,
-    pub total_projects: i64,
-    pub verified_projects: i64,
-}
-
-#[derive(Debug, Serialize, Deserialize, FromRow)]
-pub struct PriceHistory {
-    pub id: String,
-    pub credit_id: String,
+    pub order_type: String, // "bid" or "ask"
     pub price: f64,
-    pub volume: f64,
-    pub recorded_at: String,
+    pub quantity: f64,
+    pub filled_quantity: f64,
+    pub status: String, // "open", "filled", "cancelled"
 }
 
-// ─── API Response Models ─────────────────────────────────────────────────────
+#[derive(Debug, Deserialize)]
+pub struct PlaceOrderRequest {
+    pub credit_id: String,
+    pub order_type: String,
+    pub price: f64,
+    pub quantity: f64,
+}
+
+// ─── Trade & Settlement ──────────────────────────────────────────────────────
+
+#[derive(Debug, Serialize, Deserialize, Clone, sqlx::FromRow)]
+pub struct Trade {
+    pub id: String,
+    pub buyer_id: String,
+    pub seller_id: String,
+    pub quantity: f64,
+    pub price: f64,
+    pub total_value: f64,
+    pub tx_hash: String,
+    pub created_at: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, sqlx::FromRow)]
+pub struct RetirementRecord {
+    pub id: String,
+    pub user_id: String,
+    pub credit_id: String,
+    pub quantity: f64,
+    pub certificate_url: String,
+    pub serial_numbers: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct RetireRequest {
+    pub credit_id: String,
+    pub quantity_tons: f64,
+    pub retirement_reason: Option<String>,
+}
+
+// ─── Payments ────────────────────────────────────────────────────────────────
+
+#[derive(Debug, Deserialize)]
+pub struct RazorpayWebhook {
+    pub order_id: String,
+    pub payment_id: String,
+    pub signature: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct CryptoVerificationRequest {
+    pub tx_hash: String,
+    pub amount: f64,
+}
+
+// ─── API Response Wrappers ───────────────────────────────────────────────────
 
 #[derive(Debug, Serialize)]
 pub struct ApiResponse<T: Serialize> {
@@ -272,34 +203,11 @@ impl ErrorResponse {
     }
 }
 
-// ─── JWT Claims ──────────────────────────────────────────────────────────────
-
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Claims {
-    pub sub: String,  // user id
+    pub sub: String,
     pub email: String,
     pub role: String,
-    pub exp: usize,
-    pub iat: usize,
-}
-
-// ─── Query Params ────────────────────────────────────────────────────────────
-
-#[derive(Debug, Deserialize)]
-pub struct CreditFilter {
-    pub certification: Option<String>,
-    pub project_type: Option<String>,
-    pub min_price: Option<f64>,
-    pub max_price: Option<f64>,
-    pub vintage_year: Option<i64>,
-    pub country: Option<String>,
-    pub page: Option<i64>,
-    pub limit: Option<i64>,
-}
-
-#[derive(Debug, Deserialize)]
-pub struct RetireRequest {
-    pub credit_id: String,
-    pub quantity_tons: f64,
-    pub retirement_reason: Option<String>,
+    pub iat: i64,
+    pub exp: i64,
 }

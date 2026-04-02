@@ -3,8 +3,8 @@
 <div align="center">
   <img src="https://img.shields.io/badge/Rust-Backend-orange?logo=rust" />
   <img src="https://img.shields.io/badge/Frontend-GitHub%20Pages-blue?logo=github" />
-  <img src="https://img.shields.io/badge/Database-SQLite-green" />
-  <img src="https://img.shields.io/badge/Deploy-Shuttle.rs-purple" />
+  <img src="https://img.shields.io/badge/Database-PostgreSQL-blue?logo=postgresql" />
+  <img src="https://img.shields.io/badge/Deploy-Render.com-maroon?logo=render" />
   <img src="https://img.shields.io/badge/Standard-Verra%20VCS%20%7C%20Gold%20Standard-gold" />
 </div>
 
@@ -22,7 +22,7 @@ Trade verified carbon credits. Offset your CO₂. Go Net Zero.
 - 🔐 **JWT Authentication** — Secure login with role-based access
 - 🌍 **Project Registry** — Browse reforestation, solar, wind, blue carbon projects
 - ⚡ **Full Rust Backend** — Blazing fast Actix-Web API
-- 🗃️ **SQLite Database** — Zero-config embedded database
+- 🗃️ **PostgreSQL Database** — Robust & scalable relational database
 
 ## 🔗 Live URLs
 
@@ -58,49 +58,29 @@ Just open `frontend/index.html` in your browser. Or use Live Server in VS Code.
 
 ## 🌐 Deployment Guide
 
-### Frontend → GitHub Pages (FREE)
+### Frontend → Vercel (PRO)
 
-1. Create a new GitHub repository: `carbon-credit-market`
-2. Push your code:
-```bash
-git init
-git add .
-git commit -m "🚀 Initial Sparc Energy platform"
-git remote add origin https://github.com/YOUR_USERNAME/carbon-credit-market.git
-git push -u origin main
-```
-3. Go to **GitHub → Settings → Pages → Deploy from main branch**
-4. Your site will be live at: `https://sparcenergy.in/`
+1. Connect your GitHub repository to [Vercel](https://vercel.com/).
+2. Vercel will auto-detect the configuration from `vercel.json`.
+3. Set your custom domain `www.sparcenergy.in` in Vercel settings.
+4. Your site will be live at: `https://www.sparcenergy.in/`
 
-### Backend → Shuttle.rs (FREE, No Credit Card)
+### Backend → Render.com (PRO)
 
-```bash
-# Install Shuttle CLI
-cargo install cargo-shuttle
+1. Create a "Web Service" on [Render](https://render.com/).
+2. Select the `backend` directory as the root.
+3. Configure Environment Variables:
+   - `DATABASE_URL`: Your PostgreSQL connection string.
+   - `JWT_SECRET`: A secure random string for signing tokens.
+4. Render will build and deploy your Rust API automatically.
 
-# Login (creates free account)
-cargo shuttle login
+### Connect Frontend to Backend
 
-# Deploy
-cd backend
-cargo shuttle deploy
-
-# Your backend URL: https://sparc-energy.shuttleapp.rs
-```
-
-### Connect Frontend to Deployed Backend
-
-After getting your Shuttle URL, update `frontend/js/api.js`:
+Ensure `frontend/js/api.js` points to your Render URL:
 
 ```javascript
-// Change this line:
-const API_BASE = 'http://localhost:8080/api';
-
-// To your Shuttle URL:
-const API_BASE = 'https://sparc-energy.shuttleapp.rs/api';
+const API_BASE = 'https://sparc-energy.onrender.com/api';
 ```
-
-Then push to GitHub — GitHub Actions will auto-deploy!
 
 ---
 
@@ -179,14 +159,16 @@ Then push to GitHub — GitHub Actions will auto-deploy!
 |-------|-----------|
 | Language | Rust (100%) |
 | Backend | Actix-Web 4 |
-| Database | SQLite via SQLx |
+| Database | PostgreSQL via SQLx |
 | Authentication | JWT (jsonwebtoken) |
 | Passwords | bcrypt |
 | Frontend | HTML5 + CSS3 + Vanilla JS |
 | Charts | Chart.js |
-| Free Hosting (Backend) | Shuttle.rs |
-| Free Hosting (Frontend) | GitHub Pages |
-| CI/CD | GitHub Actions |
+| Free Hosting (Backend) | Render.com |
+| Storage (Assets) | Mega.nz |
+| Infrastructure | Supabase BaaS (Auth/Realtime) |
+| Free Hosting (Frontend) | Vercel |
+| CI/CD | Vercel + Render Auto-deploy |
 
 ---
 

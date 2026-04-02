@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Identity Verification (KYC) — Sparc Energy</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .kyc-step { display: none; opacity: 0; transition: opacity 0.4s; }
+    .kyc-step.active { display: block; opacity: 1; }
+    .step-indicator { display: flex; gap: 10px; margin-bottom: 30px; }
+    .indicator-item { height: 4px; flex: 1; background: var(--bg-secondary); border-radius: 2px; }
+    .indicator-item.active { background: var(--sparc-green); }
+    .doc-upload { border: 2px dashed var(--border-color); padding: 40px; border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s; }
+    .doc-upload:hover { border-color: var(--sparc-green); background: rgba(16,185,129,0.05); }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-text">Sparc Energy</span>
+    </a>
+  </div>
+</nav>
+
+<div class="container" style="max-width:650px;margin-top:120px;">
+  <div class="auth-card" style="padding:40px;">
+    <h1 style="font-size:24px;margin-bottom:8px;">Identity Verification</h1>
+    <p style="color:var(--text-secondary);font-size:14px;margin-bottom:24px;">Complete KYC to start trading on the professional exchange.</p>
+    
+    <div class="step-indicator" id="stepIndicator">
+      <div class="indicator-item active"></div>
+      <div class="indicator-item"></div>
+      <div class="indicator-item"></div>
+    </div>
+
+    <form id="kycForm">
+      <!-- Step 1: Basic Info -->
+      <div class="kyc-step active" id="step1">
+        <div class="form-group">
+          <label class="form-label">Full Legal Name</label>
+          <input type="text" class="form-input" id="kycName" placeholder="As per Govt ID" required />
+        </div>
+        <div class="form-group" style="margin-top:15px;">
+          <label class="form-label">Date of Birth</label>
+          <input type="date" class="form-input" id="kycDob" required />
+        </div>
+        <button type="button" class="btn btn-primary w-full btn-lg" style="margin-top:30px;" onclick="nextStep(2)">Continue →</button>
+      </div>
+
+      <!-- Step 2: Document Type -->
+      <div class="kyc-step" id="step2">
+        <label class="form-label">Select ID Type</label>
+        <select class="form-select" id="kycIdType" style="margin-bottom:20px;">
+          <option value="passport">🌍 International Passport</option>
+          <option value="aadhar">🇮🇳 Aadhaar Card (India)</option>
+          <option value="driving_license">🚗 Driving License</option>
+        </select>
+        
+        <div class="doc-upload" onclick="document.getElementById('kycFile').click()">
+          <div style="font-size:32px;">📄</div>
+          <div style="font-size:14px;font-weight:600;margin-top:10px;">Click to upload document photo</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">JPG, PNG or PDF (Max 5MB)</div>
+          <input type="file" id="kycFile" hidden onchange="handleFile(this)" />
+        </div>
+        <div id="fileName" style="font-size:12px;color:var(--sparc-green);margin-top:8px;text-align:center;"></div>
+        
+        <div style="display:flex;gap:10px;margin-top:30px;">
+          <button type="button" class="btn btn-secondary flex-1" onclick="nextStep(1)">Back</button>
+          <button type="button" class="btn btn-primary flex-1" onclick="nextStep(3)">Continue</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Review & Submit -->
+      <div class="kyc-step" id="step3">
+        <div style="background:var(--bg-secondary);padding:20px;border-radius:12px;margin-bottom:24px;">
+          <div style="font-size:12px;color:var(--text-muted);">Declarations</div>
+          <p style="font-size:13px;line-height:1.6;margin-top:8px;">
+            I hereby confirm that I am a legal resident and the documentation provided is authentic. 
+            I understand that Sparc Energy will verify my details with national registries.
+          </p>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:30px;">
+          <input type="checkbox" id="agreeKyc" required style="margin-top:4px;" />
+          <label for="agreeKyc" style="font-size:12px;color:var(--text-secondary);">I agree to the Terms of KYC verification and Privacy Policy.</label>
+        </div>
+        <button type="submit" class="btn btn-primary w-full btn-lg" id="submitKycBtn">Submit Verification →</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+  let currentStep = 1;
+
+  function nextStep(step) {
+    document.querySelectorAll('.kyc-step').forEach(el => el.classList.remove('active'));
+    document.getElementById(`step${step}`).classList.add('active');
+    
+    // Update Indicators
+    const indicators = document.querySelectorAll('.indicator-item');
+    indicators.forEach((ind, i) => {
+      ind.classList.toggle('active', i < step);
+    });
+    currentStep = step;
+  }
+
+  function handleFile(input) {
+    if (input.files && input.files[0]) {
+      document.getElementById('fileName').textContent = '✅ ' + input.files[0].name;
+    }
+  }
+
+  document.getElementById('kycForm').onsubmit = async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submitKycBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<div class="loading-spinner"></div> Submitting...';
+
+    try {
+      const file = document.getElementById('kycFile').files[0];
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      // 1. Upload to Supabase Storage
+      const docUrl = await uploadKYC(file, user.id);
+      
+      // 2. Sync to Oracle DB via Rust API
+      await api('/auth/kyc', {
+        method: 'POST',
+        body: JSON.stringify({
+          first_name: document.getElementById('kycName').value.split(' ')[0],
+          last_name: document.getElementById('kycName').value.split(' ')[1] || '',
+          id_type: document.getElementById('kycIdType').value,
+          id_number: 'PENDING_VERIFICATION',
+          document_url: docUrl
+        })
+      });
+
+      location.href = 'dashboard.html?kyc=success';
+    } catch(err) {
+      alert('Verification error: ' + err.message);
+      btn.disabled = false;
+      btn.textContent = 'Submit Verification →';
+    }
+  };
+</script>
+</body>
+</html>
