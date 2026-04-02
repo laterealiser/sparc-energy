@@ -10,6 +10,7 @@ pub async fn create_pool() -> DbPool {
     PgPoolOptions::new()
         .max_connections(10)
         .min_connections(2)
+        .acquire_timeout(std::time::Duration::from_secs(30))
         .connect(&database_url)
         .await
         .expect("Failed to connect to Supabase PostgreSQL.")

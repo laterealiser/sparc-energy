@@ -4,8 +4,8 @@ import bcrypt
 from datetime import datetime
 import random
 
-# Supabase PostgreSQL (Standard Port 5432)
-DATABASE_URL = "postgresql://postgres:PROGRAMMER-CHANDU7%24c@db.loldpnnmjqttgvsxcgnr.supabase.co:5432/postgres"
+# Supabase PostgreSQL (IPv4 Transaction Pooler for Render compatibility)
+DATABASE_URL = "postgresql://postgres:PROGRAMMER-CHANDU7%24c@aws-1-ap-south-1.pooler.supabase.com:6543/postgres?sslmode=require"
 
 def seed():
     conn = None
