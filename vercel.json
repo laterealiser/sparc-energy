@@ -1,9 +1,6 @@
 {
   "version": 2,
-  "name": "sparc-energy-frontend",
+  "name": "sparc-energy",
   "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/frontend/$1" }
-  ]
+  "trailingSlash": false
 }
