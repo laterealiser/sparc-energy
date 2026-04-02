@@ -6,12 +6,14 @@ use serde::{Deserialize, Serialize};
 pub struct User {
     pub id: String,
     pub email: String,
+    pub password_hash: String,
     pub name: String,
     pub role: String,
     pub balance: f64,
     pub kyc_status: String,
     pub two_factor_enabled: bool,
     pub created_at: String,
+    pub updated_at: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, sqlx::FromRow)]
@@ -30,6 +32,20 @@ pub struct KYCRequest {
     pub id_type: String,
     pub id_number: String,
     pub document_url: String, // Link to Supabase Storage
+}
+
+#[derive(Debug, Deserialize)]
+pub struct RegisterRequest {
+    pub name: String,
+    pub email: String,
+    pub password: String,
+    pub role: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct LoginRequest {
+    pub email: String,
+    pub password: String,
 }
 
 // ─── Project & Credit Registry ───────────────────────────────────────────────
