@@ -90,6 +90,20 @@ async fn main() -> std::io::Result<()> {
                     .route("", web::get().to(handlers::dashboard::get_dashboard))
                     .route("/retire", web::post().to(handlers::dashboard::retire_credits))
             )
+            // Project Registry
+            .service(
+                web::scope("/api/projects")
+                    .route("", web::get().to(handlers::projects::list_projects))
+                    .route("", web::post().to(handlers::projects::create_project))
+                    .route("/{id}", web::get().to(handlers::projects::get_project))
+            )
+            // Admin routes
+            .service(
+                web::scope("/api/admin")
+                    .route("/users", web::get().to(handlers::admin::list_users))
+                    .route("/projects/{id}/approve", web::post().to(handlers::admin::approve_project))
+                    .route("/stats", web::get().to(handlers::admin::admin_stats))
+            )
             // Payment Webhooks / Integration
             .service(
                 web::scope("/api/payments")
