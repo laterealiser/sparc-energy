@@ -1,0 +1,9 @@
+backend/
+backend_hot/
+.git/
+.github/
+supabase_config.md
+seed_production.py
+fix_build.ps1
+package-lock.json
+node_modules/
