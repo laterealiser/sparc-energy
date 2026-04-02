@@ -12,6 +12,9 @@ async fn main() -> std::io::Result<()> {
     dotenvy::dotenv().ok();
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
 
+    // DATABASE_URL is now REQUIRED for production security
+    let database_url = env::var("DATABASE_URL")
+        .expect("DATABASE_URL environment variable must be set in production");
 
     let host = env::var("HOST").unwrap_or_else(|_| "0.0.0.0".to_string());
     let port: u16 = env::var("PORT")
@@ -20,7 +23,7 @@ async fn main() -> std::io::Result<()> {
         .unwrap_or(8080);
 
     log::info!("⚡ Sparc Energy Carbon Market Platform starting...");
-    log::info!("📦 Connecting to database: {}", database_url);
+    log::info!("📦 Connecting to database...");
 
     let pool = db::create_pool(&database_url)
         .await
