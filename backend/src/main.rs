@@ -69,10 +69,11 @@ async fn main() -> std::io::Result<()> {
                     "version": "2.0.0-PRO"
                 }))
             }))
-            // Auth routes (Supabase Auth logic will be primarily in frontend, 
-            // but backend handles profile syncing)
+            // Auth routes
             .service(
                 web::scope("/api/auth")
+                    .route("/register", web::post().to(handlers::auth::register))
+                    .route("/login", web::post().to(handlers::auth::login))
                     .route("/me", web::get().to(handlers::auth::me))
                     .route("/kyc", web::post().to(handlers::auth::submit_kyc))
             )

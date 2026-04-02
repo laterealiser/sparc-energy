@@ -1,7 +1,7 @@
-use actix_web::{web, HttpRequest, HttpResponse};
-use crate::models::*;
-use crate::auth::require_auth;
 use crate::db::DbPool;
+use bcrypt::{hash, verify, DEFAULT_COST};
+use jsonwebtoken::{encode, Header, EncodingKey};
+use std::env;
 
 // 1. Get current user profile from PostgreSql (Supabase)
 pub async fn me(
@@ -76,5 +76,82 @@ pub async fn submit_kyc(
             log::error!("KYC error: {}", e);
             HttpResponse::InternalServerError().json(ErrorResponse::new("Failed to submit KYC"))
         }
+    }
+}
+// 3. User Registration
+pub async fn register(
+    pool: web::Data<DbPool>,
+    body: web::Json<RegisterRequest>,
+) -> HttpResponse {
+    let id = uuid::Uuid::new_v4().to_string();
+    let now = chrono::Utc::now().to_rfc3339();
+    
+    let hashed_password = match hash(&body.password, DEFAULT_COST) {
+        Ok(h) => h,
+        Err(_) => return HttpResponse::InternalServerError().json(ErrorResponse::new("Password hashing failed")),
+    };
+
+    let sql = "INSERT INTO users (id, email, password_hash, name, role, balance, kyc_status, created_at, updated_at) 
+               VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+    
+    let result = sqlx::query(sql)
+        .bind(&id).bind(&body.email).bind(&hashed_password)
+        .bind(&body.name).bind(&body.role).bind(10000.0).bind("pending")
+        .bind(&now).bind(&now)
+        .execute(pool.get_ref())
+        .await;
+
+    match result {
+        Ok(_) => {
+            let secret = env::var("JWT_SECRET").unwrap_or_else(|_| "secret".into());
+            let claims = Claims {
+                sub: id.clone(),
+                exp: (chrono::Utc::now() + chrono::Duration::hours(24)).timestamp() as usize,
+                role: body.role.clone(),
+            };
+            
+            let token = encode(&Header::default(), &claims, &EncodingKey::from_secret(secret.as_ref())).unwrap_or_default();
+            
+            HttpResponse::Ok().json(ApiResponse::ok(serde_json::json!({
+                "token": token,
+                "user": { "id": id, "name": body.name, "email": body.email, "role": body.role, "balance": 10000.0 }
+            })))
+        }
+        Err(_) => HttpResponse::BadRequest().json(ErrorResponse::new("User with this email already exists")),
+    }
+}
+
+// 4. User Login
+pub async fn login(
+    pool: web::Data<DbPool>,
+    body: web::Json<LoginRequest>,
+) -> HttpResponse {
+    let sql = "SELECT id, email, password_hash, name, role, balance FROM users WHERE email = $1";
+    let user = sqlx::query_as::<_, User>(sql)
+        .bind(&body.email)
+        .fetch_optional(pool.get_ref())
+        .await;
+
+    match user {
+        Ok(Some(u)) => {
+            if verify(&body.password, &u.password_hash).unwrap_or(false) {
+                let secret = env::var("JWT_SECRET").unwrap_or_else(|_| "secret".into());
+                let claims = Claims {
+                    sub: u.id.clone(),
+                    exp: (chrono::Utc::now() + chrono::Duration::hours(24)).timestamp() as usize,
+                    role: u.role.clone(),
+                };
+                
+                let token = encode(&Header::default(), &claims, &EncodingKey::from_secret(secret.as_ref())).unwrap_or_default();
+                
+                HttpResponse::Ok().json(ApiResponse::ok(serde_json::json!({
+                    "token": token,
+                    "user": u
+                })))
+            } else {
+                HttpResponse::Unauthorized().json(ErrorResponse::new("Invalid email or password"))
+            }
+        }
+        _ => HttpResponse::Unauthorized().json(ErrorResponse::new("Invalid email or password")),
     }
 }
