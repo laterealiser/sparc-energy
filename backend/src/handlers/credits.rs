@@ -1,12 +1,12 @@
 use actix_web::{web, HttpRequest, HttpResponse};
-use sqlx::SqlitePool;
+use sqlx::PgPool;
 use uuid::Uuid;
 use chrono::Utc;
 use crate::models::*;
 use crate::auth::require_auth;
 
 pub async fn list_credits(
-    pool: web::Data<SqlitePool>,
+    pool: web::Data<PgPool>,
     query: web::Query<CreditFilter>,
 ) -> HttpResponse {
     let page = query.page.unwrap_or(1).max(1);
@@ -54,7 +54,7 @@ pub async fn list_credits(
 }
 
 pub async fn get_credit(
-    pool: web::Data<SqlitePool>,
+    pool: web::Data<PgPool>,
     path: web::Path<String>,
 ) -> HttpResponse {
     let credit_id = path.into_inner();
@@ -66,7 +66,7 @@ pub async fn get_credit(
          FROM carbon_credits cc
          JOIN carbon_projects cp ON cc.project_id = cp.id
          JOIN users u ON cc.seller_id = u.id
-         WHERE cc.id = ?"
+         WHERE cc.id = $1"
     )
     .bind(&credit_id)
     .fetch_optional(pool.as_ref())
@@ -80,7 +80,7 @@ pub async fn get_credit(
 }
 
 pub async fn buy_credit(
-    pool: web::Data<SqlitePool>,
+    pool: web::Data<PgPool>,
     req: HttpRequest,
     body: web::Json<BuyRequest>,
 ) -> HttpResponse {
@@ -91,7 +91,7 @@ pub async fn buy_credit(
 
     // Get credit details
     let credit: Option<CarbonCredit> = sqlx::query_as(
-        "SELECT * FROM carbon_credits WHERE id = ? AND status = 'active'"
+        "SELECT * FROM carbon_credits WHERE id = $1 AND status = 'active'"
     )
     .bind(&body.credit_id)
     .fetch_optional(pool.as_ref())
@@ -120,7 +120,7 @@ pub async fn buy_credit(
     let total_cost = body.quantity_tons * credit.price_per_ton;
 
     // Check buyer balance
-    let buyer: Option<(f64,)> = sqlx::query_as("SELECT balance FROM users WHERE id = ?")
+    let buyer: Option<(f64,)> = sqlx::query_as("SELECT balance FROM users WHERE id = $1")
         .bind(&claims.sub)
         .fetch_optional(pool.as_ref())
         .await
@@ -148,12 +148,12 @@ pub async fn buy_credit(
     };
 
     // Deduct from buyer
-    let _ = sqlx::query("UPDATE users SET balance = balance - ?, updated_at = ? WHERE id = ?")
+    let _ = sqlx::query("UPDATE users SET balance = balance - $1, updated_at = $2 WHERE id = $3")
         .bind(total_cost).bind(&now).bind(&claims.sub)
         .execute(&mut *db_tx).await;
 
     // Add to seller
-    let _ = sqlx::query("UPDATE users SET balance = balance + ?, updated_at = ? WHERE id = ?")
+    let _ = sqlx::query("UPDATE users SET balance = balance + $1, updated_at = $2 WHERE id = $3")
         .bind(total_cost * 0.975).bind(&now).bind(&credit.seller_id) // 2.5% platform fee
         .execute(&mut *db_tx).await;
 
@@ -161,14 +161,14 @@ pub async fn buy_credit(
     let new_available = credit.quantity_available - body.quantity_tons;
     let new_status = if new_available <= 0.0 { "sold" } else { "active" };
     let _ = sqlx::query(
-        "UPDATE carbon_credits SET quantity_available = ?, status = ?, updated_at = ? WHERE id = ?"
+        "UPDATE carbon_credits SET quantity_available = $1, status = $2, updated_at = $3 WHERE id = $4"
     )
     .bind(new_available).bind(new_status).bind(&now).bind(&credit.id)
     .execute(&mut *db_tx).await;
 
     // Record transaction
     let _ = sqlx::query(
-        "INSERT INTO transactions (id, buyer_id, seller_id, credit_id, project_id, quantity_tons, price_per_ton, total_price, tx_hash, certification, vintage_year, status, retired, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO transactions (id, buyer_id, seller_id, credit_id, project_id, quantity_tons, price_per_ton, total_price, tx_hash, certification, vintage_year, status, retired, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)"
     )
     .bind(&tx_id).bind(&claims.sub).bind(&credit.seller_id)
     .bind(&credit.id).bind(&credit.project_id)
@@ -179,14 +179,14 @@ pub async fn buy_credit(
 
     // Update buyer's total credits
     let _ = sqlx::query(
-        "UPDATE users SET total_credits_owned = total_credits_owned + ?, updated_at = ? WHERE id = ?"
+        "UPDATE users SET total_credits_owned = total_credits_owned + $1, updated_at = $2 WHERE id = $3"
     )
     .bind(body.quantity_tons).bind(&now).bind(&claims.sub)
     .execute(&mut *db_tx).await;
 
     // Update portfolio
     let port_exists: Option<(String,)> = sqlx::query_as(
-        "SELECT id FROM portfolio WHERE user_id = ? AND credit_id = ?"
+        "SELECT id FROM portfolio WHERE user_id = $1 AND credit_id = $2"
     )
     .bind(&claims.sub).bind(&credit.id)
     .fetch_optional(&mut *db_tx).await
@@ -194,14 +194,14 @@ pub async fn buy_credit(
 
     if let Some((port_id,)) = port_exists {
         let _ = sqlx::query(
-            "UPDATE portfolio SET quantity_tons = quantity_tons + ?, total_invested = total_invested + ?, updated_at = ? WHERE id = ?"
+            "UPDATE portfolio SET quantity_tons = quantity_tons + $1, total_invested = total_invested + $2, updated_at = $3 WHERE id = $4"
         )
         .bind(body.quantity_tons).bind(total_cost).bind(&now).bind(&port_id)
         .execute(&mut *db_tx).await;
     } else {
         let new_port_id = Uuid::new_v4().to_string();
         let _ = sqlx::query(
-            "INSERT INTO portfolio (id, user_id, credit_id, project_id, quantity_tons, average_buy_price, total_invested, retired_tons, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            "INSERT INTO portfolio (id, user_id, credit_id, project_id, quantity_tons, average_buy_price, total_invested, retired_tons, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)"
         )
         .bind(&new_port_id).bind(&claims.sub).bind(&credit.id).bind(&credit.project_id)
         .bind(body.quantity_tons).bind(credit.price_per_ton).bind(total_cost).bind(0.0)
@@ -228,7 +228,7 @@ pub async fn buy_credit(
 }
 
 pub async fn list_new_credit(
-    pool: web::Data<SqlitePool>,
+    pool: web::Data<PgPool>,
     req: HttpRequest,
     body: web::Json<CreateCreditRequest>,
 ) -> HttpResponse {
@@ -239,7 +239,7 @@ pub async fn list_new_credit(
 
     // Verify project ownership
     let project: Option<(String,)> = sqlx::query_as(
-        "SELECT id FROM carbon_projects WHERE id = ? AND (owner_id = ? OR ? = 'admin')"
+        "SELECT id FROM carbon_projects WHERE id = $1 AND (owner_id = $2 OR $3 = 'admin')"
     )
     .bind(&body.project_id).bind(&claims.sub).bind(&claims.role)
     .fetch_optional(pool.as_ref())
@@ -256,7 +256,7 @@ pub async fn list_new_credit(
                          body.vintage_year, &id[..8].to_uppercase());
 
     let result = sqlx::query(
-        "INSERT INTO carbon_credits (id, project_id, seller_id, price_per_ton, quantity_tons, quantity_available, status, vintage_year, certification, serial_number, methodology, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO carbon_credits (id, project_id, seller_id, price_per_ton, quantity_tons, quantity_available, status, vintage_year, certification, serial_number, methodology, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)"
     )
     .bind(&id).bind(&body.project_id).bind(&claims.sub)
     .bind(body.price_per_ton).bind(body.quantity_tons).bind(body.quantity_tons)
@@ -278,12 +278,12 @@ pub async fn list_new_credit(
 }
 
 pub async fn get_price_history(
-    pool: web::Data<SqlitePool>,
+    pool: web::Data<PgPool>,
     path: web::Path<String>,
 ) -> HttpResponse {
     let credit_id = path.into_inner();
     let history: Vec<PriceHistory> = sqlx::query_as(
-        "SELECT * FROM price_history WHERE credit_id = ? ORDER BY recorded_at ASC LIMIT 90"
+        "SELECT * FROM price_history WHERE credit_id = $1 ORDER BY recorded_at ASC LIMIT 90"
     )
     .bind(&credit_id)
     .fetch_all(pool.as_ref())

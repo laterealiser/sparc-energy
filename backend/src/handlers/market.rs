@@ -1,8 +1,8 @@
 use actix_web::{web, HttpResponse};
-use sqlx::SqlitePool;
+use sqlx::PgPool;
 use crate::models::*;
 
-pub async fn get_market_stats(pool: web::Data<SqlitePool>) -> HttpResponse {
+pub async fn get_market_stats(pool: web::Data<PgPool>) -> HttpResponse {
     let total_credits: (f64,) = sqlx::query_as(
         "SELECT COALESCE(SUM(quantity_available), 0) FROM carbon_credits WHERE status = 'active'"
     )
@@ -51,7 +51,7 @@ pub async fn get_market_stats(pool: web::Data<SqlitePool>) -> HttpResponse {
     HttpResponse::Ok().json(ApiResponse::ok(stats))
 }
 
-pub async fn get_recent_trades(pool: web::Data<SqlitePool>) -> HttpResponse {
+pub async fn get_recent_trades(pool: web::Data<PgPool>) -> HttpResponse {
     let trades: Vec<TransactionDetail> = sqlx::query_as(
         "SELECT t.id, t.buyer_id, buyer.name as buyer_name, t.seller_id, seller.name as seller_name,
                 cp.name as project_name, cp.project_type,
@@ -70,7 +70,7 @@ pub async fn get_recent_trades(pool: web::Data<SqlitePool>) -> HttpResponse {
     HttpResponse::Ok().json(ApiResponse::ok(trades))
 }
 
-pub async fn get_leaderboard(pool: web::Data<SqlitePool>) -> HttpResponse {
+pub async fn get_leaderboard(pool: web::Data<PgPool>) -> HttpResponse {
     let leaders: Vec<serde_json::Value> = sqlx::query_as::<_, (String, String, f64, f64)>(
         "SELECT id, name, total_credits_owned, balance FROM users WHERE role != 'admin' ORDER BY total_credits_owned DESC LIMIT 20"
     )

@@ -1,5 +1,5 @@
 use actix_web::{web, HttpRequest, HttpResponse};
-use sqlx::SqlitePool;
+use sqlx::PgPool;
 use uuid::Uuid;
 use chrono::Utc;
 use bcrypt::{hash, verify, DEFAULT_COST};
@@ -7,7 +7,7 @@ use crate::models::*;
 use crate::auth::{generate_token, require_auth};
 
 pub async fn register(
-    pool: web::Data<SqlitePool>,
+    pool: web::Data<PgPool>,
     body: web::Json<RegisterRequest>,
 ) -> HttpResponse {
     // Validate input
@@ -19,7 +19,7 @@ pub async fn register(
 
     // Check if user exists
     let existing: Option<(String,)> = sqlx::query_as(
-        "SELECT id FROM users WHERE email = ?"
+        "SELECT id FROM users WHERE email = $1"
     )
     .bind(&body.email)
     .fetch_optional(pool.as_ref())
@@ -40,7 +40,7 @@ pub async fn register(
     let role = body.role.as_deref().unwrap_or("buyer").to_string();
 
     let result = sqlx::query(
-        "INSERT INTO users (id, email, password_hash, name, role, balance, kyc_verified, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO users (id, email, password_hash, name, role, balance, kyc_verified, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)"
     )
     .bind(&id).bind(&body.email).bind(&password_hash)
     .bind(&body.name).bind(&role).bind(10000.0).bind(0)
@@ -71,11 +71,11 @@ pub async fn register(
 }
 
 pub async fn login(
-    pool: web::Data<SqlitePool>,
+    pool: web::Data<PgPool>,
     body: web::Json<LoginRequest>,
 ) -> HttpResponse {
     let user: Option<User> = sqlx::query_as(
-        "SELECT * FROM users WHERE email = ?"
+        "SELECT * FROM users WHERE email = $1"
     )
     .bind(&body.email)
     .fetch_optional(pool.as_ref())
@@ -108,7 +108,7 @@ pub async fn login(
 }
 
 pub async fn me(
-    pool: web::Data<SqlitePool>,
+    pool: web::Data<PgPool>,
     req: HttpRequest,
 ) -> HttpResponse {
     let claims = match require_auth(&req) {
@@ -117,7 +117,7 @@ pub async fn me(
     };
 
     let user: Option<UserPublic> = sqlx::query_as(
-        "SELECT id, email, name, role, balance, total_credits_owned, kyc_verified, created_at FROM users WHERE id = ?"
+        "SELECT id, email, name, role, balance, total_credits_owned, kyc_verified, created_at FROM users WHERE id = $1"
     )
     .bind(&claims.sub)
     .fetch_optional(pool.as_ref())

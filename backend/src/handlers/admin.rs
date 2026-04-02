@@ -1,10 +1,10 @@
 use actix_web::{web, HttpRequest, HttpResponse};
-use sqlx::SqlitePool;
+use sqlx::PgPool;
 use crate::models::*;
 use crate::auth::require_auth;
 
 pub async fn list_users(
-    pool: web::Data<SqlitePool>,
+    pool: web::Data<PgPool>,
     req: HttpRequest,
 ) -> HttpResponse {
     let claims = match require_auth(&req) {
@@ -26,7 +26,7 @@ pub async fn list_users(
 }
 
 pub async fn approve_project(
-    pool: web::Data<SqlitePool>,
+    pool: web::Data<PgPool>,
     req: HttpRequest,
     path: web::Path<String>,
 ) -> HttpResponse {
@@ -41,7 +41,7 @@ pub async fn approve_project(
     let project_id = path.into_inner();
     let now = chrono::Utc::now().to_rfc3339();
     let result = sqlx::query(
-        "UPDATE carbon_projects SET verified = 1, updated_at = ? WHERE id = ?"
+        "UPDATE carbon_projects SET verified = 1, updated_at = $1 WHERE id = $2"
     )
     .bind(&now).bind(&project_id)
     .execute(pool.as_ref())
@@ -57,7 +57,7 @@ pub async fn approve_project(
 }
 
 pub async fn admin_stats(
-    pool: web::Data<SqlitePool>,
+    pool: web::Data<PgPool>,
     req: HttpRequest,
 ) -> HttpResponse {
     let claims = match require_auth(&req) {

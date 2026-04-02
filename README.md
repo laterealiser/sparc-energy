@@ -26,7 +26,7 @@ Trade verified carbon credits. Offset your CO₂. Go Net Zero.
 
 ## 🔗 Live URLs
 
-- **Frontend**: `https://YOUR_GITHUB_USERNAME.github.io/carbon-credit-market/`
+- **Frontend**: `https://sparcenergy.in/`
 - **Backend API**: `https://sparc-energy.shuttleapp.rs`
 
 ## 🚀 Quick Start (Local Development)
@@ -70,7 +70,7 @@ git remote add origin https://github.com/YOUR_USERNAME/carbon-credit-market.git
 git push -u origin main
 ```
 3. Go to **GitHub → Settings → Pages → Deploy from main branch**
-4. Your site: `https://YOUR_USERNAME.github.io/carbon-credit-market/`
+4. Your site will be live at: `https://sparcenergy.in/`
 
 ### Backend → Shuttle.rs (FREE, No Credit Card)
 

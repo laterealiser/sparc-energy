@@ -1,10 +1,10 @@
 use actix_web::{web, HttpRequest, HttpResponse};
-use sqlx::SqlitePool;
+use sqlx::PgPool;
 use crate::models::*;
 use crate::auth::require_auth;
 
 pub async fn get_dashboard(
-    pool: web::Data<SqlitePool>,
+    pool: web::Data<PgPool>,
     req: HttpRequest,
 ) -> HttpResponse {
     let claims = match require_auth(&req) {
@@ -14,7 +14,7 @@ pub async fn get_dashboard(
 
     // User info
     let user: Option<UserPublic> = sqlx::query_as(
-        "SELECT id, email, name, role, balance, total_credits_owned, kyc_verified, created_at FROM users WHERE id = ?"
+        "SELECT id, email, name, role, balance, total_credits_owned, kyc_verified, created_at FROM users WHERE id = $1"
     )
     .bind(&claims.sub)
     .fetch_optional(pool.as_ref())
@@ -32,7 +32,7 @@ pub async fn get_dashboard(
          FROM portfolio p
          JOIN carbon_credits cc ON p.credit_id = cc.id
          JOIN carbon_projects cp ON p.project_id = cp.id
-         WHERE p.user_id = ? AND p.quantity_tons > 0
+         WHERE p.user_id = $1 AND p.quantity_tons > 0
          ORDER BY p.updated_at DESC"
     )
     .bind(&claims.sub)
@@ -50,7 +50,7 @@ pub async fn get_dashboard(
          JOIN users buyer ON t.buyer_id = buyer.id
          JOIN users seller ON t.seller_id = seller.id
          JOIN carbon_projects cp ON t.project_id = cp.id
-         WHERE t.buyer_id = ? OR t.seller_id = ?
+         WHERE t.buyer_id = $1 OR t.seller_id = $2
          ORDER BY t.created_at DESC LIMIT 20"
     )
     .bind(&claims.sub).bind(&claims.sub)
@@ -81,7 +81,7 @@ pub async fn get_dashboard(
 }
 
 pub async fn retire_credits(
-    pool: web::Data<SqlitePool>,
+    pool: web::Data<PgPool>,
     req: HttpRequest,
     body: web::Json<RetireRequest>,
 ) -> HttpResponse {
@@ -93,7 +93,7 @@ pub async fn retire_credits(
     let now = chrono::Utc::now().to_rfc3339();
 
     let portfolio: Option<(String, f64)> = sqlx::query_as(
-        "SELECT id, quantity_tons FROM portfolio WHERE user_id = ? AND credit_id = ?"
+        "SELECT id, quantity_tons FROM portfolio WHERE user_id = $1 AND credit_id = $2"
     )
     .bind(&claims.sub).bind(&body.credit_id)
     .fetch_optional(pool.as_ref())
@@ -112,19 +112,19 @@ pub async fn retire_credits(
     }
 
     let _ = sqlx::query(
-        "UPDATE portfolio SET quantity_tons = quantity_tons - ?, retired_tons = retired_tons + ?, updated_at = ? WHERE id = ?"
+        "UPDATE portfolio SET quantity_tons = quantity_tons - $1, retired_tons = retired_tons + $2, updated_at = $3 WHERE id = $4"
     )
     .bind(body.quantity_tons).bind(body.quantity_tons).bind(&now).bind(&port_id)
     .execute(pool.as_ref()).await;
 
     let _ = sqlx::query(
-        "UPDATE users SET total_credits_owned = total_credits_owned - ?, updated_at = ? WHERE id = ?"
+        "UPDATE users SET total_credits_owned = total_credits_owned - $1, updated_at = $2 WHERE id = $3"
     )
     .bind(body.quantity_tons).bind(&now).bind(&claims.sub)
     .execute(pool.as_ref()).await;
 
     let _ = sqlx::query(
-        "UPDATE transactions SET retired = 1 WHERE buyer_id = ? AND credit_id = ?"
+        "UPDATE transactions SET retired = 1 WHERE buyer_id = $1 AND credit_id = $2"
     )
     .bind(&claims.sub).bind(&body.credit_id)
     .execute(pool.as_ref()).await;

@@ -1,11 +1,11 @@
 use actix_web::{web, HttpRequest, HttpResponse};
-use sqlx::SqlitePool;
+use sqlx::PgPool;
 use uuid::Uuid;
 use chrono::Utc;
 use crate::models::*;
 use crate::auth::require_auth;
 
-pub async fn list_projects(pool: web::Data<SqlitePool>) -> HttpResponse {
+pub async fn list_projects(pool: web::Data<PgPool>) -> HttpResponse {
     let projects: Vec<CarbonProject> = sqlx::query_as(
         "SELECT * FROM carbon_projects ORDER BY verified DESC, created_at DESC"
     )
@@ -17,12 +17,12 @@ pub async fn list_projects(pool: web::Data<SqlitePool>) -> HttpResponse {
 }
 
 pub async fn get_project(
-    pool: web::Data<SqlitePool>,
+    pool: web::Data<PgPool>,
     path: web::Path<String>,
 ) -> HttpResponse {
     let project_id = path.into_inner();
     let project: Option<CarbonProject> = sqlx::query_as(
-        "SELECT * FROM carbon_projects WHERE id = ?"
+        "SELECT * FROM carbon_projects WHERE id = $1"
     )
     .bind(&project_id)
     .fetch_optional(pool.as_ref())
@@ -40,7 +40,7 @@ pub async fn get_project(
                  FROM carbon_credits cc
                  JOIN carbon_projects cp ON cc.project_id = cp.id
                  JOIN users u ON cc.seller_id = u.id
-                 WHERE cc.project_id = ? AND cc.status = 'active'"
+                 WHERE cc.project_id = $1 AND cc.status = 'active'"
             )
             .bind(&project_id)
             .fetch_all(pool.as_ref())
@@ -57,7 +57,7 @@ pub async fn get_project(
 }
 
 pub async fn create_project(
-    pool: web::Data<SqlitePool>,
+    pool: web::Data<PgPool>,
     req: HttpRequest,
     body: web::Json<CreateProjectRequest>,
 ) -> HttpResponse {
@@ -70,7 +70,7 @@ pub async fn create_project(
     let now = Utc::now().to_rfc3339();
 
     let result = sqlx::query(
-        "INSERT INTO carbon_projects (id, name, description, project_type, location, country, owner_id, total_credits, credits_issued, verified, certification, sdg_goals, co2_reduction_per_year, project_start_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO carbon_projects (id, name, description, project_type, location, country, owner_id, total_credits, credits_issued, verified, certification, sdg_goals, co2_reduction_per_year, project_start_date, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)"
     )
     .bind(&id).bind(&body.name).bind(&body.description)
     .bind(&body.project_type).bind(&body.location).bind(&body.country)

@@ -1,29 +1,16 @@
-use sqlx::{SqlitePool, sqlite::SqlitePoolOptions};
-use std::fs;
+use sqlx::{PgPool, postgres::PgPoolOptions};
 use std::str::FromStr;
 
-pub async fn create_pool(database_url: &str) -> Result<SqlitePool, sqlx::Error> {
-    // Ensure the database file directory exists
-    if let Some(path) = database_url.strip_prefix("sqlite://") {
-        if let Some(parent) = std::path::Path::new(path).parent() {
-            if !parent.as_os_str().is_empty() {
-                fs::create_dir_all(parent).ok();
-            }
-        }
-    }
-
-    let options = sqlx::sqlite::SqliteConnectOptions::from_str(database_url)?
-        .create_if_missing(true);
-
-    let pool = SqlitePoolOptions::new()
+pub async fn create_pool(database_url: &str) -> Result<PgPool, sqlx::Error> {
+    let pool = PgPoolOptions::new()
         .max_connections(10)
-        .connect_with(options)
+        .connect(database_url)
         .await?;
 
     Ok(pool)
 }
 
-pub async fn run_migrations(pool: &SqlitePool) -> Result<(), sqlx::Error> {
+pub async fn run_migrations(pool: &PgPool) -> Result<(), sqlx::Error> {
     let schema = include_str!("../migrations/001_init.sql");
     
     // Execute each statement
@@ -38,7 +25,7 @@ pub async fn run_migrations(pool: &SqlitePool) -> Result<(), sqlx::Error> {
     Ok(())
 }
 
-pub async fn seed_data(pool: &SqlitePool) -> Result<(), sqlx::Error> {
+pub async fn seed_data(pool: &PgPool) -> Result<(), sqlx::Error> {
     use uuid::Uuid;
     use chrono::Utc;
     use bcrypt::{hash, DEFAULT_COST};
@@ -60,7 +47,7 @@ pub async fn seed_data(pool: &SqlitePool) -> Result<(), sqlx::Error> {
     let admin_id = Uuid::new_v4().to_string();
     let admin_hash = hash("Admin@123", DEFAULT_COST).unwrap();
     sqlx::query(
-        "INSERT INTO users (id, email, password_hash, name, role, balance, kyc_verified, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO users (id, email, password_hash, name, role, balance, kyc_verified, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)"
     )
     .bind(&admin_id).bind("admin@sparcenergy.com").bind(&admin_hash)
     .bind("Sparc Admin").bind("admin").bind(1000000.0).bind(1)
@@ -71,7 +58,7 @@ pub async fn seed_data(pool: &SqlitePool) -> Result<(), sqlx::Error> {
     let seller1_id = Uuid::new_v4().to_string();
     let seller_hash = hash("Seller@123", DEFAULT_COST).unwrap();
     sqlx::query(
-        "INSERT INTO users (id, email, password_hash, name, role, balance, kyc_verified, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO users (id, email, password_hash, name, role, balance, kyc_verified, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)"
     )
     .bind(&seller1_id).bind("greenforest@reforestation.com").bind(&seller_hash)
     .bind("Amazon Reforestation Ltd").bind("seller").bind(250000.0).bind(1)
@@ -80,7 +67,7 @@ pub async fn seed_data(pool: &SqlitePool) -> Result<(), sqlx::Error> {
 
     let seller2_id = Uuid::new_v4().to_string();
     sqlx::query(
-        "INSERT INTO users (id, email, password_hash, name, role, balance, kyc_verified, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO users (id, email, password_hash, name, role, balance, kyc_verified, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)"
     )
     .bind(&seller2_id).bind("solar@renewableindia.com").bind(&seller_hash)
     .bind("Renewable India Power").bind("seller").bind(180000.0).bind(1)
@@ -89,7 +76,7 @@ pub async fn seed_data(pool: &SqlitePool) -> Result<(), sqlx::Error> {
 
     let seller3_id = Uuid::new_v4().to_string();
     sqlx::query(
-        "INSERT INTO users (id, email, password_hash, name, role, balance, kyc_verified, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO users (id, email, password_hash, name, role, balance, kyc_verified, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)"
     )
     .bind(&seller3_id).bind("wind@nordicclean.com").bind(&seller_hash)
     .bind("Nordic Clean Energy").bind("seller").bind(320000.0).bind(1)
@@ -100,7 +87,7 @@ pub async fn seed_data(pool: &SqlitePool) -> Result<(), sqlx::Error> {
     let buyer_id = Uuid::new_v4().to_string();
     let buyer_hash = hash("Demo@123", DEFAULT_COST).unwrap();
     sqlx::query(
-        "INSERT INTO users (id, email, password_hash, name, role, balance, kyc_verified, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO users (id, email, password_hash, name, role, balance, kyc_verified, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)"
     )
     .bind(&buyer_id).bind("demo@sparcenergy.com").bind(&buyer_hash)
     .bind("Demo Investor").bind("buyer").bind(50000.0).bind(1)
@@ -110,7 +97,7 @@ pub async fn seed_data(pool: &SqlitePool) -> Result<(), sqlx::Error> {
     // Create projects
     let p1_id = Uuid::new_v4().to_string();
     sqlx::query(
-        "INSERT INTO carbon_projects (id, name, description, project_type, location, country, owner_id, total_credits, credits_issued, verified, certification, sdg_goals, co2_reduction_per_year, project_start_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO carbon_projects (id, name, description, project_type, location, country, owner_id, total_credits, credits_issued, verified, certification, sdg_goals, co2_reduction_per_year, project_start_date, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)"
     )
     .bind(&p1_id)
     .bind("Amazon Reforestation Initiative")
@@ -131,7 +118,7 @@ pub async fn seed_data(pool: &SqlitePool) -> Result<(), sqlx::Error> {
 
     let p2_id = Uuid::new_v4().to_string();
     sqlx::query(
-        "INSERT INTO carbon_projects (id, name, description, project_type, location, country, owner_id, total_credits, credits_issued, verified, certification, sdg_goals, co2_reduction_per_year, project_start_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO carbon_projects (id, name, description, project_type, location, country, owner_id, total_credits, credits_issued, verified, certification, sdg_goals, co2_reduction_per_year, project_start_date, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)"
     )
     .bind(&p2_id)
     .bind("Rajasthan Solar Farm")
@@ -152,7 +139,7 @@ pub async fn seed_data(pool: &SqlitePool) -> Result<(), sqlx::Error> {
 
     let p3_id = Uuid::new_v4().to_string();
     sqlx::query(
-        "INSERT INTO carbon_projects (id, name, description, project_type, location, country, owner_id, total_credits, credits_issued, verified, certification, sdg_goals, co2_reduction_per_year, project_start_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO carbon_projects (id, name, description, project_type, location, country, owner_id, total_credits, credits_issued, verified, certification, sdg_goals, co2_reduction_per_year, project_start_date, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)"
     )
     .bind(&p3_id)
     .bind("North Sea Wind Offshore")
@@ -173,7 +160,7 @@ pub async fn seed_data(pool: &SqlitePool) -> Result<(), sqlx::Error> {
 
     let p4_id = Uuid::new_v4().to_string();
     sqlx::query(
-        "INSERT INTO carbon_projects (id, name, description, project_type, location, country, owner_id, total_credits, credits_issued, verified, certification, sdg_goals, co2_reduction_per_year, project_start_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO carbon_projects (id, name, description, project_type, location, country, owner_id, total_credits, credits_issued, verified, certification, sdg_goals, co2_reduction_per_year, project_start_date, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)"
     )
     .bind(&p4_id)
     .bind("Gujarat Mangrove Conservation")
@@ -195,7 +182,7 @@ pub async fn seed_data(pool: &SqlitePool) -> Result<(), sqlx::Error> {
     // Create carbon credit listings
     let c1_id = Uuid::new_v4().to_string();
     sqlx::query(
-        "INSERT INTO carbon_credits (id, project_id, seller_id, price_per_ton, quantity_tons, quantity_available, status, vintage_year, certification, serial_number, methodology, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO carbon_credits (id, project_id, seller_id, price_per_ton, quantity_tons, quantity_available, status, vintage_year, certification, serial_number, methodology, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)"
     )
     .bind(&c1_id).bind(&p1_id).bind(&seller1_id)
     .bind(18.50).bind(50000.0).bind(50000.0)
@@ -206,7 +193,7 @@ pub async fn seed_data(pool: &SqlitePool) -> Result<(), sqlx::Error> {
 
     let c2_id = Uuid::new_v4().to_string();
     sqlx::query(
-        "INSERT INTO carbon_credits (id, project_id, seller_id, price_per_ton, quantity_tons, quantity_available, status, vintage_year, certification, serial_number, methodology, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO carbon_credits (id, project_id, seller_id, price_per_ton, quantity_tons, quantity_available, status, vintage_year, certification, serial_number, methodology, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)"
     )
     .bind(&c2_id).bind(&p2_id).bind(&seller2_id)
     .bind(22.75).bind(30000.0).bind(30000.0)
@@ -217,7 +204,7 @@ pub async fn seed_data(pool: &SqlitePool) -> Result<(), sqlx::Error> {
 
     let c3_id = Uuid::new_v4().to_string();
     sqlx::query(
-        "INSERT INTO carbon_credits (id, project_id, seller_id, price_per_ton, quantity_tons, quantity_available, status, vintage_year, certification, serial_number, methodology, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO carbon_credits (id, project_id, seller_id, price_per_ton, quantity_tons, quantity_available, status, vintage_year, certification, serial_number, methodology, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)"
     )
     .bind(&c3_id).bind(&p3_id).bind(&seller3_id)
     .bind(31.20).bind(25000.0).bind(25000.0)
@@ -228,7 +215,7 @@ pub async fn seed_data(pool: &SqlitePool) -> Result<(), sqlx::Error> {
 
     let c4_id = Uuid::new_v4().to_string();
     sqlx::query(
-        "INSERT INTO carbon_credits (id, project_id, seller_id, price_per_ton, quantity_tons, quantity_available, status, vintage_year, certification, serial_number, methodology, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO carbon_credits (id, project_id, seller_id, price_per_ton, quantity_tons, quantity_available, status, vintage_year, certification, serial_number, methodology, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)"
     )
     .bind(&c4_id).bind(&p4_id).bind(&seller2_id)
     .bind(14.80).bind(20000.0).bind(20000.0)
@@ -239,7 +226,7 @@ pub async fn seed_data(pool: &SqlitePool) -> Result<(), sqlx::Error> {
 
     let c5_id = Uuid::new_v4().to_string();
     sqlx::query(
-        "INSERT INTO carbon_credits (id, project_id, seller_id, price_per_ton, quantity_tons, quantity_available, status, vintage_year, certification, serial_number, methodology, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO carbon_credits (id, project_id, seller_id, price_per_ton, quantity_tons, quantity_available, status, vintage_year, certification, serial_number, methodology, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)"
     )
     .bind(&c5_id).bind(&p1_id).bind(&seller1_id)
     .bind(16.40).bind(40000.0).bind(40000.0)
@@ -268,7 +255,7 @@ pub async fn seed_data(pool: &SqlitePool) -> Result<(), sqlx::Error> {
             let hist_id = Uuid::new_v4().to_string();
             let volume: f64 = rng.gen_range(500.0..5000.0);
             sqlx::query(
-                "INSERT INTO price_history (id, credit_id, price, volume, recorded_at) VALUES (?, ?, ?, ?, ?)"
+                "INSERT INTO price_history (id, credit_id, price, volume, recorded_at) VALUES ($1, $2, $3, $4, $5)"
             )
             .bind(&hist_id).bind(credit_id).bind(price).bind(volume)
             .bind(ts.to_rfc3339())

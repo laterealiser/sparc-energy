@@ -1,7 +1,7 @@
-/target
-/target_fresh
-/backend_hot
-/build_output
+**/target/
+**/target_fresh/
+**/backend_hot/
+**/build_output/
 *.db
 *.db-journal
 *.log
