@@ -26,8 +26,8 @@ Trade verified carbon credits. Offset your CO₂. Go Net Zero.
 
 ## 🔗 Live URLs
 
-- **Frontend**: `https://sparcenergy.in/`
-- **Backend API**: `https://sparc-energy.shuttleapp.rs`
+- **Frontend**: https://sparcenergy.in/
+- **Backend API**: https://sparc-energy.onrender.com/api
 
 ## 🚀 Quick Start (Local Development)
 

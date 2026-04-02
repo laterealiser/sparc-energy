@@ -12,8 +12,6 @@ async fn main() -> std::io::Result<()> {
     dotenvy::dotenv().ok();
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
 
-    let database_url = env::var("DATABASE_URL")
-        .unwrap_or_else(|_| "sqlite://./sparc_energy.db".to_string());
 
     let host = env::var("HOST").unwrap_or_else(|_| "0.0.0.0".to_string());
     let port: u16 = env::var("PORT")
