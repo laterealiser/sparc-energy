@@ -7,18 +7,23 @@
   <meta name="description" content="Browse verified carbon projects on Sparc Energy — reforestation, solar, wind, blue carbon. Powered by Verra VCS and Gold Standard." />
   <link rel="stylesheet" href="css/styles.css" />
   <style>
-    .project-detail-modal .modal { max-width: 640px; }
-    .sdg-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .project-detail-modal .modal { max-width: 680px; }
+    .sdg-list { display: flex; flex-wrap: wrap; gap: 10px; }
     .sdg-item {
-      width: 48px; height: 48px; border-radius: 8px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-green);
+      width: 52px; height: 52px; border-radius: 12px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--glass-border);
       display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 700; color: var(--sparc-green);
+      font-size: 14px; font-weight: 800; color: var(--sparc-green);
       flex-direction: column; gap: 2px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    .project-tabs { margin-bottom: 32px; }
-    .type-filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+    .type-filter-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; align-items: center; }
+    .registry-hero {
+      background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 60px 0 40px;
+    }
   </style>
 </head>
 <body>
@@ -28,72 +33,73 @@
 <nav class="navbar">
   <a href="index.html" class="nav-logo">
     <div class="logo-icon">⚡</div>
-    <div><span class="logo-text">Sparc Energy</span><span class="logo-sub">CARBON MARKET</span></div>
+    <div>
+      <span class="logo-text">Sparc Energy</span>
+      <span class="logo-sub">REGISTRY PORTAL</span>
+    </div>
   </a>
   <div class="nav-links">
-    <a href="index.html" class="nav-link">🏠 Home</a>
-    <a href="marketplace.html" class="nav-link">📈 Marketplace</a>
+    <a href="index.html" class="nav-link">🏠 Overview</a>
+    <a href="marketplace.html" class="nav-link">📈 Exchange</a>
     <a href="projects.html" class="nav-link active">🌿 Projects</a>
-    <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+    <a href="dashboard.html" class="nav-link">📊 Portfolio</a>
   </div>
   <div class="nav-actions">
-    <div id="nav-auth-guest"><a href="auth.html" class="btn btn-secondary btn-sm">Login</a><a href="auth.html?mode=register" class="btn btn-primary btn-sm">Register</a></div>
-    <div id="nav-auth-user" class="hidden" style="display:flex;gap:10px;align-items:center;">
-      <span style="font-size:13px;color:var(--text-secondary)">Balance: <strong style="color:var(--sparc-green)" id="nav-balance">—</strong></span>
-      <a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a>
-      <button class="btn btn-ghost btn-sm" onclick="logout()">Logout</button>
+    <div id="nav-auth-user" style="display:flex;gap:12px;align-items:center;">
+      <span style="font-size:12px;color:var(--text-secondary);">WALLET: <strong style="color:var(--sparc-green);" id="nav-balance">$0.00</strong></span>
+      <button class="btn btn-secondary btn-sm" onclick="logout()">Sign Out</button>
     </div>
   </div>
 </nav>
 
 <!-- Page Header -->
-<div style="background:var(--bg-secondary);border-bottom:1px solid var(--border);">
-  <div class="container" style="padding-top:32px;padding-bottom:24px;">
-    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Carbon Projects</span></div>
+<div class="registry-hero">
+  <div class="container">
+    <div class="breadcrumb" style="margin-bottom:24px;"><a href="index.html">Exchange</a><span>/</span><span>Carbon Registry</span></div>
     <div style="display:flex;justify-content:space-between;align-items:flex-end;">
       <div>
-        <h1 class="page-title">🌍 Carbon Projects Registry</h1>
-        <p class="page-sub">Verified climate projects generating carbon credits · Powered by Verra VCS & Gold Standard</p>
+        <h1 class="page-title" style="font-size:42px; margin-bottom:8px;">Global Carbon Registry</h1>
+        <p class="page-sub" style="font-size:16px;">Verified climate assets generating high-integrity carbon credits.</p>
       </div>
-      <button class="btn btn-primary" onclick="openSubmitModal()">+ Submit Project</button>
+      <button class="btn btn-primary card-glow" style="padding:16px 32px; background:var(--sparc-green); color:#000;" onclick="openSubmitModal()">+ Submit Institutional Project</button>
     </div>
   </div>
 </div>
 
 <div class="container" style="padding-top:32px;padding-bottom:60px;">
   <!-- Stats Row -->
-  <div class="grid-4" style="margin-bottom:32px;">
-    <div class="stat-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-        <div class="stat-label">Total Projects</div>
-        <div class="stat-icon" style="background:rgba(0,212,161,0.1);">🌿</div>
+  <div class="grid-4" style="margin-bottom:48px; gap:20px;">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start; margin-bottom:12px;">
+        <div class="stat-label">TOTAL PROJECTS</div>
+        <div class="stat-icon" style="background:var(--sparc-green-glow); color:var(--sparc-green); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center;">🌿</div>
       </div>
-      <div class="stat-value" id="ps-total">—</div>
-      <div class="stat-change up" id="ps-verified">— Verified</div>
+      <div class="stat-value" id="ps-total" style="font-size:32px; font-weight:800;">—</div>
+      <div id="ps-verified" style="font-size:11px; color:var(--sparc-green); margin-top:4px;">💯% VCS/GS Verified</div>
     </div>
-    <div class="stat-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-        <div class="stat-label">CO₂ Reduction</div>
-        <div class="stat-icon" style="background:rgba(79,142,247,0.1);">🌡️</div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start; margin-bottom:12px;">
+        <div class="stat-label">CO₂ REDUCTION</div>
+        <div class="stat-icon" style="background:var(--sparc-blue-glow); color:var(--sparc-blue); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center;">🌡️</div>
       </div>
-      <div class="stat-value" id="ps-co2">220K</div>
-      <div style="font-size:12px;color:var(--text-secondary)">tons per year</div>
+      <div class="stat-value" id="ps-co2" style="font-size:32px; font-weight:800;">220K</div>
+      <div style="font-size:11px;color:var(--text-muted); margin-top:4px;">Tons/year offset</div>
     </div>
-    <div class="stat-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-        <div class="stat-label">Credits Issued</div>
-        <div class="stat-icon" style="background:rgba(245,197,24,0.1);">📜</div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start; margin-bottom:12px;">
+        <div class="stat-label">CREDITS ISSUED</div>
+        <div class="stat-icon" style="background:rgba(255,204,0,0.1); color:var(--sparc-gold); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center;">📜</div>
       </div>
-      <div class="stat-value" id="ps-issued">900K</div>
-      <div style="font-size:12px;color:var(--text-secondary)">tCO₂e total</div>
+      <div class="stat-value" id="ps-issued" style="font-size:32px; font-weight:800;">900K</div>
+      <div style="font-size:11px;color:var(--text-muted); margin-top:4px;">tCO₂e cumulative</div>
     </div>
-    <div class="stat-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-        <div class="stat-label">Countries</div>
-        <div class="stat-icon" style="background:rgba(167,139,250,0.1);">🌐</div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start; margin-bottom:12px;">
+        <div class="stat-label">GLOBAL REGIONS</div>
+        <div class="stat-icon" style="background:rgba(167,139,250,0.1); color:#a78bfa; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center;">🌐</div>
       </div>
-      <div class="stat-value">3</div>
-      <div style="font-size:12px;color:var(--text-secondary)">Brazil, India, Norway</div>
+      <div class="stat-value" style="font-size:32px; font-weight:800;">12</div>
+      <div style="font-size:11px;color:var(--text-muted); margin-top:4px;">Active Jurisdictions</div>
     </div>
   </div>
 
