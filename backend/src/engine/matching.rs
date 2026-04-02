@@ -17,10 +17,10 @@ pub async fn run_matching_engine(pool: DbPool) {
 
 async fn match_orders(pool: &DbPool) -> Result<(), Box<dyn std::error::Error>> {
     // 1. Get ALL open BIDS (Buy Orders) sorted by Price (Desc) and Time (Asc)
-    let bid_sql = "SELECT id, user_id, credit_id, price, quantity, filled_quantity 
+    let bid_sql = "SELECT id, user_id, credit_id, price_per_ton, quantity_tons, filled_quantity 
                    FROM market_orders 
-                   WHERE order_type = 'bid' AND status IN ('open', 'partially_filled') 
-                   ORDER BY price DESC, created_at ASC";
+                   WHERE order_type = 'bid' AND status IN ('open', 'partially_filled', 'pending') 
+                   ORDER BY price_per_ton DESC, created_at ASC";
     
     let bids = sqlx::query_as::<_, (String, String, String, f64, f64, f64)>(bid_sql)
         .fetch_all(pool)
@@ -31,14 +31,14 @@ async fn match_orders(pool: &DbPool) -> Result<(), Box<dyn std::error::Error>> {
         if bid_rem <= 0.0 { continue; }
 
         // 2. Find matching ASKS (Sell Orders) for the SAME Credit ID
-        let ask_sql = "SELECT id, user_id, price, quantity, filled_quantity 
+        let ask_sql = "SELECT id, user_id, price_per_ton, quantity_tons, filled_quantity 
                        FROM market_orders 
                        WHERE order_type = 'ask' AND credit_id = $1 
-                       AND status IN ('open', 'partially_filled') 
-                       AND price <= $2
-                       ORDER BY price ASC, created_at ASC";
+                       AND status IN ('open', 'partially_filled', 'pending') 
+                       AND price_per_ton <= $2
+                       ORDER BY price_per_ton ASC, created_at ASC";
 
-        let mut matched_asks = sqlx::query_as::<_, (String, String, f64, f64, f64)>(ask_sql)
+        let matched_asks = sqlx::query_as::<_, (String, String, f64, f64, f64)>(ask_sql)
             .bind(&credit_id)
             .bind(&bid_price)
             .fetch_all(pool)
@@ -56,26 +56,26 @@ async fn match_orders(pool: &DbPool) -> Result<(), Box<dyn std::error::Error>> {
             log::info!("🌱 Matching trade: {} for {:.2} tons @ ${:.2}", credit_id, trade_qty, ask_price);
 
             // 4. Update Database (Atomic Trade Settlement)
-            // Using a transaction for atomicity in Postgres
             let mut tx = pool.begin().await?;
 
             // Update Bid Order
             sqlx::query("UPDATE market_orders SET filled_quantity = filled_quantity + $1, 
-                         status = CASE WHEN filled_quantity + $1 >= quantity THEN 'filled' ELSE 'partially_filled' END 
+                         status = CASE WHEN filled_quantity + $1 >= quantity_tons THEN 'filled' ELSE 'partially_filled' END 
                          WHERE id = $2")
                 .bind(&trade_qty).bind(&bid_id).execute(&mut *tx).await?;
 
             // Update Ask Order
             sqlx::query("UPDATE market_orders SET filled_quantity = filled_quantity + $1, 
-                         status = CASE WHEN filled_quantity + $1 >= quantity THEN 'filled' ELSE 'partially_filled' END 
+                         status = CASE WHEN filled_quantity + $1 >= quantity_tons THEN 'filled' ELSE 'partially_filled' END 
                          WHERE id = $2")
                 .bind(&trade_qty).bind(&ask_id).execute(&mut *tx).await?;
 
             // Record the trade
-            sqlx::query("INSERT INTO trades (id, buyer_id, seller_id, credit_id, bid_order_id, ask_order_id, quantity, price, total_value, platform_fee, status)
-                         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 'completed')")
+            sqlx::query("INSERT INTO trades (id, buyer_id, seller_id, credit_id, bid_order_id, ask_order_id, quantity, price, total_value, platform_fee, status, created_at)
+                         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 'completed', $11)")
                 .bind(&trade_id).bind(&buyer_id).bind(&seller_id).bind(&credit_id).bind(&bid_id).bind(&ask_id)
                 .bind(&trade_qty).bind(&ask_price).bind(&(trade_qty * ask_price)).bind(&(trade_qty * ask_price * fee_rate))
+                .bind(Utc::now().to_rfc3339())
                 .execute(&mut *tx).await?;
 
             // Update user balances

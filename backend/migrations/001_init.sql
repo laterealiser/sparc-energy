@@ -59,11 +59,27 @@ CREATE TABLE IF NOT EXISTS market_orders (
     credit_id TEXT NOT NULL REFERENCES carbon_credits(id),
     order_type TEXT NOT NULL,
     quantity_tons DOUBLE PRECISION NOT NULL,
+    filled_quantity DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     price_per_ton DOUBLE PRECISION NOT NULL,
     total_amount DOUBLE PRECISION NOT NULL,
     status TEXT NOT NULL DEFAULT 'pending',
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS trades (
+    id TEXT PRIMARY KEY,
+    buyer_id TEXT NOT NULL REFERENCES users(id),
+    seller_id TEXT NOT NULL REFERENCES users(id),
+    credit_id TEXT NOT NULL REFERENCES carbon_credits(id),
+    bid_order_id TEXT NOT NULL REFERENCES market_orders(id),
+    ask_order_id TEXT NOT NULL REFERENCES market_orders(id),
+    quantity DOUBLE PRECISION NOT NULL,
+    price DOUBLE PRECISION NOT NULL,
+    total_value DOUBLE PRECISION NOT NULL,
+    platform_fee DOUBLE PRECISION NOT NULL,
+    status TEXT NOT NULL DEFAULT 'completed',
+    created_at TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS transactions (
