@@ -1,9 +1,13 @@
+# Ignore the backend entirely to prevent Vercel's Rust builder from crashing
 backend/
 backend_hot/
 scripts/
 seed_production.py
 .github/
 .gitignore
-README.md
 *.md
 *.ps1
+node_modules/
+dist/
+.vercel/
+*.log
