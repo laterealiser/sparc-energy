@@ -5,7 +5,9 @@
 // 1. Initialize Supabase Client (BaaS)
 const SUPABASE_URL = 'https://loldpnnmjqttgvsxcgnr.supabase.co'; 
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxvbGRwbm5tanF0dGd2c3hjZ25yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMzEzODYsImV4cCI6MjA5MDcwNzM4Nn0.Jy12HHwMsWgrFA-TKdJ8WcWOMZYB97G9-SSJGdvwT3w'; 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Use global supabase object from CDN
+const sp = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // 2. Custom Rust API Base (Supabase-ready Matching Engine)
 const API_BASE = 'https://sparc-energy.onrender.com/api'; // Render Deployment URL

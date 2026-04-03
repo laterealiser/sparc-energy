@@ -13,27 +13,21 @@ def seed():
         conn = psycopg2.connect(DATABASE_URL)
         cur = conn.cursor()
         
-        # Check if already seeded (by projects)
-        cur.execute("SELECT COUNT(*) FROM carbon_projects")
+        # Check if already seeded (by users)
+        cur.execute("SELECT COUNT(*) FROM users")
         count = cur.fetchone()[0]
         
-        if count > 0:
-            print("Database already has projects, skipping...")
-            # We still want to make sure users exist for testing
-        else:
-            print("Seeding database with sample projects and credits...")
-
         now = datetime.now().isoformat()
         
         def hash_pw(pw):
             return bcrypt.hashpw(pw.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
-        # 1. Create Users (with ON CONFLICT)
+        # 1. Create Users
         users = [
             ("admin@sparcenergy.com", "Admin@123", "Sparc Admin", "admin", 1000000.0),
+            ("pdd@certified.com", "Expert@123", "Arjun Malhotra", "pdd_writer", 0.0),
+            ("auditor@verra.org", "Expert@123", "Sarah Chen", "auditor", 0.0),
             ("greenforest@reforestation.com", "Seller@123", "Amazon Reforestation Ltd", "seller", 250000.0),
-            ("solar@renewableindia.com", "Seller@123", "Renewable India Power", "seller", 180000.0),
-            ("wind@nordicclean.com", "Seller@123", "Nordic Clean Energy", "seller", 320000.0),
             ("demo@sparcenergy.com", "Demo@123", "Demo Investor", "buyer", 50000.0)
         ]
         
@@ -47,13 +41,26 @@ def seed():
             cur.execute("SELECT id FROM users WHERE email=%s", (email,))
             user_ids[email] = cur.fetchone()[0]
 
-        if count == 0:
-            # 2. Create Projects
+        # 1b. Create Professional Profiles
+        pros = [
+            (user_ids["pdd@certified.com"], "Senior PDD Writer", "10+ years in VCS/GS methodology."),
+            (user_ids["auditor@verra.org"], "VCS Certified Auditor", "Lead auditor for renewable energy.")
+        ]
+        for uid, title, bio in pros:
+            cur.execute(
+                "INSERT INTO professional_profiles (user_id, title, bio, verified, created_at, updated_at) VALUES (%s, %s, %s, 1, %s, %s) ON CONFLICT (user_id) DO NOTHING",
+                (uid, title, bio, now, now)
+            )
+
+        # 2. Create Projects (If none exist)
+        cur.execute("SELECT COUNT(*) FROM carbon_projects")
+        proj_count = cur.fetchone()[0]
+        
+        if proj_count == 0:
+            print("Seeding initial projects and institutional matching stack...")
             projects = [
                 (str(uuid.uuid4()), "Amazon Reforestation Initiative", "reforestation", "Brazil", "greenforest@reforestation.com", 500000.0, 350000.0, "Verra VCS", "13,15,17", 85000.0, "2020-01-01"),
-                (str(uuid.uuid4()), "Rajasthan Solar Farm", "solar", "India", "solar@renewableindia.com", 200000.0, 180000.0, "Gold Standard", "7,9,13", 42000.0, "2021-06-01"),
-                (str(uuid.uuid4()), "North Sea Wind Offshore", "wind", "Norway", "wind@nordicclean.com", 300000.0, 280000.0, "Gold Standard", "7,8,13", 65000.0, "2019-03-01"),
-                (str(uuid.uuid4()), "Gujarat Mangrove Conservation", "blue_carbon", "India", "solar@renewableindia.com", 150000.0, 90000.0, "Verra VCS", "14,15,13", 28000.0, "2022-01-01")
+                (str(uuid.uuid4()), "Rajasthan Solar Farm", "solar", "India", "greenforest@reforestation.com", 200000.0, 180000.0, "Gold Standard", "7,9,13", 42000.0, "2021-06-01")
             ]
             
             project_ids = []
@@ -65,36 +72,23 @@ def seed():
                 )
                 project_ids.append((pid, owner_id, cert, name, country, ptype))
 
-            # 3. Create Credits
+            # 3. Create Credits (INR Prices!)
             credits = [
-                (str(uuid.uuid4()), project_ids[0][0], project_ids[0][1], 18.50, 50000.0, 2023, project_ids[0][2], "VCS-BRA-2023-001"),
-                (str(uuid.uuid4()), project_ids[1][0], project_ids[1][1], 22.75, 30000.0, 2024, project_ids[1][2], "GS-IND-2024-001"),
-                (str(uuid.uuid4()), project_ids[2][0], project_ids[2][1], 31.20, 25000.0, 2024, project_ids[2][2], "GS-NOR-2024-001"),
-                (str(uuid.uuid4()), project_ids[3][0], project_ids[3][1], 14.80, 20000.0, 2023, project_ids[3][2], "VCS-IND-2023-002"),
-                (str(uuid.uuid4()), project_ids[0][0], project_ids[0][1], 16.40, 40000.0, 2022, project_ids[0][2], "VCS-BRA-2022-001")
+                (str(uuid.uuid4()), project_ids[0][0], project_ids[0][1], 1550.0, 50000.0, 2023, project_ids[0][2], "VCS-BRA-2023-001"),
+                (str(uuid.uuid4()), project_ids[1][0], project_ids[1][1], 1840.0, 30000.0, 2024, project_ids[1][2], "GS-IND-2024-001")
             ]
             
             for cid, pid, sid, price, qty, year, cert, serial in credits:
                 cur.execute(
-                    "INSERT INTO carbon_credits (id, project_id, seller_id, price_per_ton, quantity_tons, quantity_available, status, vintage_year, certification, serial_number, methodology, created_at, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                    (cid, pid, sid, price, qty, qty, "active", year, cert, serial, "VM0007", now, now)
+                    "INSERT INTO carbon_credits (id, project_id, seller_id, price_per_ton, quantity_tons, quantity_available, status, vintage_year, certification, serial_number, created_at, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                    (cid, pid, sid, price, qty, qty, "active", year, cert, serial, now, now)
                 )
-                
-                # Price history
-                for i in range(30):
-                    hp = round(price * (0.85 + random.random() * 0.3), 2)
-                    hv = float(random.randint(100, 2000))
-                    hid = str(uuid.uuid4())
-                    cur.execute(
-                        "INSERT INTO price_history (id, credit_id, price, volume, recorded_at) VALUES (%s, %s, %s, %s, %s)",
-                        (hid, cid, hp, hv, now)
-                    )
 
             conn.commit()
-            print("✅ Database seeded successfully with production data!")
+            print("✅ Database seeded with Production Institutional data!")
         else:
             conn.commit()
-            print("✅ Database users verified, projects already exist.")
+            print("✅ Users and Professional Profiles verified.")
 
     except Exception as e:
         print(f"❌ Error during seeding: {e}")
