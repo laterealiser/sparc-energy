@@ -27,10 +27,19 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare Static Site
+        # Create a clean _site folder with only frontend assets
+        run: |
+          mkdir _site
+          cp *.html _site/
+          cp -r css/ _site/
+          cp -r js/ _site/
+
       - name: Upload frontend artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './'
+          # Only upload the isolated frontend folder
+          path: './_site/'
 
       - name: Deploy to GitHub Pages
         id: deployment
