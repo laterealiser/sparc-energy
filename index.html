@@ -256,15 +256,15 @@
         <div class="impact-label">🌿 CREDITS LISTED</div>
       </div>
       <div class="card impact-cell">
-        <div class="impact-value" id="imp-co2">24.8K</div>
+        <div class="impact-value" id="imp-co2">0</div>
         <div class="impact-label">🌍 TONS OFFSET</div>
       </div>
       <div class="card impact-cell">
-        <div class="impact-value" id="imp-projects">4</div>
+        <div class="impact-value" id="imp-projects">0</div>
         <div class="impact-label">✅ VERIFIED PROJECTS</div>
       </div>
       <div class="card impact-cell">
-        <div class="impact-value" id="imp-volume">₹2.8Cr</div>
+        <div class="impact-value" id="imp-volume">₹0.00</div>
         <div class="impact-label">💰 NET LIQUIDITY</div>
       </div>
     </div>
@@ -699,6 +699,11 @@ function switchPeriod(btn, period) {
           document.getElementById('imp-credits').textContent = s.total_credits.toLocaleString();
           document.getElementById('hs-volume').textContent = '₹' + (s.total_volume / 10000000).toFixed(1) + 'Cr';
           document.getElementById('hs-price').textContent = '₹' + s.avg_price.toLocaleString();
+          
+          // Additional Impact Stats
+          if (document.getElementById('imp-co2')) document.getElementById('imp-co2').textContent = (s.total_credits * 0.8).toLocaleString(); // Approx conversion
+          if (document.getElementById('imp-projects')) document.getElementById('imp-projects').textContent = s.total_projects || '0';
+          if (document.getElementById('imp-volume')) document.getElementById('imp-volume').textContent = '₹' + (s.total_volume / 10000000).toFixed(1) + 'Cr';
         }
       } catch (e) {
         console.error('Failed to load market stats', e);
