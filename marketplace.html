@@ -66,21 +66,31 @@
 <body>
 <nav class="navbar" style="position:static;">
   <a href="index.html" class="nav-logo">
-    <div class="logo-icon">⚡</div>
+    <div class="logo-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    </div>
     <div>
       <span class="logo-text">Sparc Energy</span>
-      <span class="logo-sub">CARBON TERMINAL</span>
+      <span class="logo-sub">CARBON MARKET</span>
     </div>
   </a>
   <div class="nav-links">
-    <a href="index.html" class="nav-link">🏠 Overview</a>
-    <a href="marketplace.html" class="nav-link active">📈 Exchange</a>
-    <a href="projects.html" class="nav-link">🌿 Projects</a>
-    <a href="dashboard.html" class="nav-link">📊 Portfolio</a>
+    <a href="index.html" class="nav-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Overview
+    </a>
+    <a href="marketplace.html" class="nav-link active">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Exchange
+    </a>
+    <a href="projects.html" class="nav-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 8"/><path d="M11 20a7 7 0 0 1-6-12.1"/><path d="M11 20v-5a7 7 0 0 1-6-6"/><path d="M11 20V9"/></svg> Projects
+    </a>
+    <a href="dashboard.html" class="nav-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg> Portfolio
+    </a>
   </div>
   <div class="nav-actions">
     <div id="nav-auth-user" style="display:flex;gap:12px;align-items:center;">
-      <span style="font-size:12px;color:var(--text-secondary);">WALLET: <strong style="color:var(--sparc-green);" id="nav-balance">$0.00</strong></span>
+      <span style="font-size:12px;color:var(--text-secondary);">WALLET: <strong style="color:var(--sparc-green);" id="nav-balance">₹0.00</strong></span>
       <button class="btn btn-secondary btn-sm" onclick="logout()">Sign Out</button>
     </div>
   </div>
@@ -88,24 +98,24 @@
 
 <div class="market-overview-bar">
   <div class="market-overview-item">
-    <span class="market-overview-name">🌍 GLOBAL AVG (VCS)</span>
-    <span class="market-overview-price">$18.42</span>
-    <span class="market-overview-change moc-up">+2.4% ▲</span>
+    <span class="market-overview-name">🌍 GLOBAL AVG</span>
+    <span class="market-overview-price" id="mo-global">₹0.00</span>
+    <span class="market-overview-change moc-up">0.0% ▲</span>
   </div>
   <div class="market-overview-item">
-    <span class="market-overview-name">🇮🇳 INDIA SOLAR (GS)</span>
-    <span class="market-overview-price">$22.75</span>
-    <span class="market-overview-change moc-up">+1.8% ▲</span>
+    <span class="market-overview-name">🌿 VERRA VCS</span>
+    <span class="market-overview-price" id="mo-verra">₹0.00</span>
+    <span class="market-overview-change moc-up">0.0% ▲</span>
   </div>
   <div class="market-overview-item">
-    <span class="market-overview-name">🇧🇷 AMAZON REDD+</span>
-    <span class="market-overview-price">$14.20</span>
-    <span class="market-overview-change moc-down">-0.5% ▼</span>
+    <span class="market-overview-name">🥇 GOLD STANDARD</span>
+    <span class="market-overview-price" id="mo-gold">₹0.00</span>
+    <span class="market-overview-change moc-down">0.0% ▼</span>
   </div>
   <div class="market-overview-item">
-    <span class="market-overview-name">🔥 METHANE CAPTURE</span>
-    <span class="market-overview-price">$12.80</span>
-    <span class="market-overview-change moc-up">+5.2% ▲</span>
+    <span class="market-overview-name">📜 REGISTRY VOL</span>
+    <span class="market-overview-price" id="mo-vol">0</span>
+    <span class="market-overview-change moc-up">LIVE 📡</span>
   </div>
 </div>
 
@@ -119,14 +129,14 @@
         <span style="color:var(--sparc-green); font-size:10px;">LIVE 📡</span>
       </div>
       <div style="padding:10px 16px;font-size:10px;color:var(--text-muted);display:grid;grid-template-columns:1fr 1fr 1fr; border-bottom: 1px solid var(--glass-border);">
-        <span>PRICE ($)</span><span>QTY (t)</span><span class="text-right">TOTAL</span>
+        <span>PRICE (₹)</span><span>QTY (t)</span><span class="text-right">TOTAL</span>
       </div>
       <div id="asks" style="display:flex;flex-direction:column-reverse;gap:1px; padding: 4px 0;">
         <!-- Sellers (Asks) -->
       </div>
       <div class="terminal-active-price">
-        <span style="font-size:24px;font-weight:800;color:var(--sparc-green);" id="lastPrice">$18.50</span>
-        <span style="font-size:13px;color:var(--sparc-green);font-weight:600;">▲ 3.2%</span>
+        <span style="font-size:24px;font-weight:800;color:var(--sparc-green);" id="lastPrice">₹0.00</span>
+        <span style="font-size:13px;color:var(--sparc-green);font-weight:600;" id="priceChange">0.0%</span>
       </div>
       <div id="bids" style="display:flex;flex-direction:column;gap:1px; padding: 4px 0;">
         <!-- Buyers (Bids) -->
@@ -156,14 +166,14 @@
       <div style="height:280px; background:var(--bg-secondary); border-top: 1px solid var(--glass-border); padding:24px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
            <h2 style="font-size:15px; font-weight:700;">EXECUTION PANEL</h2>
-           <div style="font-size:12px; color:var(--text-muted);">Available: <strong style="color:var(--text-primary);" id="userBalance">$0.00</strong></div>
+           <div style="font-size:12px; color:var(--text-muted);">Available: <strong style="color:var(--text-primary);" id="userBalance">₹0.00</strong></div>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
           <div class="form-group">
-            <label class="form-label">BID PRICE ($)</label>
+            <label class="form-label">PRICE PER UNIT (₹)</label>
             <div class="input-group">
-              <input type="number" class="form-input" id="orderPrice" value="18.50" />
-              <span class="input-suffix">USD</span>
+              <input type="number" class="form-input" id="orderPrice" placeholder="0.00" />
+              <span class="input-suffix">INR</span>
             </div>
           </div>
           <div class="form-group">
@@ -175,8 +185,9 @@
           </div>
         </div>
         <div style="display:flex;gap:16px;margin-top:24px;">
-          <button class="btn btn-primary w-full" style="padding: 16px; background: var(--sparc-green);" onclick="placeOrder('bid')">BUY LONG</button>
-          <button class="btn btn-primary w-full" style="padding: 16px; background: var(--sparc-red);" onclick="placeOrder('ask')">SELL SHORT</button>
+          <button class="btn btn-primary w-full" style="padding: 16px; background: var(--sparc-green);" onclick="placeOrder('buy')">BUY (PURCHASE)</button>
+          <button class="btn btn-primary w-full" style="padding: 16px; background: var(--sparc-blue);" onclick="placeOrder('retire')">RETIRE (OFFSET)</button>
+          <button class="btn btn-primary w-full" style="padding: 16px; background: var(--sparc-red);" onclick="placeOrder('sell')">SELL (LIST)</button>
         </div>
       </div>
     </main>
@@ -197,53 +208,51 @@
 
 <script src="js/api.js"></script>
 <script>
-  // Initialize Chart
-  const ctx = document.getElementById('marketChart').getContext('2d');
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ['10am','11am','12pm','1pm','2pm','3pm','4pm','5pm'],
-      datasets: [{
-        label: 'VCS Carbon Credits',
-        data: [22, 23.5, 23.2, 24.1, 23.8, 24.5, 24.8, 24.5],
-        borderColor: '#10b981',
-        tension: 0.4,
-        fill: true,
-        backgroundColor: 'rgba(16,185,129,0.1)'
-      }]
-    },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-  });
-
-  async function placeOrder(type) {
-    const price = document.getElementById('orderPrice').value;
-    const qty = document.getElementById('orderQty').value;
-    
-    // Check KYC before allowing trade
-    const user = await api('/auth/me');
-    if (user.data.kyc_status !== 'verified') {
-      alert('Verification required. Redirecting to KYC panel...');
-      location.href = 'kyc.html';
-      return;
-    }
-
-    const res = await api('/credits/order', {
-      method: 'POST',
-      body: JSON.stringify({
-        credit_id: 'default_credit_id',
-        order_type: type,
-        price: parseFloat(price),
-        quantity: parseFloat(qty)
-      })
-    });
-    
-    if (res.success) {
-      alert('Order placed on the registry book!');
+  async function loadMarketStats() {
+    try {
+      const res = await api('/market/stats');
+      if (res.success) {
+        const s = res.data;
+        document.getElementById('lastPrice').textContent = '₹' + s.avg_price.toLocaleString();
+        document.getElementById('mo-global').textContent = '₹' + s.avg_price.toLocaleString();
+        document.getElementById('mo-verra').textContent = '₹' + s.avg_price.toLocaleString();
+        document.getElementById('mo-gold').textContent = '₹' + s.avg_price.toLocaleString();
+        document.getElementById('mo-vol').textContent = s.total_credits.toLocaleString();
+        document.getElementById('orderPrice').value = s.avg_price;
+      }
+    } catch (e) {
+      console.error('Market stats failed', e);
     }
   }
 
-  // Subscribe to Real-time updates via Supabase
-  subscribeToMarket();
+  async function loadOrderBook() {
+    const asks = document.getElementById('asks');
+    const bids = document.getElementById('bids');
+    const trades = document.getElementById('recentTrades');
+    
+    const res = await api('/credits');
+    if (res.success && res.data.length > 0) {
+      asks.innerHTML = '';
+      res.data.slice(0,10).forEach(c => {
+        const row = document.createElement('div');
+        row.className = 'order-book-row row-ask';
+        row.innerHTML = `<span>${c.price_per_ton.toFixed(2)}</span><span>${c.quantity_available}</span><span class="text-right">${(c.price_per_ton * c.quantity_available).toLocaleString()}</span><div class="vol-bg" style="width: 40%; background: var(--sparc-red);"></div>`;
+        asks.appendChild(row);
+      });
+      // Placeholder trades
+      trades.innerHTML = `
+        <div class="trade-row"><span>12:04:12</span><span>15.0</span><span class="text-green">${res.data[0].price_per_ton.toFixed(2)}</span></div>
+        <div class="trade-row"><span>11:58:45</span><span>240.5</span><span class="text-red">${res.data[0].price_per_ton.toFixed(2)}</span></div>
+      `;
+    } else {
+      asks.innerHTML = '<div style="padding:20px;text-align:center;font-size:10px;color:var(--text-muted);">No open asks</div>';
+      bids.innerHTML = '<div style="padding:20px;text-align:center;font-size:10px;color:var(--text-muted);">No open bids</div>';
+      trades.innerHTML = '<div style="padding:20px;text-align:center;font-size:10px;color:var(--text-muted);">No recent trades</div>';
+    }
+  }
+
+  loadMarketStats();
+  loadOrderBook();
 </script>
 </body>
 </html>

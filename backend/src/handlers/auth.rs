@@ -109,6 +109,17 @@ pub async fn register(
 
     match result {
         Ok(_) => {
+            // If the role is professional, create a profile entry
+            if body.role == "pdd_writer" || body.role == "auditor" {
+                let prof_sql = "INSERT INTO professional_profiles (user_id, title, rating, completed_projects, verified, created_at, updated_at) 
+                                VALUES ($1, $2, 0.0, 0, 0, $3, $4)";
+                let title = if body.role == "pdd_writer" { "Carbon Project Developer" } else { "Independent Auditor" };
+                let _ = sqlx::query(prof_sql)
+                    .bind(&id).bind(title).bind(&now).bind(&now)
+                    .execute(pool.get_ref())
+                    .await;
+            }
+
             let secret = env::var("JWT_SECRET").unwrap_or_else(|_| "secret".into());
             let timestamp = Utc::now().timestamp();
             let claims = Claims {
@@ -168,5 +179,47 @@ pub async fn login(
             }
         }
         _ => HttpResponse::Unauthorized().json(ErrorResponse::new("Invalid email or password")),
+    }
+}
+
+// 5. List Professionals (PDD Writers, Auditors)
+pub async fn list_professionals(
+    pool: web::Data<DbPool>,
+) -> HttpResponse {
+    let sql = "SELECT u.id, u.name, u.email, u.role, p.title, p.bio, p.skills, p.hourly_rate, 
+                      p.rating, p.completed_projects, p.accreditation_id, p.verified
+               FROM users u
+               JOIN professional_profiles p ON u.id = p.user_id
+               WHERE u.role IN ('pdd_writer', 'auditor')";
+    
+    let result = sqlx::query(sql)
+        .fetch_all(pool.get_ref())
+        .await;
+
+    match result {
+        Ok(rows) => {
+            let mut professionals = Vec::new();
+            for row in rows {
+                use sqlx::Row;
+                professionals.push(serde_json::json!({
+                    "id": row.get::<String, _>("id"),
+                    "name": row.get::<String, _>("name"),
+                    "role": row.get::<String, _>("role"),
+                    "title": row.get::<String, _>("title"),
+                    "bio": row.get::<Option<String>, _>("bio"),
+                    "skills": row.get::<Option<String>, _>("skills"),
+                    "hourly_rate": row.get::<Option<f64>, _>("hourly_rate"),
+                    "rating": row.get::<f64, _>("rating"),
+                    "completed_projects": row.get::<i32, _>("completed_projects"),
+                    "accreditation_id": row.get::<Option<String>, _>("accreditation_id"),
+                    "verified": row.get::<i32, _>("verified") == 1
+                }));
+            }
+            HttpResponse::Ok().json(ApiResponse::ok(professionals))
+        }
+        Err(e) => {
+            log::error!("List professionals error: {}", e);
+            HttpResponse::InternalServerError().json(ErrorResponse::new("Failed to fetch professionals"))
+        }
     }
 }

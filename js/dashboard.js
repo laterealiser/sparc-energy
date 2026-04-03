@@ -36,6 +36,18 @@ async function loadDashboard() {
   buildPortfolioChart(dashData.portfolio);
   buildAllocationChart(dashData.portfolio);
   buildRetireDropdown(dashData.portfolio);
+
+  // Phase 4: Operational Hubs Init
+  const user = getUser();
+  if (user?.role === 'admin') {
+    const adminNav = document.getElementById('nav-admin');
+    if (adminNav) adminNav.style.display = 'flex';
+    loadAdminHub();
+  } else if (user?.role === 'pdd_writer' || user?.role === 'auditor') {
+    const workNav = document.getElementById('nav-workroom');
+    if (workNav) workNav.style.display = 'flex';
+    loadWorkroom();
+  }
 }
 
 // ── User Info ──────────────────────────────────────────────────────────────────
@@ -59,14 +71,14 @@ function renderSummary(s) {
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
   set('d-invested', fmtCurrency(s.total_invested));
   set('d-value', fmtCurrency(s.total_current_value));
-  set('d-credits', Number(s.total_credits).toFixed(2) + ' t');
-  set('d-retired', Number(s.total_retired || 0).toFixed(2) + ' t');
+  set('d-credits', fmt(s.total_credits) + ' t');
+  set('d-retired', fmt(s.total_retired || 0) + ' t');
 
   const pnlBadge = document.getElementById('d-pnl-badge');
   if (pnlBadge) {
     const isUp = s.total_pnl >= 0;
     pnlBadge.className = `stat-change ${isUp ? 'up' : 'down'}`;
-    pnlBadge.textContent = `${isUp ? '+' : ''}${fmtCurrency(s.total_pnl)} (${fmt(s.total_pnl_pct, 2)}%)`;
+    pnlBadge.textContent = `${isUp ? '+' : ''}${fmtCurrency(s.total_pnl)} (${fmt(s.total_pnl_pct)}%)`;
   }
 }
 
@@ -195,7 +207,7 @@ function buildPortfolioChart(portfolio) {
         x: { display: false },
         y: {
           grid: { color: 'rgba(255,255,255,0.04)' },
-          ticks: { color: '#7a8fa6', font: { size: 11 }, callback: v => '$'+fmtNum(v) }
+          ticks: { color: '#7a8fa6', font: { size: 11 }, callback: v => '₹'+fmtNum(v) }
         }
       }
     }
@@ -249,7 +261,7 @@ function buildAllocationChart(portfolio) {
 
 // ── Section Navigation (Sidebar) ──────────────────────────────────────────────
 function setDashSection(el, sectionId) {
-  ['section-overview','section-portfolio','section-history','section-retire'].forEach(id => {
+  ['section-overview','section-portfolio','section-history', 'section-retire', 'section-admin', 'section-workroom'].forEach(id => {
     const s = document.getElementById(id);
     if (s) s.style.display = id === sectionId ? 'block' : 'none';
   });
@@ -346,6 +358,98 @@ function updateNavAuth() {
     userEl.style.display = 'flex';
     if (balEl) balEl.textContent = fmtCurrency(user.balance || 0);
   }
+}
+
+// ── Admin Functions ────────────────────────────────────────────────────────────
+
+async function loadAdminHub() {
+  const [usersRes, statsRes] = await Promise.all([
+    api('/admin/users'),
+    api('/admin/stats')
+  ]);
+
+  if (usersRes.success) renderAdminKYCs(usersRes.data);
+  // Projects list usually comes from project registry with ?verified=0
+  const projectsRes = await api('/projects'); 
+  if (projectsRes.success) renderAdminProjects(projectsRes.data.filter(p => !p.verified));
+}
+
+function renderAdminKYCs(users) {
+  const listEl = document.getElementById('admin-kyc-list');
+  if (!listEl) return;
+  const pending = users.filter(u => u.kyc_status === 'pending');
+  if (!pending.length) { listEl.innerHTML = '<div class="stat-label">No pending KYCs</div>'; return; }
+
+  listEl.innerHTML = pending.map(u => `
+    <div class="stat-item" style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg-secondary);border-radius:12px;">
+      <div>
+        <div style="font-weight:700;">${u.name}</div>
+        <div style="font-size:11px;color:var(--text-muted);">${u.email}</div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="verifyKYC('${u.id}')">Approve</button>
+    </div>
+  `).join('');
+}
+
+async function verifyKYC(id) {
+  const res = await api(`/admin/kyc/${id}/verify`, { method: 'POST' });
+  if (res.success) { showToast('success', 'User Verified'); loadAdminHub(); }
+}
+
+function renderAdminProjects(projects) {
+  const listEl = document.getElementById('admin-project-list');
+  if (!listEl) return;
+  if (!projects.length) { listEl.innerHTML = '<div class="stat-label">No pending projects</div>'; return; }
+
+  listEl.innerHTML = projects.map(p => `
+    <div class="stat-item" style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg-secondary);border-radius:12px;">
+      <div>
+        <div style="font-weight:700;">${p.name}</div>
+        <div style="font-size:11px;color:var(--text-muted);">${p.project_type} · ${p.country}</div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="approveProject('${p.id}')">Approve</button>
+    </div>
+  `).join('');
+}
+
+async function approveProject(id) {
+  const res = await api(`/admin/projects/${id}/approve`, { method: 'POST' });
+  if (res.success) { showToast('success', 'Project Registered'); loadAdminHub(); }
+}
+
+// ── Professional Workroom ──────────────────────────────────────────────────────
+
+async function loadWorkroom() {
+  const res = await api('/services/contracts');
+  if (!res.success) return;
+  renderWorkroom(res.data);
+  const badge = document.getElementById('workroom-badge');
+  if (badge) badge.textContent = `⚒️ ${res.data.length} Active Contracts`;
+}
+
+function renderWorkroom(contracts) {
+  const listEl = document.getElementById('workroom-list');
+  if (!listEl) return;
+  if (!contracts.length) return;
+
+  listEl.innerHTML = contracts.map(c => `
+    <div class="card card-glow" style="border-color:var(--sparc-blue-border); background:rgba(79, 142, 247, 0.02);">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-weight:800; font-size:16px;">Contract #${c.id.slice(0,8)}</div>
+          <p style="font-size:12px; color:var(--text-muted);">Client ID: ${c.client_id}</p>
+        </div>
+        <div style="text-align:right;">
+          <div class="stat-label">Escrowed</div>
+          <div style="font-weight:800; color:var(--sparc-blue);">${fmtCurrency(c.total_amount)}</div>
+        </div>
+      </div>
+      <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--glass-border); display:flex; gap:12px;">
+        <button class="btn btn-secondary btn-sm" onclick="showToast('info','Proof Submission','Upload deliverable proof to release milestone.')">Submit Milestone</button>
+        <button class="btn btn-primary btn-sm">Message Client</button>
+      </div>
+    </div>
+  `).join('');
 }
 
 init();

@@ -91,3 +91,36 @@ pub async fn admin_stats(
         "pending_projects": pending_projects.0
     })))
 }
+
+// 4. Verify/Approve User KYC
+pub async fn verify_kyc(
+    pool: web::Data<DbPool>,
+    req: HttpRequest,
+    path: web::Path<String>,
+) -> HttpResponse {
+    let claims = match require_auth(&req) {
+        Ok(c) => c,
+        Err(_) => return HttpResponse::Unauthorized().json(ErrorResponse::new("Unauthorized")),
+    };
+    if claims.role != "admin" {
+        return HttpResponse::Forbidden().json(ErrorResponse::new("Admin access required"));
+    }
+
+    let user_id = path.into_inner();
+    let now = chrono::Utc::now().to_rfc3339();
+    
+    let result = sqlx::query(
+        "UPDATE users SET kyc_status = 'verified', updated_at = $1 WHERE id = $2"
+    )
+    .bind(&now).bind(&user_id)
+    .execute(pool.get_ref())
+    .await;
+
+    match result {
+        Ok(r) if r.rows_affected() > 0 => HttpResponse::Ok().json(ApiResponse::ok_msg(
+            serde_json::json!({ "user_id": user_id }),
+            "User KYC verified successfully"
+        )),
+        _ => HttpResponse::NotFound().json(ErrorResponse::new("User not found")),
+    }
+}

@@ -76,6 +76,12 @@ async fn main() -> std::io::Result<()> {
                     .route("/login", web::post().to(handlers::auth::login))
                     .route("/me", web::get().to(handlers::auth::me))
                     .route("/kyc", web::post().to(handlers::auth::submit_kyc))
+                    .route("/professionals", web::get().to(handlers::auth::list_professionals))
+            )
+            // Market Stats
+            .service(
+                web::scope("/api/market")
+                    .route("/stats", web::get().to(handlers::market::get_market_stats))
             )
             // Marketplace routes
             .service(
@@ -103,7 +109,15 @@ async fn main() -> std::io::Result<()> {
                 web::scope("/api/admin")
                     .route("/users", web::get().to(handlers::admin::list_users))
                     .route("/projects/{id}/approve", web::post().to(handlers::admin::approve_project))
+                    .route("/kyc/{id}/verify", web::post().to(handlers::admin::verify_kyc))
                     .route("/stats", web::get().to(handlers::admin::admin_stats))
+            )
+            // Service Contracts
+            .service(
+                web::scope("/api/services")
+                    .route("/contracts", web::get().to(handlers::services::list_contracts))
+                    .route("/contracts", web::post().to(handlers::services::create_contract))
+                    .route("/milestones/{id}", web::post().to(handlers::services::update_milestone))
             )
             // Payment Webhooks / Integration
             .service(

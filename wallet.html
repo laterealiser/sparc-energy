@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Global Wallet — Carbon Asset Management · Sparc Energy</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .wallet-stat { padding: 32px; border-radius: 20px; border: 1px solid var(--border); position: relative; overflow: hidden; }
+    .wallet-stat-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
+    .wallet-stat-value { font-size: 32px; font-weight: 900; color: var(--text-primary); font-family: var(--font-display); }
+    .tx-row { display: grid; grid-template-columns: 80px 1fr 120px 120px; padding: 16px; border-bottom: 1px solid var(--glass-border); font-size: 13px; align-items: center; }
+    .tx-status { font-size: 10px; padding: 4px 8px; border-radius: 4px; display: inline-block; font-weight: 700; }
+    .status-success { background: rgba(0, 245, 184, 0.1); color: var(--sparc-green); }
+    .status-pending { background: rgba(245, 158, 11, 0.1); color: var(--sparc-gold); }
+  </style>
+</head>
+<body>
+<nav class="navbar"><a href="index.html" class="nav-logo"><div class="logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><span class="logo-text">Sparc Energy</span><span class="logo-sub">CARBON MARKET</span></div></a><div class="nav-links"><a href="index.html" class="nav-link">Home</a><a href="marketplace.html" class="nav-link">Marketplace</a><a href="projects.html" class="nav-link">Projects</a><a href="dashboard.html" class="nav-link active">Dashboard</a></div></nav>
+
+<main class="container section">
+  <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:40px;">
+    <div>
+      <h1 class="hero-title" style="font-size: 36px; margin-bottom: 8px;">Asset Management</h1>
+      <p style="color: var(--text-secondary);">Manage your institutional wallet, registry connections, and audit trails.</p>
+    </div>
+    <div style="display:flex; gap:12px;">
+      <button class="btn btn-secondary btn-sm" onclick="deposit()">Deposit UPI / Bank</button>
+      <button class="btn btn-primary btn-sm" onclick="withdraw()">Withdrawal Request</button>
+    </div>
+  </div>
+
+  <div class="grid-3" style="gap: 24px; margin-bottom: 40px;">
+    <div class="wallet-stat card-glow">
+      <div class="wallet-stat-label">TOTAL LIQUID BALANCE</div>
+      <div class="wallet-stat-value">₹1,24,500</div>
+      <div style="font-size:12px; color:var(--text-muted); margin-top:8px;">≈ $1,496.00 USD</div>
+    </div>
+    <div class="wallet-stat">
+      <div class="wallet-stat-label">HELD IN ESCROW (CONTRACTS)</div>
+      <div class="wallet-stat-value">₹45,000</div>
+      <div style="font-size:12px; color:var(--sparc-gold); margin-top:8px;">Pending Milestones</div>
+    </div>
+    <div class="wallet-stat">
+      <div class="wallet-stat-label">VERIFIED CREDITS (VCU/GS)</div>
+      <div class="wallet-stat-value">2,840 t</div>
+      <div style="font-size:12px; color:var(--sparc-green); margin-top:8px;">Linked to Verra ID: VER-002</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Transaction History</div></div>
+    <div class="tx-row" style="background:var(--bg-secondary); font-weight:700; color:var(--text-muted); border-radius:8px 8px 0 0;">
+      <span>DATE</span><span>DESCRIPTION</span><span>AMOUNT</span><span>STATUS</span>
+    </div>
+    <div class="tx-row">
+      <span style="color:var(--text-muted)">03 Apr</span>
+      <span>Carbon Credit Purchase — Amazon REDD+ 2024</span>
+      <span style="color:var(--sparc-red)">- ₹84,200</span>
+      <span><span class="tx-status status-success">COMPLETED</span></span>
+    </div>
+    <div class="tx-row">
+      <span style="color:var(--text-muted)">02 Apr</span>
+      <span>UPI Deposit — ICICI Bank xxxx4921</span>
+      <span style="color:var(--sparc-green)">+ ₹50,000</span>
+      <span><span class="tx-status status-success">COMPLETED</span></span>
+    </div>
+    <div class="tx-row">
+      <span style="color:var(--text-muted)">01 Apr</span>
+      <span>Project Developer Escrow Release — PDD Milestone 1</span>
+      <span style="color:var(--sparc-red)">- ₹15,000</span>
+      <span><span class="tx-status status-pending">PENDING</span></span>
+    </div>
+  </div>
+</main>
+<script>
+  function deposit() { alert('UPI Gateway Integration (Razorpay) initiated...'); }
+  function withdraw() { alert('Bank Withdrawal Request submitted for compliance check.'); }
+</script>
+</body>
+</html>

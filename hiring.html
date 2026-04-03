@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hiring & Escrow — Carbon Expert Contracts · Sparc Energy</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .contract-header { padding: 40px; border-radius: 24px; background: var(--bg-secondary); border: 1px solid var(--border); margin-bottom: 32px; display: flex; gap: 32px; align-items: center; }
+    .escrow-shield { width: 80px; height: 80px; border-radius: 20px; background: rgba(0, 245, 184, 0.1); display: flex; align-items:center; justify-content:center; font-size: 32px; border: 1px solid var(--sparc-green-border); box-shadow: var(--glow-green); }
+    .milestone-item { display: grid; grid-template-columns: 48px 1fr 140px 140px 140px; gap: 16px; padding: 24px; border-bottom: 1px solid var(--glass-border); align-items: center; }
+    .milestone-num { width: 32px; height: 32px; border-radius: 50%; background: var(--bg-card); display: flex; align-items:center; justify-content:center; font-size: 12px; font-weight: 700; border: 1px solid var(--glass-border); }
+    .milestone-status { font-size: 10px; padding: 4px 10px; border-radius: 20px; font-weight: 700; text-transform: uppercase; }
+    .ms-pending { border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); }
+    .ms-escrowed { background: rgba(245, 158, 11, 0.1); color: var(--sparc-gold); border: 1px solid rgba(245, 158, 11, 0.2); }
+    .ms-completed { background: rgba(16, 185, 129, 0.1); color: var(--sparc-green); border: 1px solid rgba(16, 185, 129, 0.2); }
+  </style>
+</head>
+<body>
+<nav class="navbar"><a href="index.html" class="nav-logo"><div class="logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><span class="logo-text">Sparc Energy</span><span class="logo-sub">CARBON MARKET</span></div></a><div class="nav-links"><a href="index.html" class="nav-link">Home</a><a href="marketplace.html" class="nav-link">Marketplace</a><a href="projects.html" class="nav-link">Projects</a><a href="professionals.html" class="nav-link active">Experts</a><a href="dashboard.html" class="nav-link">Dashboard</a></div></nav>
+
+<main class="container section">
+  <div class="contract-header">
+    <div class="escrow-shield">🛡️</div>
+    <div style="flex:1;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <h1 style="font-size: 28px; margin-bottom: 8px;">Development Contract: Maharashtra Solar PDD</h1>
+        <div style="text-align: right;">
+          <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">In Escrow</div>
+          <div style="font-size:24px; font-weight:800; color:var(--sparc-green);">₹85,000</div>
+        </div>
+      </div>
+      <p style="color:var(--text-secondary);">Expert: **Arjun Malhotra** · Started: Apr 01, 2026</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Agreement Milestones (Escrow Protected)</div></div>
+    
+    <div class="milestone-item" style="background:var(--bg-secondary); font-weight:700; color:var(--text-muted); font-size:11px;">
+      <span>#</span><span>DELIVERABLE</span><span>AMOUNT</span><span>EST. DATE</span><span>STATUS</span>
+    </div>
+
+    <div class="milestone-item">
+      <div class="milestone-num">1</div>
+      <div>
+        <div style="font-weight:700; margin-bottom:4px;">Methodology Approval & Draft PDD</div>
+        <p style="font-size:12px; color:var(--text-muted);">Defining baseline and additionality logic for Solar.</p>
+      </div>
+      <div style="font-weight:700;">₹45,000</div>
+      <div style="font-size:12px; color:var(--text-muted);">Apr 10, 2026</div>
+      <div><span class="milestone-status ms-escrowed">ESCROWED</span></div>
+    </div>
+
+    <div class="milestone-item">
+      <div class="milestone-num">2</div>
+      <div>
+        <div style="font-weight:700; margin-bottom:4px;">Final Submission to Verra</div>
+        <p style="font-size:12px; color:var(--text-muted);">Upload final docs and handle registry queries.</p>
+      </div>
+      <div style="font-weight:700;">₹40,000</div>
+      <div style="font-size:12px; color:var(--text-muted);">May 05, 2026</div>
+      <div><span class="milestone-status ms-pending">PENDING</span></div>
+    </div>
+
+    <div style="padding:24px; background:rgba(16,185,129,0.02); display:flex; justify-content:space-between; align-items:center;">
+      <div style="font-size:13px; color:var(--text-secondary);">
+        <strong>Institutional Protection:</strong> Funds are only released upon your approval of the deliverables.
+      </div>
+      <button class="btn btn-primary btn-sm" style="background:var(--sparc-green); color:#000;">Deposit to Escrow (Next Milestone)</button>
+    </div>
+  </div>
+</main>
+
+<footer class="footer"><div class="container"><div>© 2024 Sparc Energy Pvt. Ltd. All rights reserved.</div></div></footer>
+</body>
+</html>

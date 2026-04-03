@@ -4,3 +4,4 @@ pub mod projects;
 pub mod dashboard;
 pub mod market;
 pub mod admin;
+pub mod services;

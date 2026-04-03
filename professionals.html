@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Professional Directory — Carbon Experts · Sparc Energy</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .prof-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-top: 32px; }
+    .prof-card { padding: 24px; border-radius: 20px; border: 1px solid var(--border); transition: var(--transition); background: var(--bg-secondary); }
+    .prof-card:hover { border-color: var(--sparc-green); box-shadow: var(--glow-green); transform: translateY(-4px); }
+    .prof-avatar { width: 64px; height: 64px; border-radius: 16px; background: var(--bg-card); display: flex; align-items:center; justify-content:center; font-size: 24px; margin-bottom: 16px; border: 1px solid var(--glass-border); }
+    .prof-badge { font-size: 10px; padding: 4px 8px; border-radius: 4px; background: rgba(0, 245, 184, 0.1); color: var(--sparc-green); font-weight: 700; text-transform: uppercase; }
+    .prof-rate { font-size: 18px; font-weight: 800; color: var(--text-primary); margin-top: 16px; }
+  </style>
+</head>
+<body>
+<nav class="navbar"><a href="index.html" class="nav-logo"><div class="logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><span class="logo-text">Sparc Energy</span><span class="logo-sub">CARBON MARKET</span></div></a><div class="nav-links"><a href="index.html" class="nav-link">Home</a><a href="marketplace.html" class="nav-link">Marketplace</a><a href="projects.html" class="nav-link">Projects</a><a href="professionals.html" class="nav-link active">Experts</a><a href="dashboard.html" class="nav-link">Dashboard</a></div></nav>
+
+<main class="container section">
+  <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:40px;">
+    <div>
+      <div class="hero-eyebrow">ECOSYSTEM DIRECTORY</div>
+      <h1 class="hero-title" style="font-size: 42px; margin-bottom: 8px;">Professional Experts</h1>
+      <p style="color: var(--text-secondary);">Hire verified PDD writers and auditors to accelerate your carbon project development.</p>
+    </div>
+    <div style="display:flex; gap:12px;">
+      <input type="text" class="form-input" style="width:280px;" placeholder="🔍 Search by skill or name..." />
+      <button class="btn btn-primary btn-sm">Filter</button>
+    </div>
+  </div>
+
+  <div class="prof-grid" id="professionalsGrid">
+    <div class="skeleton" style="height:340px;border-radius:20px;"></div>
+    <div class="skeleton" style="height:340px;border-radius:20px;"></div>
+    <div class="skeleton" style="height:340px;border-radius:20px;"></div>
+  </div>
+</main>
+
+<footer class="footer"><div class="container"><div>© 2024 Sparc Energy Pvt. Ltd. All rights reserved.</div></div></footer>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  async function loadProfessionals() {
+    const grid = document.getElementById('professionalsGrid');
+    try {
+      const res = await api('/auth/professionals');
+      if (res.success && res.data.length > 0) {
+        grid.innerHTML = '';
+        res.data.forEach(p => {
+          const card = document.createElement('div');
+          card.className = 'prof-card';
+          const icon = p.role === 'pdd_writer' ? '✍️' : '🔍';
+          const badgeColor = p.role === 'pdd_writer' ? 'var(--sparc-green)' : 'var(--sparc-blue)';
+          const badgeBg = p.role === 'pdd_writer' ? 'rgba(0, 245, 184, 0.1)' : 'rgba(0, 184, 245, 0.1)';
+          
+          card.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+              <div class="prof-avatar">${icon}</div>
+              <span class="prof-badge" style="color:${badgeColor}; background:${badgeBg}">${p.title}</span>
+            </div>
+            <h3 style="font-size: 18px; margin-bottom: 4px;">${p.name}</h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">${p.accreditation_id || 'Institutional Expert'}</p>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+              ${(p.skills || '').split(',').map(s => `<span class="badge" style="font-size:10px;">${s.trim()}</span>`).join('')}
+            </div>
+            <p style="font-size: 14px; line-height: 1.6; color: var(--text-secondary); height: 66px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
+              ${p.bio || 'Professional carbon asset consultant providing specialized verification and PDD development services.'}
+            </p>
+            <div class="prof-rate">₹${(p.hourly_rate || 0).toLocaleString()} <small style="font-weight:400; font-size:12px; color:var(--text-muted)">/ hr</small></div>
+            <button class="btn btn-secondary w-full" style="margin-top:20px;" onclick="location.href='hiring.html?id=${p.id}'">Hire ${p.name.split(' ')[0]}</button>
+          `;
+          grid.appendChild(card);
+        });
+      } else {
+        grid.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 60px; background: var(--bg-secondary); border-radius: 24px; border: 1px dashed var(--glass-border);">
+            <div style="font-size: 48px; margin-bottom: 20px;">🤝</div>
+            <h3 style="font-size: 20px; margin-bottom: 8px;">Network Launching</h3>
+            <p style="color: var(--text-secondary);">Independent PDD writers and Auditors are currently being onboarded. Check back soon.</p>
+          </div>
+        `;
+      }
+    } catch (e) {
+      console.error('Failed to load professionals', e);
+    }
+  }
+  loadProfessionals();
+</script>
+</body>
+</html>

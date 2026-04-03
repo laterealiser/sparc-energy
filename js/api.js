@@ -106,3 +106,60 @@ function initRazorpay(amount, orderId) {
   const rzp = new Razorpay(options);
   rzp.open();
 }
+
+// ── Shared Utilities ─────────────────────────────────────────────────────────
+
+function fmtCurrency(val) {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 0
+  }).format(val || 0);
+}
+
+function fmtNum(val) {
+  if (val >= 1000000) return (val / 1000000).toFixed(1) + 'M';
+  if (val >= 1000) return (val / 1000).toFixed(1) + 'K';
+  return (val || 0).toLocaleString();
+}
+
+function fmt(val, dec = 2) {
+  return Number(val || 0).toLocaleString(undefined, { minimumFractionDigits: dec, maximumFractionDigits: dec });
+}
+
+function getUser() {
+  try {
+    return JSON.parse(localStorage.getItem('sparc_user'));
+  } catch (e) {
+    return null;
+  }
+}
+
+function isLoggedIn() {
+  return !!getUser();
+}
+
+/**
+ * Custom Toast Notifications
+ */
+function showToast(type, title, msg) {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.innerHTML = `
+    <div style="font-weight:700;">${title}</div>
+    <div style="font-size:12px;opacity:0.8;">${msg || ''}</div>
+  `;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 4000);
+}
+
+function openModal(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'flex';
+}
+function closeModal(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'none';
+}

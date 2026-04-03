@@ -153,17 +153,27 @@
 <!-- Navigation -->
 <nav class="navbar">
   <a href="index.html" class="nav-logo">
-    <div class="logo-icon">⚡</div>
+    <div class="logo-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    </div>
     <div>
       <span class="logo-text">Sparc Energy</span>
       <span class="logo-sub">CARBON MARKET</span>
     </div>
   </a>
   <div class="nav-links">
-    <a href="index.html" class="nav-link active" id="nav-home">🏠 Home</a>
-    <a href="marketplace.html" class="nav-link" id="nav-market">📈 Marketplace</a>
-    <a href="projects.html" class="nav-link" id="nav-projects">🌿 Projects</a>
-    <a href="dashboard.html" class="nav-link" id="nav-dash">📊 Dashboard</a>
+    <a href="index.html" class="nav-link active" id="nav-home">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Home
+    </a>
+    <a href="marketplace.html" class="nav-link" id="nav-market">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg> Marketplace
+    </a>
+    <a href="projects.html" class="nav-link" id="nav-projects">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 8"></path><path d="M11 20a7 7 0 0 1-6-12.1"></path><path d="M11 20v-5a7 7 0 0 1-6-6"></path><path d="M11 20V9"></path></svg> Projects
+    </a>
+    <a href="dashboard.html" class="nav-link" id="nav-dash">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg> Dashboard
+    </a>
   </div>
   <div class="nav-actions">
     <div id="nav-auth-guest">
@@ -196,48 +206,29 @@
         <a href="marketplace.html" class="btn btn-primary btn-lg">🚀 Start Trading</a>
         <a href="projects.html" class="btn btn-secondary btn-lg">Explore Projects</a>
       </div>
-      <div class="hero-stats" style="margin-top:60px;">
-        <div class="hero-stat-item">
-          <span class="hero-stat-value" id="hs-credits">165K+</span>
-          <span class="hero-stat-label">Credits Listed</span>
+        <div class="hero-stats" style="margin-top:60px;">
+          <div class="hero-stat-item">
+            <span class="hero-stat-value" id="hs-credits">—</span>
+            <span class="hero-stat-label">Credits Listed</span>
+          </div>
+          <div class="hero-stat-item" style="border-left:1px solid var(--glass-border);padding-left:32px;">
+            <span class="hero-stat-value" id="hs-projects">0</span>
+            <span class="hero-stat-label">Verified Projects</span>
+          </div>
+          <div class="hero-stat-item" style="border-left:1px solid var(--glass-border);padding-left:32px;">
+            <span class="hero-stat-value" id="hs-volume">₹0.0</span>
+            <span class="hero-stat-label">Global Volume</span>
+          </div>
         </div>
-        <div class="hero-stat-item" style="border-left:1px solid var(--glass-border);padding-left:32px;">
-          <span class="hero-stat-value" id="hs-projects">4+</span>
-          <span class="hero-stat-label">Verified Projects</span>
-        </div>
-        <div class="hero-stat-item" style="border-left:1px solid var(--glass-border);padding-left:32px;">
-          <span class="hero-stat-value" id="hs-volume">₹2.8Cr+</span>
-          <span class="hero-stat-label">Global Volume</span>
-        </div>
-      </div>
     </div>
     
     <!-- Hero Visual: Floating 3D Cards -->
-    <div class="hero-right animate-float" style="flex:1.2; position:relative; min-height:500px; display:flex; align-items:center; justify-content:center;">
-      <div class="globe-visual" style="opacity:0.6; filter:blur(40px); background:radial-gradient(circle, var(--sparc-green) 0%, transparent 70%);"></div>
-      
-      <!-- Primary Card -->
-      <div class="card card-glow animate-float" style="width:340px; position:absolute; z-index:10; transform:rotate(-4deg);">
-        <div style="display:flex;justify-content:space-between;margin-bottom:16px;">
-          <span class="badge badge-verra">🌿 Verified VCS</span>
-          <span style="font-size:10px;color:var(--text-muted);">2024 VINTAGE</span>
-        </div>
-        <div style="font-size:20px;font-weight:800;color:var(--text-primary);margin-bottom:4px;">Amazon Reforestation</div>
-        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:20px;">BRAZIL · PROJECT ID: 4821</div>
-        <div style="display:flex;align-items:baseline;gap:8px;">
-          <span style="font-size:32px;font-weight:900;color:var(--sparc-green);">$18.50</span>
-          <span style="font-size:12px;color:var(--text-muted);">/ TONNE</span>
-        </div>
-        <div class="progress-bar" style="margin-top:20px;">
-          <div class="progress-fill" style="width:68%"></div>
-        </div>
-      </div>
-
-      <!-- Secondary Float Cards -->
-      <div class="card glass animate-float" style="width:240px; position:absolute; top:40px; right:-20px; z-index:5; animation-delay: -1s; transform: rotate(12deg);">
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">GOLD STANDARD · 🇮🇳</div>
-        <div style="font-size:16px;font-weight:700;color:var(--sparc-gold);">$22.75 <span style="font-size:10px;color:var(--sparc-green);">▲ 2.4%</span></div>
-        <div style="font-size:11px;color:var(--text-secondary);">Rajasthan Solar Farm</div>
+      <!-- Dynamic Marketplace CTA instead of fake cards -->
+      <div class="card card-glow animate-float" style="width:380px; position:absolute; z-index:10; text-align:center; padding:40px;">
+        <div class="logo-icon" style="font-size:48px; margin-bottom:20px;">⚡</div>
+        <h3 style="font-size:24px; margin-bottom:12px;">Marketplace Launching</h3>
+        <p style="color:var(--text-secondary); font-size:14px; margin-bottom:24px;">Deploy real-time project verification and institutional liquidity tracking.</p>
+        <button class="btn btn-primary w-full" onclick="location.href='marketplace.html'">Enter Exchange →</button>
       </div>
 
       <div class="card glass animate-float" style="width:220px; position:absolute; bottom:60px; left:-40px; z-index:15; animation-delay: -2s; transform: rotate(-8deg);">
@@ -258,7 +249,7 @@
   <div class="container">
     <div class="impact-grid" id="impactGrid" style="background:transparent; border:none; gap:24px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
       <div class="card impact-cell card-glow">
-        <div class="impact-value" id="imp-credits">165K</div>
+        <div class="impact-value" id="imp-credits">0</div>
         <div class="impact-label">🌿 CREDITS LISTED</div>
       </div>
       <div class="card impact-cell">
@@ -342,20 +333,20 @@
       <div class="card how-step card-hover">
         <div class="step-num">01</div>
         <div class="step-icon">🔐</div>
-        <div class="step-title">Secure KYC Onboarding</div>
-        <div class="step-desc">Complete our bank-grade KYC process in minutes to start institutional trading.</div>
+        <div class="step-title">Secure Buy (Purchase)</div>
+        <div class="step-desc">Purchase high-integrity carbon credits into your institutional wallet with one click.</div>
       </div>
       <div class="card how-step card-hover" style="border-color:var(--sparc-green-border); box-shadow: var(--glow-green);">
         <div class="step-num" style="background:var(--sparc-green); color:#000;">02</div>
-        <div class="step-icon">📊</div>
-        <div class="step-title">Execute Market Orders</div>
-        <div class="step-desc">Access live order books for Verra and Gold Standard credits with deep liquidity.</div>
+        <div class="step-icon">📤</div>
+        <div class="step-title">Sell (List Credits)</div>
+        <div class="step-desc">List your own verified credits back to the market to manage liquidity and ROI.</div>
       </div>
       <div class="card how-step card-hover">
         <div class="step-num">03</div>
         <div class="step-icon">🏅</div>
-        <div class="step-title">Instant Retirement</div>
-        <div class="step-desc">Retire credits permanently and receive blockchain-verified certificates instantly.</div>
+        <div class="step-title">Retire (Offset)</div>
+        <div class="step-desc">Permanently retire credits to offset emissions and receive certified certificates.</div>
       </div>
     </div>
   </div>
@@ -695,6 +686,23 @@ function switchPeriod(btn, period) {
   btn.classList.add('active');
 }
 </script>
+  <script>
+    async function loadLiveStats() {
+      try {
+        const res = await api('/market/stats');
+        if (res.success) {
+          const s = res.data;
+          document.getElementById('hs-credits').textContent = s.total_credits.toLocaleString() + '+';
+          document.getElementById('imp-credits').textContent = s.total_credits.toLocaleString();
+          document.getElementById('hs-volume').textContent = '₹' + (s.total_volume / 10000000).toFixed(1) + 'Cr';
+          document.getElementById('hs-price').textContent = '₹' + s.avg_price.toLocaleString();
+        }
+      } catch (e) {
+        console.error('Failed to load market stats', e);
+      }
+    }
+    loadLiveStats();
+  </script>
 </body>
 </html>
 

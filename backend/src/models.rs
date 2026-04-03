@@ -25,6 +25,47 @@ pub struct UserPublic {
     pub balance: f64,
 }
 
+// ─── Professional Service Models ─────────────────────────────────────────────
+
+#[derive(Debug, Serialize, Deserialize, Clone, sqlx::FromRow)]
+pub struct ProfessionalProfile {
+    pub user_id: String,
+    pub title: String,
+    pub bio: Option<String>,
+    pub skills: Option<String>,
+    pub hourly_rate: Option<f64>,
+    pub rating: f64,
+    pub completed_projects: i32,
+    pub accreditation_id: Option<String>,
+    pub verified: i32,
+    pub created_at: String,
+    pub updated_at: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, sqlx::FromRow)]
+pub struct ServiceContract {
+    pub id: String,
+    pub client_id: String,
+    pub provider_id: String,
+    pub project_id: Option<String>,
+    pub total_amount: f64,
+    pub escrow_balance: f64,
+    pub status: String,
+    pub created_at: String,
+    pub updated_at: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, sqlx::FromRow)]
+pub struct ServiceMilestone {
+    pub id: String,
+    pub contract_id: String,
+    pub description: String,
+    pub amount: f64,
+    pub status: String,
+    pub due_date: Option<String>,
+    pub completed_at: Option<String>,
+}
+
 #[derive(Debug, Deserialize)]
 pub struct KYCRequest {
     pub first_name: String,

@@ -47,21 +47,31 @@
 
 <nav class="navbar">
   <a href="index.html" class="nav-logo">
-    <div class="logo-icon">⚡</div>
+    <div class="logo-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    </div>
     <div>
       <span class="logo-text">Sparc Energy</span>
-      <span class="logo-sub">ACCOUNT CONSOLE</span>
+      <span class="logo-sub">CARBON MARKET</span>
     </div>
   </a>
   <div class="nav-links">
-    <a href="index.html" class="nav-link">🏠 Overview</a>
-    <a href="marketplace.html" class="nav-link">📈 Exchange</a>
-    <a href="projects.html" class="nav-link">🌿 Projects</a>
-    <a href="dashboard.html" class="nav-link active">📊 Portfolio</a>
+    <a href="index.html" class="nav-link">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Overview
+    </a>
+    <a href="marketplace.html" class="nav-link">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Exchange
+    </a>
+    <a href="projects.html" class="nav-link">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 8"/><path d="M11 20a7 7 0 0 1-6-12.1"/><path d="M11 20v-5a7 7 0 0 1-6-6"/><path d="M11 20V9"/></svg> Projects
+    </a>
+    <a href="dashboard.html" class="nav-link active">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg> Portfolio
+    </a>
   </div>
   <div class="nav-actions">
     <div id="nav-auth-user" style="display:flex;gap:10px;align-items:center;">
-      <span style="font-size:13px;color:var(--text-secondary)">WALLET: <strong style="color:var(--sparc-green)" id="nav-balance">$0.00</strong></span>
+      <span style="font-size:13px;color:var(--text-secondary)">WALLET: <strong style="color:var(--sparc-green)" id="nav-balance">₹0.00</strong></span>
       <a href="marketplace.html" class="btn btn-primary btn-sm">+ Buy Credits</a>
       <button class="btn btn-ghost btn-sm" onclick="logout()">Logout</button>
     </div>
@@ -90,16 +100,26 @@
     <!-- Sidebar Nav -->
     <div class="dash-nav" style="flex:1;">
       <a href="#overview" class="dash-nav-link active" onclick="setDashSection(this,'section-overview')">
-        <span class="dash-nav-icon">📊</span> Overview
+        <span class="dash-nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></span> Overview
       </a>
       <a href="#portfolio" class="dash-nav-link" onclick="setDashSection(this,'section-portfolio')">
-        <span class="dash-nav-icon">🌿</span> Portfolio Assets
+        <span class="dash-nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 8"/><path d="M11 20a7 7 0 0 1-6-12.1"/><path d="M11 20v-5a7 7 0 0 1-6-6"/><path d="M11 20V9"/></svg></span> Portfolio Assets
       </a>
       <a href="#history" class="dash-nav-link" onclick="setDashSection(this,'section-history')">
-        <span class="dash-nav-icon">📋</span> Activity Logs
+        <span class="dash-nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span> Activity Logs
       </a>
       <a href="#certificates" class="dash-nav-link" onclick="setDashSection(this,'section-retire')">
-        <span class="dash-nav-icon">🏅</span> Official Certificates
+        <span class="dash-nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></span> Official Certificates
+      </a>
+      
+      <!-- Admin Hub (Admin Only) -->
+      <a href="#admin" id="nav-admin" class="dash-nav-link" style="display:none; color:var(--sparc-red)" onclick="setDashSection(this,'section-admin')">
+        <span class="dash-nav-icon">🛡️</span> Verification Hub
+      </a>
+
+      <!-- Professional Workroom (PDD/Auditor Only) -->
+      <a href="#workroom" id="nav-workroom" class="dash-nav-link" style="display:none; color:var(--sparc-blue)" onclick="setDashSection(this,'section-workroom')">
+        <span class="dash-nav-icon">⚒️</span> Contract Workroom
       </a>
     </div>
 
@@ -123,10 +143,10 @@
       <div class="grid-4" style="margin-bottom:32px; gap:20px;">
         <div class="card card-glow" style="border-color:var(--sparc-green-border);">
           <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
-            <div class="stat-label">TOTAL LISTED VALUE</div>
+            <div class="stat-label">TOTAL PORTFOLIO VALUE</div>
             <div class="stat-icon" style="background:var(--sparc-green-glow); color:var(--sparc-green); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px;">💰</div>
           </div>
-          <div class="stat-value" id="d-invested" style="font-size:28px; font-weight:800; color:var(--text-primary);">$0.00</div>
+          <div class="stat-value" id="d-invested" style="font-size:28px; font-weight:800; color:var(--text-primary);">₹0.00</div>
           <div style="font-size:11px;color:var(--text-muted); margin-top:4px;">Across all verified projects</div>
         </div>
         <div class="card">
@@ -134,7 +154,7 @@
             <div class="stat-label">LIVE MARKET VALUE</div>
             <div class="stat-icon" style="background:var(--sparc-blue-glow); color:var(--sparc-blue); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px;">📈</div>
           </div>
-          <div class="stat-value" id="d-value" style="font-size:28px; font-weight:800; color:var(--text-primary);">$0.00</div>
+          <div class="stat-value" id="d-value" style="font-size:28px; font-weight:800; color:var(--text-primary);">₹0.00</div>
           <div class="stat-change" id="d-pnl-badge" style="font-size:11px; margin-top:4px;">+0.0%</div>
         </div>
         <div class="card">
@@ -284,6 +304,54 @@
 
       <!-- Certificates List -->
       <div id="certificatesList" style="display:flex;flex-direction:column;gap:16px;"></div>
+    </div>
+
+    <!-- Admin Hub (Verification Operations) -->
+    <div id="section-admin" class="dash-section" style="display:none;">
+      <div class="dash-header">
+        <div>
+          <h1 class="dash-title">Verification Hub</h1>
+          <p class="dash-subtitle">Institutional Trust & Quality Control Operations</p>
+        </div>
+        <div class="badge badge-verra">🛡️ Admin Status: Active</div>
+      </div>
+
+      <div class="grid-2" style="gap:24px;">
+        <!-- KYC Approvals -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">Pending Institutional KYCs</div></div>
+          <div id="admin-kyc-list" style="display:flex;flex-direction:column;gap:12px;margin-top:16px;">
+            <div class="stat-label">Checking for pending verifications...</div>
+          </div>
+        </div>
+
+        <!-- Project Approvals -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">Pending Project Registry</div></div>
+          <div id="admin-project-list" style="display:flex;flex-direction:column;gap:12px;margin-top:16px;">
+             <div class="stat-label">Checking for new project submissions...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Professional Workroom (PDD/Auditor Support) -->
+    <div id="section-workroom" class="dash-section" style="display:none;">
+      <div class="dash-header">
+        <div>
+          <h1 class="dash-title">Contract Workroom</h1>
+          <p class="dash-subtitle">Manage your expert service contracts and milestones</p>
+        </div>
+        <div id="workroom-badge" class="badge badge-gold">⚒️ 0 Active Contracts</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">My Active Enrollments</div></div>
+        <div id="workroom-list" style="display:flex;flex-direction:column;gap:16px;margin-top:20px;">
+          <!-- Professional contracts here -->
+           <div class="stat-label">You have no active certifications or audit contracts yet.</div>
+        </div>
+      </div>
     </div>
 
   </div>

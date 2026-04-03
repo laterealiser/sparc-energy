@@ -75,20 +75,32 @@ pub async fn verify_crypto_tx(
 pub async fn get_market_stats(
     pool: web::Data<DbPool>,
 ) -> HttpResponse {
-    let sql = "SELECT COUNT(*) as total_projects, COALESCE(SUM(quantity_available), 0) as total_credits 
-               FROM carbon_projects cp 
-               JOIN carbon_credits cc ON cp.id = cc.project_id";
+    let sql = "SELECT 
+                COALESCE(SUM(quantity_available), 0) as total_credits,
+                COUNT(DISTINCT project_id) as total_projects,
+                COALESCE(AVG(price_per_ton), 0) as avg_price,
+                (SELECT COALESCE(SUM(total_value), 0) FROM trades) as total_volume
+               FROM carbon_credits WHERE status = 'active'";
     
-    // Using a simple aggregation for demo purposes
     let stats = sqlx::query(sql).fetch_one(pool.get_ref()).await;
 
     match stats {
-        Ok(_) => HttpResponse::Ok().json(ApiResponse::ok(serde_json::json!({
-            "total_volume": 1250400.0,
-            "avg_price": 24.50,
-            "trades_24h": 542,
-            "price_change": "+5.4%"
-        }))),
+        Ok(row) => {
+            use sqlx::Row;
+            let total_credits: f64 = row.get("total_credits");
+            let total_projects: i64 = row.get("total_projects");
+            let avg_price: f64 = row.get("avg_price");
+            let total_volume: f64 = row.get("total_volume");
+
+            HttpResponse::Ok().json(ApiResponse::ok(serde_json::json!({
+                "total_credits": total_credits,
+                "total_projects": total_projects,
+                "avg_price": avg_price,
+                "total_volume": total_volume,
+                "trades_24h": 0, // Placeholder for future logic
+                "price_change": "0.0%"
+            })))
+        },
         Err(e) => {
             log::error!("Market stats error: {}", e);
             HttpResponse::InternalServerError().finish()
