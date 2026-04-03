@@ -229,9 +229,9 @@ function buildAllocationChart(portfolio) {
     data = portfolio.map(p => p.current_value || p.total_invested);
     colors = portfolio.map((_, i) => COLORS[i % COLORS.length]);
   } else {
-    labels = ['Reforestation', 'Solar', 'Wind', 'Blue Carbon'];
-    data = [40, 30, 20, 10];
-    colors = COLORS.slice(0,4);
+    labels = ['No Assets Owned'];
+    data = [100];
+    colors = ['rgba(255,255,255,0.05)'];
   }
 
   allocationChart = new Chart(ctx, {
