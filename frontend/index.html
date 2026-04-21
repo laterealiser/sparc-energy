@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="css/landing.css?v=3" />
 </head>
@@ -43,15 +43,25 @@
         </div>
       </a>
       <nav class="nav-links" id="navLinks" role="navigation">
-        <a href="#story" class="nl" id="nl-1">Our Approach</a>
-        <a href="#services" class="nl" id="nl-2">Services</a>
-        <a href="#about" class="nl" id="nl-3">About</a>
-        <a href="estimator.html" class="nl" id="nl-4">Tools</a>
-        <a href="marketplace.html" class="nl" id="nl-5">Projects</a>
+        <a href="index.html" class="nl" id="nl-1">Home</a>
+        <a href="projects.html" class="nl" id="nl-2">Projects</a>
+        <div class="tools-dropdown">
+          <a href="#" class="nl" id="nl-3">Tools ▾</a>
+          <div class="dropdown-menu">
+            <a href="tools/estimator.html">Carbon Credit Estimator</a>
+            <a href="tools/asset-calculator.html">Asset Value Calculator</a>
+            <a href="tools/scope-calculator.html">Scope 1/2/3 Calculator</a>
+            <a href="tools/timeline.html">Timeline Estimator</a>
+            <a href="tools/price-tracker.html">Price Tracker</a>
+            <a href="tools/brsr-generator.html">BRSR Report Generator</a>
+          </div>
+        </div>
+        <a href="intelligence.html" class="nl" id="nl-4">Carbon Intelligence</a>
+        <a href="experts.html" class="nl" id="nl-5">Find an Expert</a>
       </nav>
       <div class="nav-end">
         <a href="auth.html" class="btn-ghost-sm">Sign In</a>
-        <a href="#contact" class="btn-solid-sm">Get Started</a>
+        <a href="#contact" class="btn-solid-sm">Book a Call</a>
         <button class="burger" id="burger" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
@@ -84,8 +94,8 @@
         that take climate seriously.
       </p>
       <div class="hero-btns">
-        <a href="consultation.html" class="btn-hero-primary">Book a Free Consultation</a>
-        <a href="marketplace.html" class="btn-hero-ghost">See Available Projects</a>
+        <a href="#contact" class="btn-hero-primary">Book a Free Consultation</a>
+        <a href="projects.html" class="btn-hero-ghost">Explore Certified Projects</a>
       </div>
     </div>
 
@@ -461,6 +471,95 @@
     </div>
   </section>
 
+  <!-- ═══════════════════════ CONSULTATION ══════════════════════════ -->
+  <section class="sect consultation-form" id="consultation">
+    <div class="container">
+      <div class="contact-split">
+        <div class="contact-left reveal-l">
+          <h2 class="sect-h2">Book a Free Consultation</h2>
+          <p class="contact-sub">The first conversation is always free.</p>
+          <div class="consultation-benefits">
+            <div class="benefit">→ Get a personalised carbon footprint estimate</div>
+            <div class="benefit">→ Discover which credits match your industry and goals</div>
+            <div class="benefit">→ Receive a clear action plan within 48 hours</div>
+          </div>
+          <div class="channels">
+            <a href="mailto:info@sparcenergy.in" class="channel" id="ch-email">
+              <div class="ch-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg></div>
+              <div>
+                <div class="ch-lbl">Email</div>
+                <div class="ch-val">info@sparcenergy.in</div>
+              </div>
+            </a>
+            <a href="https://wa.me/919441140429" class="channel" id="ch-wa" target="_blank" rel="noopener">
+              <div class="ch-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg></div>
+              <div>
+                <div class="ch-lbl">WhatsApp</div>
+                <div class="ch-val">Message directly →</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="contact-right reveal-r">
+          <form class="cform" id="consultationForm" novalidate>
+            <div class="cform-row">
+              <div class="fg"><label for="c-fname">First Name *</label><input type="text" id="c-fname" name="firstName" placeholder="Jane" required minlength="2" autocomplete="given-name" /></div>
+              <div class="fg"><label for="c-lname">Last Name *</label><input type="text" id="c-lname" name="lastName" placeholder="Smith" required minlength="2" autocomplete="family-name" /></div>
+            </div>
+            <div class="fg"><label for="c-email">Work Email *</label><input type="email" id="c-email" name="email" placeholder="jane@company.com" required autocomplete="email" /></div>
+            <div class="fg"><label for="c-company">Company Name *</label><input type="text" id="c-company" name="company" placeholder="Acme Corp" required autocomplete="organization" /></div>
+            <div class="fg">
+              <label for="c-industry">Industry *</label>
+              <select id="c-industry" name="industry" required>
+                <option value="">Select your industry...</option>
+                <option value="Manufacturing">Manufacturing</option>
+                <option value="IT/Technology">IT/Technology</option>
+                <option value="Energy">Energy</option>
+                <option value="Retail">Retail</option>
+                <option value="Finance/Banking">Finance/Banking</option>
+                <option value="Real Estate">Real Estate</option>
+                <option value="Automotive">Automotive</option>
+                <option value="Pharma/Healthcare">Pharma/Healthcare</option>
+                <option value="Hospitality">Hospitality</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label for="c-emissions">Annual Emissions *</label>
+              <select id="c-emissions" name="emissions" required>
+                <option value="">Select emissions range...</option>
+                <option value="Under 500 tCO2e">Under 500 tCO2e</option>
+                <option value="500–5,000 tCO2e">500–5,000 tCO2e</option>
+                <option value="5,000–50,000 tCO2e">5,000–50,000 tCO2e</option>
+                <option value="50,000–500,000 tCO2e">50,000–500,000 tCO2e</option>
+                <option value="Over 500,000 tCO2e">Over 500,000 tCO2e</option>
+                <option value="Not sure yet">Not sure yet</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label for="c-message">Message (optional)</label>
+              <textarea id="c-message" name="message" rows="3" placeholder="Tell us about your sustainability goals..." maxlength="500"></textarea>
+              <div class="char-counter"><span id="char-count">0</span>/500</div>
+            </div>
+            <button type="submit" class="btn-form" id="consultationBtn">
+              <span id="consultationBtnTxt">Schedule My Free Consultation</span>
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+            <div class="form-ok hidden" id="consultationOk" role="alert">✓ Thank you! We will be in touch within 24 hours.</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ═══════════════════════ CONTACT ══════════════════════════════ -->
   <section class="sect sect-tint" id="contact">
     <div class="container">
@@ -584,25 +683,21 @@
         </div>
         <div class="footer-col">
           <div class="fc-title">Platform</div>
-          <a href="marketplace.html" class="fl">Projects</a>
-          <a href="consultation.html" class="fl">Consultation</a>
-          <a href="estimator.html" class="fl">Estimator</a>
-          <a href="projects.html" class="fl">Project Registry</a>
-          <a href="scope-calculator.html" class="fl">Scope Calculator</a>
-          <a href="brsr-generator.html" class="fl">BRSR Generator</a>
-          <a href="roi-calculator.html" class="fl">ROI Calculator</a>
-          <a href="experts.html" class="fl">Expert Marketplace</a>
-          <a href="passport/tata-steel.html" class="fl">Carbon Passport Demo</a>
-          <a href="dashboard.html" class="fl">Dashboard</a>
-          <a href="auth.html" class="fl">Sign In</a>
+          <a href="tools/estimator.html" class="fl">Carbon Credit Estimator</a>
+          <a href="tools/asset-calculator.html" class="fl">Asset Value Calculator</a>
+          <a href="tools/scope-calculator.html" class="fl">Scope 1/2/3 Calculator</a>
+          <a href="tools/timeline.html" class="fl">Timeline Estimator</a>
+          <a href="tools/price-tracker.html" class="fl">Price Tracker</a>
+          <a href="tools/brsr-generator.html" class="fl">BRSR Report Generator</a>
         </div>
         <div class="footer-col">
           <div class="fc-title">Company</div>
-          <a href="#about" class="fl">About</a>
-          <a href="#insights" class="fl">Insights</a>
+          <a href="about.html" class="fl">About</a>
+          <a href="intelligence.html" class="fl">Insights</a>
           <a href="#contact" class="fl">Contact</a>
           <a href="privacy.html" class="fl">Privacy</a>
           <a href="terms.html" class="fl">Terms</a>
+          <a href="carbon-101.html" class="fl">Carbon 101</a>
         </div>
       </div>
       <div class="footer-bottom">

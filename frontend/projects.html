@@ -3,248 +3,581 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Carbon Project Registry — Sparc Energy Carbon Intelligence</title>
-  <meta name="description" content="Browse verified carbon projects on Sparc Energy — reforestation, solar, wind, blue carbon. Powered by Verra VCS and Gold Standard." />
+  <title>Carbon Projects — Verified Climate Assets</title>
+  <meta name="description" content="Browse verified carbon projects — reforestation, solar, biogas. All projects certified under Verra VCS, Gold Standard, or BEE India CCTS." />
+  <link rel="canonical" href="https://sparcenergy.in/projects" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css" />
-  <style>
-    .project-detail-modal .modal { max-width: 680px; }
-    .sdg-list { display: flex; flex-wrap: wrap; gap: 10px; }
-    .sdg-item {
-      width: 52px; height: 52px; border-radius: 12px;
-      background: var(--bg-secondary);
-      border: 1px solid var(--glass-border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px; font-weight: 800; color: var(--sparc-green);
-      flex-direction: column; gap: 2px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .type-filter-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; align-items: center; }
-    .registry-hero {
-      background: transparent;
-      border-bottom: 1px solid var(--glass-border);
-      padding: 60px 0 40px;
-    }
-  </style>
+  <!-- GA4 tag: replace UA-XXXXX -->
 </head>
+
 <body>
-
-<!-- Background Video -->
-<div class="vid-bg-wrap">
-  <iframe title="Projects Background" src="https://www.youtube.com/embed/tDByZz5r-Y8?autoplay=1&mute=1&loop=1&playlist=tDByZz5r-Y8&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-</div>
-<div class="page-bg-overlay"></div>
-
-<div class="ticker-bar"><div class="ticker-track" id="tickerTrack"></div></div>
-
-<nav class="navbar">
-  <a href="index.html" class="nav-logo">
-    <div class="logo-icon">
-      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-    </div>
-    <div>
-      <div class="logo-text">Sparc Energy</div>
-      <div class="logo-sub">CARBON INTELLIGENCE</div>
-    </div>
-  </a>
-  <div class="nav-links">
-    <a href="index.html" class="nav-link">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Overview
-    </a>
-    <a href="marketplace.html" class="nav-link">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Enquire
-    </a>
-    <a href="projects.html" class="nav-link active">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 8"/><path d="M11 20a7 7 0 0 1-6-12.1"/><path d="M11 20v-5a7 7 0 0 1-6-6"/><path d="M11 20V9"/></svg> Projects
-    </a>
-    <a href="dashboard.html" class="nav-link">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg> Portfolio
-    </a>
-    <a href="experts.html" class="nav-link">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/></svg> Experts
-    </a>
-  </div>
-  <div class="nav-actions">
-    <div id="nav-auth-user" style="display:flex;gap:12px;align-items:center;">
-      <span style="font-size:12px;color:var(--text-secondary);">WALLET: <strong style="color:var(--sparc-green);" id="nav-balance">₹0.00</strong></span>
-      <button class="btn btn-secondary btn-sm" onclick="logout()">Sign Out</button>
-    </div>
-  </div>
-</nav>
-
-<!-- Page Header -->
-<div class="registry-hero">
-  <div class="container">
-    <div class="breadcrumb" style="margin-bottom:24px;"><a href="index.html">Projects</a><span>/</span><span>Carbon Registry</span></div>
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;">
-      <div>
-        <h1 class="page-title" style="font-size:42px; margin-bottom:8px;">Available Certified Projects</h1>
-        <p class="page-sub" style="font-size:16px;">Verified climate assets generating high-integrity carbon credits.</p>
-      </div>
-      <a class="btn btn-primary card-glow" style="padding:16px 32px; background:var(--sparc-green); color:#000;" href="consultation.html">Enquire About Projects</a>
-    </div>
-  </div>
-</div>
-
-<div class="container" style="padding-top:32px;padding-bottom:60px;">
-  <!-- Stats Row -->
-  <div class="grid-4" style="margin-bottom:48px; gap:20px;">
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start; margin-bottom:12px;">
-        <div class="stat-label">TOTAL PROJECTS</div>
-        <div class="stat-icon" style="background:var(--sparc-green-glow); color:var(--sparc-green); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center;">🌿</div>
-      </div>
-      <div class="stat-value" id="ps-total" style="font-size:32px; font-weight:800;">—</div>
-      <div id="ps-verified" style="font-size:11px; color:var(--sparc-green); margin-top:4px;">💯% VCS/GS Verified</div>
-    </div>
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start; margin-bottom:12px;">
-        <div class="stat-label">CO₂ REDUCTION</div>
-        <div class="stat-icon" style="background:var(--sparc-blue-glow); color:var(--sparc-blue); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center;">🌡️</div>
-      </div>
-      <div class="stat-value" id="ps-co2" style="font-size:32px; font-weight:800;">—</div>
-      <div style="font-size:11px;color:var(--text-muted); margin-top:4px;">Tons/year offset</div>
-    </div>
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start; margin-bottom:12px;">
-        <div class="stat-label">CREDITS ISSUED</div>
-        <div class="stat-icon" style="background:rgba(255,204,0,0.1); color:var(--sparc-gold); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center;">📜</div>
-      </div>
-      <div class="stat-value" id="ps-issued" style="font-size:32px; font-weight:800;">—</div>
-      <div style="font-size:11px;color:var(--text-muted); margin-top:4px;">tCO₂e cumulative</div>
-    </div>
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start; margin-bottom:12px;">
-        <div class="stat-label">GLOBAL REGIONS</div>
-        <div class="stat-icon" style="background:rgba(167,139,250,0.1); color:#a78bfa; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center;">🌐</div>
-      </div>
-      <div class="stat-value" id="ps-regions" style="font-size:32px; font-weight:800;">0</div>
-      <div style="font-size:11px;color:var(--text-muted); margin-top:4px;">Active Jurisdictions</div>
-    </div>
-  </div>
-
-  <!-- Type Filter -->
-  <div class="type-filter-bar">
-    <div class="filter-chip active" onclick="filterByType(this,'')">🌐 All Types</div>
-    <div class="filter-chip" onclick="filterByType(this,'reforestation')">🌳 Reforestation</div>
-    <div class="filter-chip" onclick="filterByType(this,'solar')">☀️ Solar</div>
-    <div class="filter-chip" onclick="filterByType(this,'wind')">💨 Wind</div>
-    <div class="filter-chip" onclick="filterByType(this,'blue_carbon')">🌊 Blue Carbon</div>
-    <div class="filter-chip" onclick="filterByType(this,'methane')">🔥 Methane Capture</div>
-    <div style="margin-left:auto;">
-      <input class="form-input" style="width:240px;" type="text" id="projSearch" placeholder="🔍 Search projects..." oninput="applyProjectFilter()" />
-    </div>
-  </div>
-
-  <!-- Projects Grid -->
-  <div class="grid-auto" id="projectsGrid">
-    <div class="skeleton" style="height:340px;border-radius:16px;"></div>
-    <div class="skeleton" style="height:340px;border-radius:16px;"></div>
-    <div class="skeleton" style="height:340px;border-radius:16px;"></div>
-  </div>
-</div>
-
-<!-- Project Detail Modal -->
-<div class="modal-overlay" id="projectModal">
-  <div class="modal" style="max-width:640px;">
-    <button class="modal-close" onclick="closeModal('projectModal')">×</button>
-    <div id="projectModalContent">Loading...</div>
-  </div>
-</div>
-
-<!-- Submit Project Modal -->
-<div class="modal-overlay" id="submitModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('submitModal')">×</button>
-    <h2 class="modal-title">Submit Carbon Project</h2>
-    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px;">Submit your climate project for verification on Sparc Energy</p>
-    <form id="submitProjectForm" onsubmit="submitProject(event)" style="display:flex;flex-direction:column;gap:14px;">
-      <div class="form-group">
-        <label class="form-label">Project Name *</label>
-        <input class="form-input" id="pName" placeholder="e.g., Maharashtra Wind Farm" required />
-      </div>
-      <div class="grid-2" style="gap:12px;">
-        <div class="form-group">
-          <label class="form-label">Project Type *</label>
-          <select class="form-select" id="pType" required title="Project Type">
-            <option value="">Select type</option>
-            <option value="reforestation">🌳 Reforestation</option>
-            <option value="solar">☀️ Solar</option>
-            <option value="wind">💨 Wind</option>
-            <option value="blue_carbon">🌊 Blue Carbon</option>
-            <option value="methane">🔥 Methane</option>
-          </select>
+  <!-- ── NAVIGATION ── -->
+  <header class="nav" id="mainNav">
+    <div class="nav-wrap">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-mark">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
         </div>
-        <div class="form-group">
-          <label class="form-label">Certification *</label>
-          <select class="form-select" id="pCert" required title="Certification">
-            <option value="">Select standard</option>
-            <option value="Verra VCS">Verra VCS</option>
-            <option value="Gold Standard">Gold Standard</option>
-            <option value="CDM">CDM</option>
-          </select>
+        <div>
+          <div class="logo-name">Sparc Energy</div>
+          <div class="logo-sub">CARBON INTELLIGENCE</div>
+        </div>
+      </a>
+      <nav class="nav-links" id="navLinks" role="navigation">
+        <a href="index.html" class="nl">Home</a>
+        <a href="projects.html" class="nl active">Projects</a>
+        <div class="tools-dropdown">
+          <a href="#" class="nl">Tools ▾</a>
+          <div class="dropdown-menu">
+            <a href="tools/estimator.html">Carbon Credit Estimator</a>
+            <a href="tools/asset-calculator.html">Asset Value Calculator</a>
+            <a href="tools/scope-calculator.html">Scope 1/2/3 Calculator</a>
+            <a href="tools/timeline.html">Timeline Estimator</a>
+            <a href="tools/price-tracker.html">Price Tracker</a>
+            <a href="tools/brsr-generator.html">BRSR Report Generator</a>
+          </div>
+        </div>
+        <a href="intelligence.html" class="nl">Carbon Intelligence</a>
+        <a href="experts.html" class="nl">Find an Expert</a>
+      </nav>
+      <div class="nav-end">
+        <a href="auth.html" class="btn-ghost-sm">Sign In</a>
+        <a href="index.html#contact" class="btn-solid-sm">Book a Call</a>
+        <button class="burger" id="burger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════ HERO ═══════════════════════════ -->
+  <section class="tool-hero">
+    <div class="container">
+      <h1 class="tool-h1">Verified Carbon Projects</h1>
+      <p class="tool-sub">Browse certified climate projects with guided support from our team</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ PROJECTS ═══════════════════════════ -->
+  <section class="sect">
+    <div class="container">
+      <div class="projects-layout">
+        <!-- Filter Sidebar -->
+        <div class="filter-sidebar">
+          <h3>Filter Projects</h3>
+          
+          <div class="filter-group">
+            <h4>Project Type</h4>
+            <label class="filter-checkbox">
+              <input type="checkbox" value="reforestation" onchange="applyFilters()">
+              <span>🌳 Reforestation</span>
+            </label>
+            <label class="filter-checkbox">
+              <input type="checkbox" value="solar" onchange="applyFilters()">
+              <span>☀️ Solar Energy</span>
+            </label>
+            <label class="filter-checkbox">
+              <input type="checkbox" value="biogas" onchange="applyFilters()">
+              <span>🔥 Biogas</span>
+            </label>
+            <label class="filter-checkbox">
+              <input type="checkbox" value="wind" onchange="applyFilters()">
+              <span>💨 Wind Energy</span>
+            </label>
+          </div>
+
+          <div class="filter-group">
+            <h4>Country</h4>
+            <label class="filter-checkbox">
+              <input type="checkbox" value="India" onchange="applyFilters()">
+              <span>🇮🇳 India</span>
+            </label>
+            <label class="filter-checkbox">
+              <input type="checkbox" value="Brazil" onchange="applyFilters()">
+              <span>🇧🇷 Brazil</span>
+            </label>
+            <label class="filter-checkbox">
+              <input type="checkbox" value="Indonesia" onchange="applyFilters()">
+              <span>🇮🇩 Indonesia</span>
+            </label>
+          </div>
+
+          <div class="filter-group">
+            <h4>Certification</h4>
+            <label class="filter-checkbox">
+              <input type="checkbox" value="Verra VCS" onchange="applyFilters()">
+              <span>🌿 Verra VCS</span>
+            </label>
+            <label class="filter-checkbox">
+              <input type="checkbox" value="Gold Standard" onchange="applyFilters()">
+              <span>🥇 Gold Standard</span>
+            </label>
+            <label class="filter-checkbox">
+              <input type="checkbox" value="BEE India CCTS" onchange="applyFilters()">
+              <span>🇮🇳 BEE India CCTS</span>
+            </label>
+          </div>
+
+          <div class="filter-group">
+            <h4>Status</h4>
+            <label class="filter-checkbox">
+              <input type="checkbox" value="Available" onchange="applyFilters()">
+              <span>✅ Available</span>
+            </label>
+            <label class="filter-checkbox">
+              <input type="checkbox" value="Limited" onchange="applyFilters()">
+              <span>⚠️ Limited Supply</span>
+            </label>
+          </div>
+
+          <button class="btn-secondary" onclick="clearFilters()">Clear All Filters</button>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-main">
+          <div class="projects-header">
+            <div class="results-count">
+              <span id="projectCount">6</span> projects available
+            </div>
+          </div>
+
+          <div class="projects-grid" id="projectsGrid">
+            <!-- Project cards will be populated here -->
+          </div>
         </div>
       </div>
-      <div class="grid-2" style="gap:12px;">
-        <div class="form-group">
-          <label class="form-label">Location</label>
-          <input class="form-input" id="pLocation" placeholder="State / Region" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Country *</label>
-          <input class="form-input" id="pCountry" placeholder="e.g., India" required />
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Total Credits (tCO₂e) *</label>
-        <input class="form-input" type="number" id="pCredits" placeholder="e.g., 50000" required />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Description</label>
-        <textarea class="form-input" id="pDesc" rows="3" placeholder="Describe your climate project..."></textarea>
-      </div>
-      <div class="form-group">
-        <label class="form-label">CO₂ Reduction per Year (tons)</label>
-        <input class="form-input" type="number" id="pCo2" placeholder="e.g., 15000" />
-      </div>
-      <button type="submit" class="btn btn-primary w-full">Submit for Review</button>
-      <div id="submitProjectMsg" style="font-size:13px;text-align:center;"></div>
-    </form>
-  </div>
-</div>
+    </div>
+  </section>
 
-<footer class="footer">
-  <div class="container">
-    <div class="footer-bottom" style="border-top:none;padding-top:0;">
-      <div>© 2025 Sparc Energy Pvt. Ltd. All rights reserved.</div>
-      <div style="display:flex;gap:12px;">
-        <span class="badge badge-verra">🌿 Verra VCS</span>
-        <span class="badge badge-gold">🥇 Gold Standard</span>
+  <!-- ═══════════════════════ FOOTER ════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="margin-bottom:16px;display:inline-flex;">
+            <div class="logo-mark-light"><svg width="16" height="16" fill="none" stroke="currentColor"
+                stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+              </svg></div>
+            <div>
+              <div class="logo-name" style="font-size:15px;">Sparc Energy</div>
+              <div class="logo-sub">CARBON INTELLIGENCE</div>
+            </div>
+          </a>
+          <p class="footer-desc">Boutique climate intelligence for organisations serious about net zero. Science-based,
+            AI-augmented, personally delivered.</p>
+          <div class="f-socials">
+            <a href="https://linkedin.com/in/sparcenergy" class="f-soc" aria-label="LinkedIn" target="_blank"
+              rel="noopener"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+                <rect x="2" y="9" width="4" height="12" />
+                <circle cx="4" cy="4" r="2" />
+              </svg></a>
+            <a href="mailto:info@sparcenergy.in" class="f-soc" aria-label="Email"><svg width="16" height="16"
+                fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Services</div>
+          <a href="index.html#services" class="fl">Carbon Measurement</a>
+          <a href="index.html#services" class="fl">Net Zero Strategy</a>
+          <a href="index.html#services" class="fl">Credit Procurement</a>
+          <a href="index.html#services" class="fl">ESG Reporting</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Tools</div>
+          <a href="tools/estimator.html" class="fl">Carbon Credit Estimator</a>
+          <a href="tools/asset-calculator.html" class="fl">Asset Value Calculator</a>
+          <a href="tools/scope-calculator.html" class="fl">Scope 1/2/3 Calculator</a>
+          <a href="tools/timeline.html" class="fl">Timeline Estimator</a>
+          <a href="tools/price-tracker.html" class="fl">Price Tracker</a>
+          <a href="tools/brsr-generator.html" class="fl">BRSR Report Generator</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Company</div>
+          <a href="about.html" class="fl">About</a>
+          <a href="intelligence.html" class="fl">Insights</a>
+          <a href="index.html#contact" class="fl">Contact</a>
+          <a href="privacy.html" class="fl">Privacy</a>
+          <a href="terms.html" class="fl">Terms</a>
+          <a href="carbon-101.html" class="fl">Carbon 101</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Sparc Energy. All rights reserved.</span>
+        <div class="footer-certs">
+          <span>🌿 Verra VCS</span><span>🥇 Gold Standard</span><span>📊 SBTi Aligned</span>
+        </div>
       </div>
     </div>
-  </div>
-</footer>
+  </footer>
 
-<div class="toast-container" id="toastContainer"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/api.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/projects.js"></script>
   <script>
-    async function loadRegistryLiveStats() {
-      try {
-        const res = await api('/market/stats');
-        if (res.success) {
-          const s = res.data;
-          document.getElementById('ps-total').textContent = s.total_projects.toLocaleString();
-          document.getElementById('ps-co2').textContent = s.total_credits.toLocaleString();
-          document.getElementById('ps-issued').textContent = s.total_credits.toLocaleString();
-          document.getElementById('ps-regions').textContent = s.total_projects > 0 ? '1' : '0';
-        }
-      } catch (e) {
-        console.error('Failed to load registry stats', e);
+    // Sample project data
+    const projects = [
+      {
+        id: 1,
+        name: "Amazon Reforestation Initiative",
+        type: "reforestation",
+        country: "Brazil",
+        certification: "Verra VCS",
+        status: "Available",
+        tco2e: "50,000",
+        priceRange: "$12-18",
+        description: "Large-scale reforestation project in the Brazilian Amazon, protecting biodiversity and sequestering carbon.",
+        image: "🌳"
+      },
+      {
+        id: 2,
+        name: "Rajasthan Solar Farm",
+        type: "solar",
+        country: "India",
+        certification: "Gold Standard",
+        status: "Available",
+        tco2e: "75,000",
+        priceRange: "$8-14",
+        description: "Utility-scale solar installation in Rajasthan, displacing coal-fired electricity generation.",
+        image: "☀️"
+      },
+      {
+        id: 3,
+        name: "Rural Biogas Program",
+        type: "biogas",
+        country: "India",
+        certification: "BEE India CCTS",
+        status: "Limited",
+        tco2e: "25,000",
+        priceRange: "$6-12",
+        description: "Community biogas digesters converting agricultural waste to clean energy.",
+        image: "🔥"
+      },
+      {
+        id: 4,
+        name: "Mangrove Restoration Project",
+        type: "reforestation",
+        country: "Indonesia",
+        certification: "Verra VCS",
+        status: "Available",
+        tco2e: "40,000",
+        priceRange: "$15-22",
+        description: "Coastal mangrove restoration providing carbon sequestration and coastal protection.",
+        image: "🌿"
+      },
+      {
+        id: 5,
+        name: "Tamil Nadu Wind Farm",
+        type: "wind",
+        country: "India",
+        certification: "Gold Standard",
+        status: "Available",
+        tco2e: "60,000",
+        priceRange: "$10-16",
+        description: "Onshore wind energy project in Tamil Nadu, contributing to India's renewable energy targets.",
+        image: "💨"
+      },
+      {
+        id: 6,
+        name: "Community Forest Conservation",
+        type: "reforestation",
+        country: "India",
+        certification: "Verra VCS",
+        status: "Limited",
+        tco2e: "30,000",
+        priceRange: "$14-20",
+        description: "Community-managed forest conservation project in Himachal Pradesh.",
+        image: "🌲"
+      }
+    ];
+
+    let filteredProjects = [...projects];
+
+    function renderProjects() {
+      const grid = document.getElementById('projectsGrid');
+      const count = document.getElementById('projectCount');
+      
+      count.textContent = filteredProjects.length;
+      
+      if (filteredProjects.length === 0) {
+        grid.innerHTML = '<div class="no-results">No projects match your filters. Try adjusting your selection.</div>';
+        return;
+      }
+      
+      grid.innerHTML = filteredProjects.map(project => `
+        <div class="project-card" data-type="${project.type}" data-country="${project.country}" data-certification="${project.certification}" data-status="${project.status}">
+          <div class="project-header">
+            <div class="project-icon">${project.image}</div>
+            <div class="project-badges">
+              <span class="type-badge">${project.type}</span>
+              <span class="status-badge ${project.status.toLowerCase()}">${project.status}</span>
+            </div>
+          </div>
+          <h3 class="project-name">${project.name}</h3>
+          <p class="project-description">${project.description}</p>
+          <div class="project-details">
+            <div class="detail-item">
+              <span class="detail-label">Country:</span>
+              <span class="detail-value">${project.country}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Certification:</span>
+              <span class="detail-value">${project.certification}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">tCO₂e Available:</span>
+              <span class="detail-value">${project.tco2e}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Price Range:</span>
+              <span class="detail-value">${project.priceRange}/tonne</span>
+            </div>
+          </div>
+          <button class="btn-primary project-cta" onclick="requestQuote('${project.name}')">Request Quote</button>
+        </div>
+      `).join('');
+    }
+
+    function applyFilters() {
+      const typeFilters = Array.from(document.querySelectorAll('input[type="checkbox"]'))
+        .filter(cb => cb.checked)
+        .map(cb => cb.value);
+      
+      if (typeFilters.length === 0) {
+        filteredProjects = [...projects];
+      } else {
+        filteredProjects = projects.filter(project => 
+          typeFilters.includes(project.type) ||
+          typeFilters.includes(project.country) ||
+          typeFilters.includes(project.certification) ||
+          typeFilters.includes(project.status)
+        );
+      }
+      
+      renderProjects();
+    }
+
+    function clearFilters() {
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      filteredProjects = [...projects];
+      renderProjects();
+    }
+
+    function requestQuote(projectName) {
+      window.location.href = `index.html#contact?project=${encodeURIComponent(projectName)}`;
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      renderProjects();
+    });
+  </script>
+
+  <style>
+    .projects-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    .filter-sidebar {
+      background: var(--emerald);
+      padding: 24px;
+      border-radius: 12px;
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+
+    .filter-sidebar h3 {
+      color: var(--cream);
+      margin-bottom: 24px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .filter-group {
+      margin-bottom: 24px;
+    }
+
+    .filter-group h4 {
+      color: var(--cream);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .filter-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      color: var(--cream);
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .filter-checkbox input[type="checkbox"] {
+      accent-color: var(--mint);
+    }
+
+    .projects-main {
+      min-height: 600px;
+    }
+
+    .projects-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .results-count {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--emerald);
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid var(--mint);
+      transition: all 0.2s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(82, 183, 136, 0.2);
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .project-icon {
+      font-size: 32px;
+    }
+
+    .project-badges {
+      display: flex;
+      gap: 8px;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .type-badge, .status-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .type-badge {
+      background: var(--mint);
+      color: var(--forest);
+    }
+
+    .status-badge.available {
+      background: #10b981;
+      color: white;
+    }
+
+    .status-badge.limited {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .project-name {
+      color: var(--cream);
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .project-description {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .project-details {
+      margin-bottom: 20px;
+    }
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .detail-label {
+      color: var(--muted);
+    }
+
+    .detail-value {
+      color: var(--cream);
+      font-weight: 500;
+    }
+
+    .project-cta {
+      width: 100%;
+      background: var(--mint);
+      color: var(--forest);
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .project-cta:hover {
+      background: var(--cream);
+    }
+
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: var(--muted);
+      padding: 60px 20px;
+      font-size: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .projects-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      
+      .filter-sidebar {
+        position: static;
+      }
+      
+      .projects-grid {
+        grid-template-columns: 1fr;
       }
     }
-    loadRegistryLiveStats();
-  </script>
+  </style>
+
 </body>
+
 </html>

@@ -1,0 +1,70 @@
+{
+  "lastUpdated": "2025-04-21",
+  "sparc_weekly_index": { 
+    "value": 1842, 
+    "change": 12, 
+    "changePercent": 0.65 
+  },
+  "markets": [
+    {
+      "name": "EU ETS — European Allowances",
+      "ticker": "EUA",
+      "price": 65.20, 
+      "currency": "EUR", 
+      "unit": "tCO2e",
+      "change": -1.20, 
+      "changePercent": -1.81,
+      "description": "European Union Emissions Trading System compliance allowances"
+    },
+    {
+      "name": "California Cap-and-Trade",
+      "ticker": "CCA",
+      "price": 30.45, 
+      "currency": "USD", 
+      "unit": "tCO2e",
+      "change": 0.55, 
+      "changePercent": 1.84,
+      "description": "California compliance allowances from quarterly CARB auctions"
+    },
+    {
+      "name": "India CCTS — BEE",
+      "ticker": "CCTS",
+      "price": 850, 
+      "currency": "INR", 
+      "unit": "tCO2e",
+      "change": 0, 
+      "changePercent": 0,
+      "description": "India Carbon Credit Trading Scheme administered by BEE"
+    },
+    {
+      "name": "Voluntary Market Average",
+      "ticker": "VCM",
+      "price": 15.00, 
+      "currency": "USD", 
+      "unit": "tCO2e",
+      "change": -0.50, 
+      "changePercent": -3.23,
+      "description": "Average price across voluntary carbon market registries"
+    },
+    {
+      "name": "Gold Standard Credits",
+      "ticker": "GS-VER",
+      "price": 22.00, 
+      "currency": "USD", 
+      "unit": "tCO2e",
+      "change": 1.00, 
+      "changePercent": 4.76,
+      "description": "Gold Standard Verified Emission Reductions — premium tier"
+    },
+    {
+      "name": "Verra VCS Credits",
+      "ticker": "VCS-VCU",
+      "price": 15.50, 
+      "currency": "USD", 
+      "unit": "tCO2e",
+      "change": 0.50, 
+      "changePercent": 3.33,
+      "description": "Verra Verified Carbon Units — most liquid voluntary market"
+    }
+  ]
+}

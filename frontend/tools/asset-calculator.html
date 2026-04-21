@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asset Value Calculator — Carbon Income Potential for Landowners</title>
+  <meta name="description" content="Calculate carbon credit income potential from your land. Free tool for Indian landowners to estimate revenue from carbon projects." />
+  <link rel="canonical" href="https://sparcenergy.in/tools/asset-calculator" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css" />
+  <!-- GA4 tag: replace UA-XXXXX -->
+</head>
+
+<body>
+  <!-- ── NAVIGATION ── -->
+  <header class="nav" id="mainNav">
+    <div class="nav-wrap">
+      <a href="../index.html" class="nav-logo">
+        <div class="logo-mark">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
+        </div>
+        <div>
+          <div class="logo-name">Sparc Energy</div>
+          <div class="logo-sub">CARBON INTELLIGENCE</div>
+        </div>
+      </a>
+      <nav class="nav-links" id="navLinks" role="navigation">
+        <a href="../index.html" class="nl">Home</a>
+        <a href="../projects.html" class="nl">Projects</a>
+        <div class="tools-dropdown">
+          <a href="#" class="nl active">Tools ▾</a>
+          <div class="dropdown-menu">
+            <a href="estimator.html">Carbon Credit Estimator</a>
+            <a href="asset-calculator.html">Asset Value Calculator</a>
+            <a href="scope-calculator.html">Scope 1/2/3 Calculator</a>
+            <a href="timeline.html">Timeline Estimator</a>
+            <a href="price-tracker.html">Price Tracker</a>
+            <a href="brsr-generator.html">BRSR Report Generator</a>
+          </div>
+        </div>
+        <a href="../intelligence.html" class="nl">Carbon Intelligence</a>
+        <a href="../experts.html" class="nl">Find an Expert</a>
+      </nav>
+      <div class="nav-end">
+        <a href="../auth.html" class="btn-ghost-sm">Sign In</a>
+        <a href="../index.html#contact" class="btn-solid-sm">Book a Call</a>
+        <button class="burger" id="burger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════ HERO ═══════════════════════════ -->
+  <section class="tool-hero">
+    <div class="container">
+      <h1 class="tool-h1">Asset Value Calculator</h1>
+      <p class="tool-sub">Calculate the carbon income potential from your land assets</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ CALCULATOR ═══════════════════════════ -->
+  <section class="sect">
+    <div class="container">
+      <div class="calculator-container">
+        <form id="assetForm" class="calculator-form">
+          <div class="form-section">
+            <h2>Land Details</h2>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="landSize">Land Size *</label>
+                <div class="input-with-unit">
+                  <input type="number" id="landSize" name="landSize" required min="0.1" step="0.1">
+                  <select id="landUnit" name="landUnit">
+                    <option value="hectares">Hectares</option>
+                    <option value="acres">Acres</option>
+                  </select>
+                </div>
+                <small id="conversionNote"></small>
+              </div>
+              
+              <div class="form-group">
+                <label for="landType">Land Type *</label>
+                <select id="landType" name="landType" required>
+                  <option value="">Select land type...</option>
+                  <option value="Dense Forest">Dense Forest</option>
+                  <option value="Degraded Forest">Degraded Forest</option>
+                  <option value="Farmland">Farmland</option>
+                  <option value="Wasteland">Wasteland</option>
+                  <option value="Mangrove">Mangrove</option>
+                  <option value="Grassland">Grassland</option>
+                  <option value="Scrubland">Scrubland</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="state">State/Region *</label>
+                <select id="state" name="state" required>
+                  <option value="">Select state...</option>
+                  <option value="Andhra Pradesh">Andhra Pradesh</option>
+                  <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                  <option value="Assam">Assam</option>
+                  <option value="Bihar">Bihar</option>
+                  <option value="Chhattisgarh">Chhattisgarh</option>
+                  <option value="Goa">Goa</option>
+                  <option value="Gujarat">Gujarat</option>
+                  <option value="Haryana">Haryana</option>
+                  <option value="Himachal Pradesh">Himachal Pradesh</option>
+                  <option value="Jharkhand">Jharkhand</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Kerala">Kerala</option>
+                  <option value="Madhya Pradesh">Madhya Pradesh</option>
+                  <option value="Maharashtra">Maharashtra</option>
+                  <option value="Manipur">Manipur</option>
+                  <option value="Meghalaya">Meghalaya</option>
+                  <option value="Mizoram">Mizoram</option>
+                  <option value="Nagaland">Nagaland</option>
+                  <option value="Odisha">Odisha</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="Rajasthan">Rajasthan</option>
+                  <option value="Sikkim">Sikkim</option>
+                  <option value="Tamil Nadu">Tamil Nadu</option>
+                  <option value="Telangana">Telangana</option>
+                  <option value="Tripura">Tripura</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh</option>
+                  <option value="Uttarakhand">Uttarakhand</option>
+                  <option value="West Bengal">West Bengal</option>
+                  <option value="Andaman & Nicobar">Andaman & Nicobar</option>
+                  <option value="Chandigarh">Chandigarh</option>
+                  <option value="Dadra & Nagar Haveli">Dadra & Nagar Haveli</option>
+                  <option value="Daman & Diu">Daman & Diu</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Jammu & Kashmir">Jammu & Kashmir</option>
+                  <option value="Ladakh">Ladakh</option>
+                  <option value="Lakshadweep">Lakshadweep</option>
+                  <option value="Puducherry">Puducherry</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="projectType">Project Type *</label>
+                <select id="projectType" name="projectType" required>
+                  <option value="">Select project type...</option>
+                  <option value="Reforestation (AFOLU)">Reforestation (AFOLU)</option>
+                  <option value="Agroforestry">Agroforestry</option>
+                  <option value="Solar Farm (RECs)">Solar Farm (RECs)</option>
+                  <option value="Biogas Plant">Biogas Plant</option>
+                  <option value="Mangrove Restoration">Mangrove Restoration</option>
+                  <option value="Avoided Deforestation">Avoided Deforestation</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="currentUse">Current Land Use</label>
+                <select id="currentUse" name="currentUse">
+                  <option value="Agricultural">Agricultural</option>
+                  <option value="Unused/Vacant">Unused/Vacant</option>
+                  <option value="Partially Forested">Partially Forested</option>
+                  <option value="Already Forested">Already Forested</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="certification">Target Certification</label>
+                <select id="certification" name="certification">
+                  <option value="Verra VCS">Verra VCS</option>
+                  <option value="Gold Standard">Gold Standard</option>
+                  <option value="No Preference">No Preference</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="readiness">Project Readiness</label>
+                <select id="readiness" name="readiness">
+                  <option value="Ready now">Ready now</option>
+                  <option value="Within 6 months">Within 6 months</option>
+                  <option value="1–2 years">1–2 years</option>
+                  <option value="Just exploring">Just exploring</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-primary-lg" onclick="calculateAssetValue()">Calculate Carbon Income Potential</button>
+          </div>
+        </form>
+
+        <!-- RESULTS -->
+        <div id="results" class="results-card hidden">
+          <h2>Your Carbon Income Potential</h2>
+          <div class="results-grid">
+            <div class="result-item">
+              <div class="result-number" id="annualCredits">0</div>
+              <div class="result-label">tCO₂e per year</div>
+              <div class="result-sublabel">Estimated credits/year</div>
+            </div>
+            <div class="result-item">
+              <div class="result-number" id="annualIncome">Rs.0 – Rs.0</div>
+              <div class="result-label">annual income</div>
+              <div class="result-sublabel">Based on current market rates</div>
+            </div>
+            <div class="result-item">
+              <div class="result-number" id="tenYearProjection">Rs.0 – Rs.0</div>
+              <div class="result-label">10-year projected</div>
+              <div class="result-sublabel">Total potential revenue</div>
+            </div>
+          </div>
+
+          <div class="timeline-info">
+            <div class="timeline-item">
+              <strong>Time to first issuance:</strong> <span id="timeToIssuance">12–24 months</span>
+            </div>
+            <div class="viability-item">
+              <strong>Viability rating:</strong> <span id="viabilityRating" class="viability-badge">Medium</span>
+            </div>
+          </div>
+
+          <div class="results-actions">
+            <button class="btn-primary-lg" onclick="window.location.href='../index.html#contact'">Get Full Feasibility Report — Book a Call</button>
+            <button class="btn-secondary-lg" onclick="window.location.href='../experts.html'">Find a PDD Writer or Carbon Auditor</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FOOTER ════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="../index.html" class="nav-logo" style="margin-bottom:16px;display:inline-flex;">
+            <div class="logo-mark-light"><svg width="16" height="16" fill="none" stroke="currentColor"
+                stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+              </svg></div>
+            <div>
+              <div class="logo-name" style="font-size:15px;">Sparc Energy</div>
+              <div class="logo-sub">CARBON INTELLIGENCE</div>
+            </div>
+          </a>
+          <p class="footer-desc">Boutique climate intelligence for organisations serious about net zero. Science-based,
+            AI-augmented, personally delivered.</p>
+          <div class="f-socials">
+            <a href="https://linkedin.com/in/sparcenergy" class="f-soc" aria-label="LinkedIn" target="_blank"
+              rel="noopener"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+                <rect x="2" y="9" width="4" height="12" />
+                <circle cx="4" cy="4" r="2" />
+              </svg></a>
+            <a href="mailto:info@sparcenergy.in" class="f-soc" aria-label="Email"><svg width="16" height="16"
+                fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Services</div>
+          <a href="../index.html#services" class="fl">Carbon Measurement</a>
+          <a href="../index.html#services" class="fl">Net Zero Strategy</a>
+          <a href="../index.html#services" class="fl">Credit Procurement</a>
+          <a href="../index.html#services" class="fl">ESG Reporting</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Tools</div>
+          <a href="estimator.html" class="fl">Carbon Credit Estimator</a>
+          <a href="asset-calculator.html" class="fl">Asset Value Calculator</a>
+          <a href="scope-calculator.html" class="fl">Scope 1/2/3 Calculator</a>
+          <a href="timeline.html" class="fl">Timeline Estimator</a>
+          <a href="price-tracker.html" class="fl">Price Tracker</a>
+          <a href="brsr-generator.html" class="fl">BRSR Report Generator</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Company</div>
+          <a href="../about.html" class="fl">About</a>
+          <a href="../intelligence.html" class="fl">Insights</a>
+          <a href="../index.html#contact" class="fl">Contact</a>
+          <a href="../privacy.html" class="fl">Privacy</a>
+          <a href="../terms.html" class="fl">Terms</a>
+          <a href="../carbon-101.html" class="fl">Carbon 101</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Sparc Energy. All rights reserved.</span>
+        <div class="footer-certs">
+          <span>🌿 Verra VCS</span><span>🥇 Gold Standard</span><span>📊 SBTi Aligned</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Unit conversion
+    document.getElementById('landSize').addEventListener('input', updateConversion);
+    document.getElementById('landUnit').addEventListener('change', updateConversion);
+
+    function updateConversion() {
+      const size = parseFloat(document.getElementById('landSize').value) || 0;
+      const unit = document.getElementById('landUnit').value;
+      const note = document.getElementById('conversionNote');
+      
+      if (size > 0) {
+        if (unit === 'acres') {
+          const hectares = (size * 0.4047).toFixed(2);
+          note.textContent = `= ${hectares} hectares`;
+        } else {
+          const acres = (size / 0.4047).toFixed(2);
+          note.textContent = `= ${acres} acres`;
+        }
+      } else {
+        note.textContent = '';
+      }
+    }
+
+    function calculateAssetValue() {
+      // Get form data
+      const formData = new FormData(document.getElementById('assetForm'));
+      const data = Object.fromEntries(formData);
+
+      // Validate required fields
+      if (!data.landSize || !data.landType || !data.state || !data.projectType) {
+        alert('Please fill in all required fields');
+        return;
+      }
+
+      // Convert to hectares
+      let landHectares = parseFloat(data.landSize);
+      if (data.landUnit === 'acres') {
+        landHectares = landHectares * 0.4047;
+      }
+
+      // Base sequestration rates (tCO2e/ha/yr)
+      const sequestrationRates = {
+        'Reforestation (AFOLU)': 5,
+        'Agroforestry': 3,
+        'Solar Farm (RECs)': 0,
+        'Biogas Plant': 4,
+        'Mangrove Restoration': 15,
+        'Avoided Deforestation': 8
+      };
+
+      // State rainfall multipliers
+      const highRainfallStates = ['Kerala', 'Assam', 'Meghalaya', 'Mizoram', 'Nagaland', 'Arunachal Pradesh', 'Manipur', 'Tripura', 'Sikkim', 'Goa'];
+      const lowRainfallStates = ['Rajasthan', 'Gujarat'];
+      
+      let stateMultiplier = 1.0;
+      if (highRainfallStates.includes(data.state)) {
+        stateMultiplier = 1.3;
+      } else if (lowRainfallStates.includes(data.state)) {
+        stateMultiplier = 0.7;
+      }
+
+      // Calculate annual credits
+      const baseRate = sequestrationRates[data.projectType] || 5;
+      const annualCredits = Math.round(landHectares * baseRate * stateMultiplier);
+
+      // Calculate income (Rs.)
+      const annualIncomeLow = annualCredits * 10 * 83;
+      const annualIncomeHigh = annualCredits * 22 * 83;
+      const tenYearLow = annualIncomeLow * 10;
+      const tenYearHigh = annualIncomeHigh * 10;
+
+      // Time to first issuance
+      const timeToIssuance = {
+        'Verra VCS': '15–24 months',
+        'Gold Standard': '20–30 months',
+        'No Preference': '12–24 months'
+      };
+
+      // Viability rating
+      let viability = 'Low';
+      let viabilityClass = 'low';
+      if (annualCredits > 1000) {
+        viability = 'High';
+        viabilityClass = 'high';
+      } else if (annualCredits > 200) {
+        viability = 'Medium';
+        viabilityClass = 'medium';
+      }
+
+      // Display results
+      document.getElementById('annualCredits').textContent = annualCredits.toLocaleString();
+      document.getElementById('annualIncome').textContent = 
+        `Rs.${(annualIncomeLow / 100000).toFixed(1)}L – Rs.${(annualIncomeHigh / 100000).toFixed(1)}L`;
+      document.getElementById('tenYearProjection').textContent = 
+        `Rs.${(tenYearLow / 10000000).toFixed(1)}Cr – Rs.${(tenYearHigh / 10000000).toFixed(1)}Cr`;
+      document.getElementById('timeToIssuance').textContent = timeToIssuance[data.certification];
+      
+      const viabilityElement = document.getElementById('viabilityRating');
+      viabilityElement.textContent = viability;
+      viabilityElement.className = `viability-badge ${viabilityClass}`;
+
+      // Show results
+      document.getElementById('results').classList.remove('hidden');
+      document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+
+  <style>
+    .input-with-unit {
+      display: flex;
+      gap: 8px;
+    }
+
+    .input-with-unit input {
+      flex: 1;
+    }
+
+    .input-with-unit select {
+      width: 120px;
+    }
+
+    .timeline-info {
+      background: var(--emerald);
+      padding: 20px;
+      border-radius: 8px;
+      margin: 24px 0;
+    }
+
+    .timeline-item, .viability-item {
+      color: var(--cream);
+      margin-bottom: 8px;
+    }
+
+    .viability-badge {
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .viability-badge.high {
+      background: #10b981;
+      color: white;
+    }
+
+    .viability-badge.medium {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .viability-badge.low {
+      background: #ef4444;
+      color: white;
+    }
+  </style>
+
+</body>
+
+</html>

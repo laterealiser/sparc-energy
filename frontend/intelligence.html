@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carbon Intelligence — AI Assistant for Carbon Markets</title>
+  <meta name="description" content="Ask our AI assistant about carbon credits, BRSR reporting, India CCTS, and climate regulations. Get expert answers instantly." />
+  <link rel="canonical" href="https://sparcenergy.in/intelligence" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" />
+  <!-- GA4 tag: replace UA-XXXXX -->
+</head>
+
+<body>
+  <!-- ── NAVIGATION ── -->
+  <header class="nav" id="mainNav">
+    <div class="nav-wrap">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-mark">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
+        </div>
+        <div>
+          <div class="logo-name">Sparc Energy</div>
+          <div class="logo-sub">CARBON INTELLIGENCE</div>
+        </div>
+      </a>
+      <nav class="nav-links" id="navLinks" role="navigation">
+        <a href="index.html" class="nl">Home</a>
+        <a href="projects.html" class="nl">Projects</a>
+        <div class="tools-dropdown">
+          <a href="#" class="nl">Tools ▾</a>
+          <div class="dropdown-menu">
+            <a href="tools/estimator.html">Carbon Credit Estimator</a>
+            <a href="tools/asset-calculator.html">Asset Value Calculator</a>
+            <a href="tools/scope-calculator.html">Scope 1/2/3 Calculator</a>
+            <a href="tools/timeline.html">Timeline Estimator</a>
+            <a href="tools/price-tracker.html">Price Tracker</a>
+            <a href="tools/brsr-generator.html">BRSR Report Generator</a>
+          </div>
+        </div>
+        <a href="intelligence.html" class="nl active">Carbon Intelligence</a>
+        <a href="experts.html" class="nl">Find an Expert</a>
+      </nav>
+      <div class="nav-end">
+        <a href="auth.html" class="btn-ghost-sm">Sign In</a>
+        <a href="index.html#contact" class="btn-solid-sm">Book a Call</a>
+        <button class="burger" id="burger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════ CHAT INTERFACE ═══════════════════════════ -->
+  <div class="chat-container">
+    <div class="chat-sidebar">
+      <div class="chat-header">
+        <h2>Carbon Intelligence</h2>
+        <p>Ask me anything about carbon markets</p>
+      </div>
+      
+      <div class="suggested-questions">
+        <h3>Suggested Questions</h3>
+        <div class="suggestion-list">
+          <button class="suggestion-btn" onclick="fillQuestion(this)">What carbon credits suit a manufacturing company?</button>
+          <button class="suggestion-btn" onclick="fillQuestion(this)">Explain Verra VCS methodology</button>
+          <button class="suggestion-btn" onclick="fillQuestion(this)">How does India CCTS work?</button>
+          <button class="suggestion-btn" onclick="fillQuestion(this)">What is additionality in carbon markets?</button>
+          <button class="suggestion-btn" onclick="fillQuestion(this)">How many credits do I need to offset 1000 tonnes?</button>
+          <button class="suggestion-btn" onclick="fillQuestion(this)">Difference between Gold Standard and Verra VCS?</button>
+          <button class="suggestion-btn" onclick="fillQuestion(this)">What is BRSR and who needs to file it?</button>
+          <button class="suggestion-btn" onclick="fillQuestion(this)">How long does project validation take?</button>
+        </div>
+      </div>
+
+      <div class="tools-section">
+        <h3>Tools</h3>
+        <div class="tool-links">
+          <a href="tools/estimator.html" class="tool-link">Carbon Credit Estimator</a>
+          <a href="tools/scope-calculator.html" class="tool-link">Scope Calculator</a>
+          <a href="tools/brsr-generator.html" class="tool-link">BRSR Generator</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-main">
+      <div class="chat-notice">
+        <p><strong>Note:</strong> For general information only. Book a consultation for personalised advice.</p>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-message assistant">
+          <div class="message-avatar">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+            </svg>
+          </div>
+          <div class="message-content">
+            <p>Hello! I am the Sparc Energy Carbon Intelligence. Ask me anything about carbon markets, credits, BRSR reporting, net-zero strategy, or Indian climate regulations.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-input-container">
+        <div class="chat-input-wrapper">
+          <textarea 
+            id="chatInput" 
+            placeholder="Ask about carbon credits, BRSR reporting, India CCTS..."
+            rows="1"
+            onkeydown="handleKeyDown(event)"
+            oninput="autoResize(this)"
+          ></textarea>
+          <button id="sendButton" onclick="sendMessage()" disabled>
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+        <div class="chat-footer">
+          <span>Powered by Claude AI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let conversationHistory = [];
+    let isLoading = false;
+
+    // Auto-resize textarea
+    function autoResize(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+      
+      // Enable/disable send button
+      const sendButton = document.getElementById('sendButton');
+      sendButton.disabled = textarea.value.trim() === '';
+    }
+
+    // Handle enter key
+    function handleKeyDown(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
+    }
+
+    // Fill question from suggestions
+    function fillQuestion(button) {
+      const input = document.getElementById('chatInput');
+      input.value = button.textContent;
+      autoResize(input);
+      input.focus();
+    }
+
+    // Add message to chat
+    function addMessage(content, isUser = false) {
+      const messagesContainer = document.getElementById('chatMessages');
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `chat-message ${isUser ? 'user' : 'assistant'}`;
+      
+      messageDiv.innerHTML = `
+        <div class="message-avatar">
+          ${isUser ? 
+            '<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' :
+            '<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>'
+          }
+        </div>
+        <div class="message-content">
+          <p>${content}</p>
+        </div>
+      `;
+      
+      messagesContainer.appendChild(messageDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    // Show typing indicator
+    function showTypingIndicator() {
+      const messagesContainer = document.getElementById('chatMessages');
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'chat-message assistant typing';
+      typingDiv.id = 'typingIndicator';
+      
+      typingDiv.innerHTML = `
+        <div class="message-avatar">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
+        </div>
+        <div class="message-content">
+          <div class="typing-dots">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      `;
+      
+      messagesContainer.appendChild(typingDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    // Remove typing indicator
+    function removeTypingIndicator() {
+      const typingIndicator = document.getElementById('typingIndicator');
+      if (typingIndicator) {
+        typingIndicator.remove();
+      }
+    }
+
+    // Send message
+    async function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const message = input.value.trim();
+      
+      if (!message || isLoading) return;
+      
+      isLoading = true;
+      const sendButton = document.getElementById('sendButton');
+      sendButton.disabled = true;
+      
+      // Add user message
+      addMessage(message, true);
+      conversationHistory.push({ role: 'user', content: message });
+      
+      // Clear input
+      input.value = '';
+      autoResize(input);
+      
+      // Show typing indicator
+      showTypingIndicator();
+      
+      try {
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'x-api-key': 'REPLACE_WITH_YOUR_KEY',
+            'anthropic-version': '2023-06-01',
+            'content-type': 'application/json',
+            'anthropic-dangerous-direct-browser-access': 'true'
+          },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 1000,
+            system: "You are the Sparc Energy Carbon Intelligence assistant. You are an expert in carbon markets, carbon credits, BRSR reporting, ESG strategy, Verra VCS, Gold Standard, India CCTS, net-zero pathways, and climate regulations. You help Indian companies understand and navigate carbon markets. Keep answers concise, practical and relevant to India. Always recommend consulting Sparc Energy for personalised advice. Never give specific investment or legal advice.",
+            messages: conversationHistory
+          })
+        });
+        
+        if (!response.ok) {
+          throw new Error('API request failed');
+        }
+        
+        const data = await response.json();
+        const assistantMessage = data.content[0].text;
+        
+        // Remove typing indicator and add response
+        removeTypingIndicator();
+        addMessage(assistantMessage);
+        conversationHistory.push({ role: 'assistant', content: assistantMessage });
+        
+      } catch (error) {
+        console.error('Error:', error);
+        removeTypingIndicator();
+        addMessage('Sorry, I encountered an error. Please try again or contact us directly at info@sparcenergy.in for assistance.');
+      } finally {
+        isLoading = false;
+        sendButton.disabled = false;
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      const input = document.getElementById('chatInput');
+      input.focus();
+    });
+  </script>
+
+  <style>
+    .chat-container {
+      display: flex;
+      height: calc(100vh - 80px);
+      background: var(--forest);
+    }
+
+    .chat-sidebar {
+      width: 260px;
+      background: var(--deep);
+      border-right: 1px solid var(--emerald);
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    .chat-header h2 {
+      font-family: 'Playfair Display', serif;
+      color: var(--cream);
+      margin-bottom: 8px;
+      font-size: 24px;
+    }
+
+    .chat-header p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+
+    .suggested-questions h3,
+    .tools-section h3 {
+      color: var(--cream);
+      font-size: 16px;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .suggestion-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: 1px solid var(--emerald);
+      color: var(--cream);
+      padding: 12px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .suggestion-btn:hover {
+      background: var(--emerald);
+      color: var(--cream);
+    }
+
+    .tools-section {
+      margin-top: 32px;
+    }
+
+    .tool-link {
+      display: block;
+      color: var(--mint);
+      text-decoration: none;
+      padding: 8px 0;
+      font-size: 14px;
+      border-bottom: 1px solid var(--emerald);
+    }
+
+    .tool-link:hover {
+      color: var(--cream);
+    }
+
+    .chat-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--forest);
+    }
+
+    .chat-notice {
+      background: rgba(255, 193, 7, 0.1);
+      border: 1px solid rgba(255, 193, 7, 0.3);
+      padding: 12px 24px;
+      color: var(--cream);
+      font-size: 14px;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .chat-message {
+      display: flex;
+      gap: 12px;
+      max-width: 80%;
+    }
+
+    .chat-message.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .message-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--mint);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .chat-message.user .message-avatar {
+      background: var(--emerald);
+    }
+
+    .message-content {
+      background: var(--emerald);
+      padding: 16px;
+      border-radius: 16px;
+      color: var(--cream);
+      line-height: 1.5;
+    }
+
+    .chat-message.user .message-content {
+      background: var(--mint);
+      color: var(--forest);
+    }
+
+    .typing-dots {
+      display: flex;
+      gap: 4px;
+    }
+
+    .typing-dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--muted);
+      animation: typing 1.4s infinite ease-in-out;
+    }
+
+    .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes typing {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    .chat-input-container {
+      padding: 24px;
+      border-top: 1px solid var(--emerald);
+    }
+
+    .chat-input-wrapper {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      background: var(--emerald);
+      border-radius: 24px;
+      padding: 12px 16px;
+    }
+
+    #chatInput {
+      flex: 1;
+      background: none;
+      border: none;
+      color: var(--cream);
+      font-size: 16px;
+      resize: none;
+      outline: none;
+      min-height: 24px;
+      max-height: 120px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    #chatInput::placeholder {
+      color: var(--muted);
+    }
+
+    #sendButton {
+      background: var(--mint);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    #sendButton:hover:not(:disabled) {
+      background: var(--cream);
+    }
+
+    #sendButton:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .chat-footer {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 768px) {
+      .chat-container {
+        flex-direction: column;
+        height: calc(100vh - 60px);
+      }
+      
+      .chat-sidebar {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        padding: 16px;
+      }
+      
+      .chat-messages {
+        padding: 16px;
+      }
+      
+      .chat-message {
+        max-width: 90%;
+      }
+    }
+  </style>
+
+</body>
+
+</html>

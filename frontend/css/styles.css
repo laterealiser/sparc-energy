@@ -1091,3 +1091,608 @@ img { max-width: 100%; }
 .market-overview-change { font-size: 11px; font-weight: 600; }
 .moc-up { color: var(--sparc-green); }
 .moc-down { color: var(--sparc-red); }
+
+/* ═══════════════════════════════════════════════════════════════
+   SPARC ENERGY DESIGN SYSTEM — Updated Variables
+═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Updated Design System Colors */
+  --forest: #0a1f12;
+  --emerald: #1a4a2e;  
+  --mint: #52b788;
+  --cream: #f5f0e8;
+  --muted: #8a9e8e;
+  --deep: #050f09;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TOOL PAGES COMPONENTS
+═══════════════════════════════════════════════════════════════ */
+
+.tool-hero {
+  background: var(--forest);
+  padding: 80px 0 60px;
+  text-align: center;
+  border-bottom: 1px solid var(--emerald);
+}
+
+.tool-h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  color: var(--cream);
+  margin-bottom: 16px;
+}
+
+.tool-sub {
+  font-size: 18px;
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Step Wizard */
+.step-wizard {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.progress-bar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.progress-bar::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 25%;
+  right: 25%;
+  height: 2px;
+  background: var(--emerald);
+  z-index: 1;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.progress-step.active .step-number {
+  background: var(--mint);
+  color: var(--forest);
+}
+
+.progress-step.active span {
+  color: var(--cream);
+}
+
+.step-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--emerald);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border: 2px solid var(--emerald);
+}
+
+.progress-step span {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* Wizard Form */
+.wizard-form {
+  background: var(--emerald);
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 40px;
+}
+
+.wizard-step {
+  display: none;
+}
+
+.wizard-step.active {
+  display: block;
+}
+
+.wizard-step h2 {
+  font-family: 'Playfair Display', serif;
+  color: var(--cream);
+  margin-bottom: 32px;
+  font-size: 28px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  color: var(--cream);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 12px 16px;
+  border: 1px solid var(--mint);
+  border-radius: 8px;
+  background: var(--forest);
+  color: var(--cream);
+  font-size: 16px;
+  transition: all 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--mint);
+  box-shadow: 0 0 0 3px rgba(82, 183, 136, 0.1);
+}
+
+.form-group small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.toggle-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--muted);
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.toggle input:checked + .toggle-slider {
+  background-color: var(--mint);
+}
+
+.toggle input:checked + .toggle-slider:before {
+  transform: translateX(26px);
+}
+
+.wizard-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-size: 16px;
+}
+
+.btn-primary {
+  background: var(--mint);
+  color: var(--forest);
+}
+
+.btn-primary:hover {
+  background: var(--cream);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--cream);
+  border: 1px solid var(--cream);
+}
+
+.btn-secondary:hover {
+  background: var(--cream);
+  color: var(--forest);
+}
+
+.btn-primary-lg,
+.btn-secondary-lg {
+  padding: 16px 32px;
+  font-size: 18px;
+  border-radius: 12px;
+}
+
+/* Results Card */
+.results-card {
+  background: var(--emerald);
+  border: 2px solid var(--mint);
+  border-radius: 16px;
+  padding: 40px;
+  margin-top: 40px;
+}
+
+.results-card.hidden {
+  display: none;
+}
+
+.results-card h2 {
+  font-family: 'Playfair Display', serif;
+  color: var(--cream);
+  text-align: center;
+  margin-bottom: 32px;
+  font-size: 32px;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.result-item {
+  text-align: center;
+  padding: 24px;
+  background: var(--forest);
+  border-radius: 12px;
+}
+
+.result-number {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--mint);
+  margin-bottom: 8px;
+}
+
+.result-label {
+  font-size: 14px;
+  color: var(--cream);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.result-sublabel {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.methodology-note {
+  background: var(--forest);
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.methodology-note p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+}
+
+.recommendation-box {
+  background: var(--forest);
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 32px;
+}
+
+.recommendation-box h3 {
+  color: var(--cream);
+  margin-bottom: 12px;
+  font-family: 'Playfair Display', serif;
+}
+
+.recommendation-box p {
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.results-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Filter Sidebar */
+.filter-sidebar {
+  background: var(--emerald);
+  padding: 24px;
+  border-radius: 12px;
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+.filter-sidebar h3 {
+  color: var(--cream);
+  margin-bottom: 24px;
+  font-family: 'Playfair Display', serif;
+}
+
+.filter-group {
+  margin-bottom: 24px;
+}
+
+.filter-group h4 {
+  color: var(--cream);
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.filter-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  color: var(--cream);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.filter-checkbox input[type="checkbox"] {
+  accent-color: var(--mint);
+}
+
+/* Calculator Container */
+.calculator-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.calculator-form {
+  background: var(--emerald);
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 40px;
+}
+
+.form-section h2 {
+  font-family: 'Playfair Display', serif;
+  color: var(--cream);
+  margin-bottom: 32px;
+  font-size: 28px;
+}
+
+.form-actions {
+  text-align: center;
+  margin-top: 32px;
+}
+
+/* Legal Pages */
+.legal-page {
+  background: var(--forest);
+  min-height: 100vh;
+  padding: 120px 0 80px;
+}
+
+.legal-content {
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--cream);
+  line-height: 1.6;
+}
+
+.legal-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  margin-bottom: 16px;
+  color: var(--cream);
+}
+
+.legal-intro {
+  color: var(--muted);
+  font-size: 16px;
+  margin-bottom: 40px;
+}
+
+.legal-section {
+  margin-bottom: 40px;
+}
+
+.legal-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--mint);
+  margin-bottom: 16px;
+}
+
+.legal-section h3 {
+  font-size: 20px;
+  color: var(--cream);
+  margin-bottom: 12px;
+  margin-top: 24px;
+}
+
+.legal-section p {
+  margin-bottom: 16px;
+}
+
+.legal-section ul {
+  margin-bottom: 16px;
+  padding-left: 24px;
+}
+
+.legal-section li {
+  margin-bottom: 8px;
+}
+
+.contact-details {
+  background: var(--emerald);
+  padding: 24px;
+  border-radius: 12px;
+  margin-top: 16px;
+}
+
+.contact-details p {
+  margin-bottom: 8px;
+}
+
+/* Content Grid for Educational Pages */
+.content-grid {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.content-section {
+  background: var(--emerald);
+  padding: 40px;
+  border-radius: 16px;
+  margin-bottom: 32px;
+}
+
+.content-section h2 {
+  font-family: 'Playfair Display', serif;
+  color: var(--cream);
+  font-size: 32px;
+  margin-bottom: 24px;
+}
+
+.content-section h3 {
+  color: var(--mint);
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.content-section p {
+  color: var(--cream);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.equation-box {
+  background: var(--forest);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  margin: 24px 0;
+  border: 2px solid var(--mint);
+}
+
+.equation-box strong {
+  color: var(--mint);
+  font-size: 18px;
+}
+
+/* Hero Simple */
+.hero-simple {
+  background: var(--forest);
+  padding: 120px 0 80px;
+  text-align: center;
+}
+
+.hero-simple .hero-h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 56px;
+  color: var(--cream);
+  margin-bottom: 16px;
+}
+
+.hero-simple .hero-sub {
+  font-size: 20px;
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .tool-h1 {
+    font-size: 36px;
+  }
+  
+  .tool-sub {
+    font-size: 16px;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .wizard-buttons {
+    flex-direction: column;
+  }
+  
+  .results-actions {
+    flex-direction: column;
+  }
+  
+  .legal-content h1 {
+    font-size: 36px;
+  }
+  
+  .hero-simple .hero-h1 {
+    font-size: 42px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wizard-form,
+  .calculator-form,
+  .results-card,
+  .content-section {
+    padding: 24px;
+  }
+  
+  .tool-hero {
+    padding: 60px 0 40px;
+  }
+}
