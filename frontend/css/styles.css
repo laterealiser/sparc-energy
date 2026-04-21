@@ -1023,6 +1023,8 @@ img { max-width: 100%; }
 }
 @media (max-width: 768px) {
   .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  .navbar { height: auto; padding: 16px 20px; flex-wrap: wrap; gap: 12px; }
+  .nav-actions { width: 100%; justify-content: space-between; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.05); }
   .nav-links { display: none; }
   .hamburger { display: flex; }
   .hero-stats { flex-direction: column; gap: 16px; }

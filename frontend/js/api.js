@@ -16,7 +16,7 @@ const API_BASE = 'https://sparc-energy.onrender.com/api'; // Render Deployment U
  * Main API fetch wrapper for Custom Rust endpoints
  */
 async function api(endpoint, options = {}) {
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { session } } = await sp.auth.getSession();
   const token = session?.access_token;
   
   const headers = {
@@ -40,13 +40,13 @@ async function api(endpoint, options = {}) {
 // ── Auth Logic (via Supabase) ────────────────────────────────────────────────
 
 async function login(email, password) {
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  const { data, error } = await sp.auth.signInWithPassword({ email, password });
   if (error) throw error;
   return data;
 }
 
 async function register(email, password, fullName) {
-  const { data, error } = await supabase.auth.signUp({
+  const { data, error } = await sp.auth.signUp({
     email,
     password,
     options: { data: { full_name: fullName } }
@@ -56,14 +56,14 @@ async function register(email, password, fullName) {
 }
 
 async function logout() {
-  await supabase.auth.signOut();
+  await sp.auth.signOut();
   location.href = 'index.html';
 }
 
 // ── KYC & Documents (via Supabase Storage) ────────────────────────────────────
 
 async function uploadKYC(file, userId) {
-  const { data, error } = await supabase.storage
+  const { data, error } = await sp.storage
     .from('kyc-documents')
     .upload(`${userId}/id_proof_${Date.now()}`, file);
   
@@ -74,7 +74,7 @@ async function uploadKYC(file, userId) {
 // ── Real-time Updates (via Supabase Realtime) ───────────────────────────────
 
 function subscribeToMarket() {
-  supabase
+  sp
     .channel('market-updates')
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'trades' }, payload => {
       console.log('💎 New Trade Matched!', payload);
