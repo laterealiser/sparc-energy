@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Carbon Projects — Verified Climate Assets</title>
-  <meta name="description" content="Browse verified carbon projects — reforestation, solar, biogas. All projects certified under Verra VCS, Gold Standard, or BEE India CCTS." />
+  <meta name="description"
+    content="Browse verified carbon projects — reforestation, solar, biogas. All projects certified under Verra VCS, Gold Standard, or BEE India CCTS." />
   <link rel="canonical" href="https://sparcenergy.in/projects" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css" />
   <!-- GA4 tag: replace UA-XXXXX -->
 </head>
@@ -19,7 +23,8 @@
     <div class="nav-wrap">
       <a href="index.html" class="nav-logo">
         <div class="logo-mark">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            viewBox="0 0 24 24">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>
         </div>
@@ -70,7 +75,7 @@
         <!-- Filter Sidebar -->
         <div class="filter-sidebar">
           <h3>Filter Projects</h3>
-          
+
           <div class="filter-group">
             <h4>Project Type</h4>
             <label class="filter-checkbox">
@@ -303,14 +308,14 @@
     function renderProjects() {
       const grid = document.getElementById('projectsGrid');
       const count = document.getElementById('projectCount');
-      
+
       count.textContent = filteredProjects.length;
-      
+
       if (filteredProjects.length === 0) {
         grid.innerHTML = '<div class="no-results">No projects match your filters. Try adjusting your selection.</div>';
         return;
       }
-      
+
       grid.innerHTML = filteredProjects.map(project => `
         <div class="project-card" data-type="${project.type}" data-country="${project.country}" data-certification="${project.certification}" data-status="${project.status}">
           <div class="project-header">
@@ -349,18 +354,18 @@
       const typeFilters = Array.from(document.querySelectorAll('input[type="checkbox"]'))
         .filter(cb => cb.checked)
         .map(cb => cb.value);
-      
+
       if (typeFilters.length === 0) {
         filteredProjects = [...projects];
       } else {
-        filteredProjects = projects.filter(project => 
+        filteredProjects = projects.filter(project =>
           typeFilters.includes(project.type) ||
           typeFilters.includes(project.country) ||
           typeFilters.includes(project.certification) ||
           typeFilters.includes(project.status)
         );
       }
-      
+
       renderProjects();
     }
 
@@ -375,7 +380,7 @@
     }
 
     // Initialize
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       renderProjects();
     });
   </script>
@@ -481,7 +486,8 @@
       align-items: flex-end;
     }
 
-    .type-badge, .status-badge {
+    .type-badge,
+    .status-badge {
       padding: 4px 8px;
       border-radius: 12px;
       font-size: 11px;
@@ -567,11 +573,11 @@
         grid-template-columns: 1fr;
         gap: 24px;
       }
-      
+
       .filter-sidebar {
         position: static;
       }
-      
+
       .projects-grid {
         grid-template-columns: 1fr;
       }

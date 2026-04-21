@@ -5,11 +5,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Find Carbon Market Experts — Verified Professionals</title>
-  <meta name="description" content="Find verified carbon market experts for PDD writing, project validation, BRSR reporting, and carbon accounting. All experts vetted by Sparc Energy." />
+  <meta name="description"
+    content="Find verified carbon market experts for PDD writing, project validation, BRSR reporting, and carbon accounting. All experts vetted by Sparc Energy." />
   <link rel="canonical" href="https://sparcenergy.in/experts" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css" />
   <!-- GA4 tag: replace UA-XXXXX -->
 </head>
@@ -20,7 +23,8 @@
     <div class="nav-wrap">
       <a href="index.html" class="nav-logo">
         <div class="logo-mark">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            viewBox="0 0 24 24">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>
         </div>
@@ -60,7 +64,8 @@
   <section class="tool-hero">
     <div class="container">
       <h1 class="tool-h1">Find a Carbon Market Expert</h1>
-      <p class="tool-sub">Verified professionals for PDD writing, project validation, BRSR reporting and carbon accounting</p>
+      <p class="tool-sub">Verified professionals for PDD writing, project validation, BRSR reporting and carbon
+        accounting</p>
     </div>
   </section>
 
@@ -73,7 +78,7 @@
           <div class="search-box">
             <input type="text" id="expertSearch" placeholder="Search experts..." onkeyup="searchExperts()">
           </div>
-          
+
           <div class="filter-group">
             <h4>Expert Type</h4>
             <label class="filter-checkbox">
@@ -373,14 +378,14 @@
     function renderExperts() {
       const grid = document.getElementById('expertsGrid');
       const count = document.getElementById('expertCount');
-      
+
       count.textContent = filteredExperts.length;
-      
+
       if (filteredExperts.length === 0) {
         grid.innerHTML = '<div class="no-results">No experts match your criteria. Try adjusting your filters.</div>';
         return;
       }
-      
+
       grid.innerHTML = filteredExperts.map(expert => `
         <div class="expert-card">
           ${expert.verified ? '<div class="verified-badge">SPARC VERIFIED</div>' : ''}
@@ -392,7 +397,7 @@
               <h3 class="expert-name">${expert.name}</h3>
               <div class="expert-type">${expert.type}</div>
               <div class="expert-rating">
-                <span class="stars">${'★'.repeat(Math.floor(expert.rating))}${'☆'.repeat(5-Math.floor(expert.rating))}</span>
+                <span class="stars">${'★'.repeat(Math.floor(expert.rating))}${'☆'.repeat(5 - Math.floor(expert.rating))}</span>
                 <span class="rating-text">(${expert.rating}) — ${expert.reviews} reviews</span>
               </div>
             </div>
@@ -433,30 +438,30 @@
       const typeFilters = Array.from(document.querySelectorAll('input[type="checkbox"]:not(#verifiedOnly)'))
         .filter(cb => cb.checked)
         .map(cb => cb.value);
-      
+
       const verifiedOnly = document.getElementById('verifiedOnly').checked;
       const searchTerm = document.getElementById('expertSearch').value.toLowerCase();
-      
+
       filteredExperts = experts.filter(expert => {
         // Search filter
-        const matchesSearch = !searchTerm || 
+        const matchesSearch = !searchTerm ||
           expert.name.toLowerCase().includes(searchTerm) ||
           expert.bio.toLowerCase().includes(searchTerm) ||
           expert.certifications.some(cert => cert.toLowerCase().includes(searchTerm)) ||
           expert.location.toLowerCase().includes(searchTerm);
-        
+
         // Type/certification/rate filters
-        const matchesFilters = typeFilters.length === 0 || 
+        const matchesFilters = typeFilters.length === 0 ||
           typeFilters.includes(expert.type) ||
           expert.certifications.some(cert => typeFilters.includes(cert)) ||
           typeFilters.includes(expert.rate);
-        
+
         // Verified filter
         const matchesVerified = !verifiedOnly || expert.verified;
-        
+
         return matchesSearch && matchesFilters && matchesVerified;
       });
-      
+
       renderExperts();
     }
 
@@ -474,7 +479,7 @@
     function contactExpert(expertName) {
       // Check if user is logged in (simplified check)
       const isLoggedIn = false; // This would be determined by actual auth state
-      
+
       if (isLoggedIn) {
         // Show contact modal with expert's email
         alert(`Contact information for ${expertName} would be displayed here.`);
@@ -485,7 +490,7 @@
     }
 
     // Initialize
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       renderExperts();
     });
   </script>
@@ -693,7 +698,7 @@
         grid-template-columns: 1fr;
         gap: 24px;
       }
-      
+
       .experts-grid {
         grid-template-columns: 1fr;
       }

@@ -10,12 +10,12 @@ let scrollY = window.scrollY;
 function initNav() {
   const nav = document.getElementById('mainNav');
   const fab = document.getElementById('fab');
-  
+
   if (!nav) return;
 
   window.addEventListener('scroll', () => {
     scrollY = window.scrollY;
-    
+
     // Navbar background transition
     if (scrollY > 50) {
       nav.classList.add('scrolled');
@@ -55,7 +55,7 @@ function initScrollStory() {
   const panels = document.querySelectorAll('.story-panel');
   const vidBgs = document.querySelectorAll('.story-vid-bg');
   const progressFill = document.getElementById('storyFill');
-  
+
   if (!outer || panels.length === 0 || window.innerWidth <= 1024) {
     if (panels.length > 0) {
       panels.forEach(p => p.classList.add('active'));
@@ -67,7 +67,7 @@ function initScrollStory() {
     const rect = outer.getBoundingClientRect();
     const outerTop = rect.top;
     const outerHeight = rect.height;
-    
+
     if (outerTop > window.innerHeight || outerTop < -outerHeight) return;
 
     const scrollDistance = outerHeight - window.innerHeight;
@@ -75,7 +75,7 @@ function initScrollStory() {
     progress = Math.max(0, Math.min(1, progress));
 
     if (progressFill) progressFill.style.width = `${progress * 100}%`;
-    
+
     let activeIdx = Math.floor(progress * panels.length);
     if (activeIdx >= panels.length) activeIdx = panels.length - 1;
 
@@ -90,14 +90,14 @@ function initScrollStory() {
       }
     });
 
-    if(vidBgs.length === panels.length) {
+    if (vidBgs.length === panels.length) {
       vidBgs.forEach((v, idx) => {
-        if(idx === activeIdx) v.classList.add('active');
+        if (idx === activeIdx) v.classList.add('active');
         else v.classList.remove('active');
       });
     }
   }, { passive: true });
-  
+
   window.dispatchEvent(new Event('scroll'));
 }
 
@@ -110,7 +110,7 @@ function initCounters() {
         const el = entry.target;
         const target = parseInt(el.getAttribute('data-count'), 10);
         const suffix = el.getAttribute('data-suffix') || '';
-        
+
         let startTime = null;
         const duration = 2000; // ms
 
@@ -148,7 +148,7 @@ function initForm() {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    
+
     // basic validation
     const inputs = form.querySelectorAll('input[required], textarea[required]');
     let valid = true;

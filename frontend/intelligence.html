@@ -5,11 +5,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Carbon Intelligence — AI Assistant for Carbon Markets</title>
-  <meta name="description" content="Ask our AI assistant about carbon credits, BRSR reporting, India CCTS, and climate regulations. Get expert answers instantly." />
+  <meta name="description"
+    content="Ask our AI assistant about carbon credits, BRSR reporting, India CCTS, and climate regulations. Get expert answers instantly." />
   <link rel="canonical" href="https://sparcenergy.in/intelligence" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css" />
   <!-- GA4 tag: replace UA-XXXXX -->
 </head>
@@ -20,7 +23,8 @@
     <div class="nav-wrap">
       <a href="index.html" class="nav-logo">
         <div class="logo-mark">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            viewBox="0 0 24 24">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>
         </div>
@@ -63,16 +67,19 @@
         <h2>Carbon Intelligence</h2>
         <p>Ask me anything about carbon markets</p>
       </div>
-      
+
       <div class="suggested-questions">
         <h3>Suggested Questions</h3>
         <div class="suggestion-list">
-          <button class="suggestion-btn" onclick="fillQuestion(this)">What carbon credits suit a manufacturing company?</button>
+          <button class="suggestion-btn" onclick="fillQuestion(this)">What carbon credits suit a manufacturing
+            company?</button>
           <button class="suggestion-btn" onclick="fillQuestion(this)">Explain Verra VCS methodology</button>
           <button class="suggestion-btn" onclick="fillQuestion(this)">How does India CCTS work?</button>
           <button class="suggestion-btn" onclick="fillQuestion(this)">What is additionality in carbon markets?</button>
-          <button class="suggestion-btn" onclick="fillQuestion(this)">How many credits do I need to offset 1000 tonnes?</button>
-          <button class="suggestion-btn" onclick="fillQuestion(this)">Difference between Gold Standard and Verra VCS?</button>
+          <button class="suggestion-btn" onclick="fillQuestion(this)">How many credits do I need to offset 1000
+            tonnes?</button>
+          <button class="suggestion-btn" onclick="fillQuestion(this)">Difference between Gold Standard and Verra
+            VCS?</button>
           <button class="suggestion-btn" onclick="fillQuestion(this)">What is BRSR and who needs to file it?</button>
           <button class="suggestion-btn" onclick="fillQuestion(this)">How long does project validation take?</button>
         </div>
@@ -101,20 +108,16 @@
             </svg>
           </div>
           <div class="message-content">
-            <p>Hello! I am the Sparc Energy Carbon Intelligence. Ask me anything about carbon markets, credits, BRSR reporting, net-zero strategy, or Indian climate regulations.</p>
+            <p>Hello! I am the Sparc Energy Carbon Intelligence. Ask me anything about carbon markets, credits, BRSR
+              reporting, net-zero strategy, or Indian climate regulations.</p>
           </div>
         </div>
       </div>
 
       <div class="chat-input-container">
         <div class="chat-input-wrapper">
-          <textarea 
-            id="chatInput" 
-            placeholder="Ask about carbon credits, BRSR reporting, India CCTS..."
-            rows="1"
-            onkeydown="handleKeyDown(event)"
-            oninput="autoResize(this)"
-          ></textarea>
+          <textarea id="chatInput" placeholder="Ask about carbon credits, BRSR reporting, India CCTS..." rows="1"
+            onkeydown="handleKeyDown(event)" oninput="autoResize(this)"></textarea>
           <button id="sendButton" onclick="sendMessage()" disabled>
             <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path d="M5 12h14M12 5l7 7-7 7" />
@@ -136,7 +139,7 @@
     function autoResize(textarea) {
       textarea.style.height = 'auto';
       textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
-      
+
       // Enable/disable send button
       const sendButton = document.getElementById('sendButton');
       sendButton.disabled = textarea.value.trim() === '';
@@ -163,19 +166,19 @@
       const messagesContainer = document.getElementById('chatMessages');
       const messageDiv = document.createElement('div');
       messageDiv.className = `chat-message ${isUser ? 'user' : 'assistant'}`;
-      
+
       messageDiv.innerHTML = `
         <div class="message-avatar">
-          ${isUser ? 
-            '<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' :
-            '<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>'
-          }
+          ${isUser ?
+          '<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' :
+          '<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>'
+        }
         </div>
         <div class="message-content">
           <p>${content}</p>
         </div>
       `;
-      
+
       messagesContainer.appendChild(messageDiv);
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
@@ -186,7 +189,7 @@
       const typingDiv = document.createElement('div');
       typingDiv.className = 'chat-message assistant typing';
       typingDiv.id = 'typingIndicator';
-      
+
       typingDiv.innerHTML = `
         <div class="message-avatar">
           <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -199,7 +202,7 @@
           </div>
         </div>
       `;
-      
+
       messagesContainer.appendChild(typingDiv);
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
@@ -216,24 +219,24 @@
     async function sendMessage() {
       const input = document.getElementById('chatInput');
       const message = input.value.trim();
-      
+
       if (!message || isLoading) return;
-      
+
       isLoading = true;
       const sendButton = document.getElementById('sendButton');
       sendButton.disabled = true;
-      
+
       // Add user message
       addMessage(message, true);
       conversationHistory.push({ role: 'user', content: message });
-      
+
       // Clear input
       input.value = '';
       autoResize(input);
-      
+
       // Show typing indicator
       showTypingIndicator();
-      
+
       try {
         const response = await fetch('https://api.anthropic.com/v1/messages', {
           method: 'POST',
@@ -250,19 +253,19 @@
             messages: conversationHistory
           })
         });
-        
+
         if (!response.ok) {
           throw new Error('API request failed');
         }
-        
+
         const data = await response.json();
         const assistantMessage = data.content[0].text;
-        
+
         // Remove typing indicator and add response
         removeTypingIndicator();
         addMessage(assistantMessage);
         conversationHistory.push({ role: 'assistant', content: assistantMessage });
-        
+
       } catch (error) {
         console.error('Error:', error);
         removeTypingIndicator();
@@ -274,7 +277,7 @@
     }
 
     // Initialize
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const input = document.getElementById('chatInput');
       input.focus();
     });
@@ -429,12 +432,25 @@
       animation: typing 1.4s infinite ease-in-out;
     }
 
-    .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
-    .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+    .typing-dots span:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    .typing-dots span:nth-child(2) {
+      animation-delay: -0.16s;
+    }
 
     @keyframes typing {
-      0%, 80%, 100% { transform: scale(0); }
-      40% { transform: scale(1); }
+
+      0%,
+      80%,
+      100% {
+        transform: scale(0);
+      }
+
+      40% {
+        transform: scale(1);
+      }
     }
 
     .chat-input-container {
@@ -503,18 +519,18 @@
         flex-direction: column;
         height: calc(100vh - 60px);
       }
-      
+
       .chat-sidebar {
         width: 100%;
         height: auto;
         max-height: 200px;
         padding: 16px;
       }
-      
+
       .chat-messages {
         padding: 16px;
       }
-      
+
       .chat-message {
         max-width: 90%;
       }
