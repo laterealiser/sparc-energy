@@ -114,12 +114,12 @@ function initCounters() {
         let startTime = null;
         const duration = 2000; // ms
 
-        const easeOutExpo = (t) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+        const easeOutQuad = (t) => t * (2 - t);
 
         const step = (now) => {
           if (!startTime) startTime = now;
           const progress = Math.min((now - startTime) / duration, 1);
-          const current = Math.floor(easeOutExpo(progress) * target);
+          const current = Math.floor(easeOutQuad(progress) * target);
           el.innerText = current + suffix;
           if (progress < 1) {
             requestAnimationFrame(step);
@@ -132,7 +132,7 @@ function initCounters() {
         observer.unobserve(el);
       }
     });
-  }, { threshold: 0.5 });
+  }, { threshold: 0.3 });
 
   counters.forEach(c => observer.observe(c));
 }

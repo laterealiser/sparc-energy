@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and auth pages
+Disallow: /auth.html
+Disallow: /dashboard.html
+Disallow: /wallet.html
+Disallow: /kyc.html
+
+# Sitemap
+Sitemap: https://sparcenergy.in/sitemap.xml

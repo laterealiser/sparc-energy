@@ -4,13 +4,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tata Steel Carbon Passport — Sparc Energy</title>
-  <meta name="description" content="Verified carbon passport for Tata Steel's climate action tracking" />
+  <title>Carbon Passport — Sparc Energy</title>
+  <meta name="description" content="Verified carbon passport for transparent climate action tracking" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     .passport-container {
       max-width: 900px;
@@ -199,6 +198,7 @@
     }
   </style>
 </head>
+
 <body>
   <!-- ── NAVIGATION ── -->
   <header class="nav" id="mainNav">
@@ -228,10 +228,10 @@
   <div class="passport-container">
     <!-- Header -->
     <div class="passport-header">
-      <div class="passport-logo">🏭</div>
-      <h1 class="passport-title">Tata Steel</h1>
+      <div class="passport-logo">🌿</div>
+      <h1 class="passport-title" id="companyName">Company Name</h1>
       <p class="passport-subtitle">Carbon Passport — Verified Climate Action Record</p>
-      <div class="passport-id">Passport ID: SPARC-TATA-2025-001</div>
+      <div class="passport-id">Passport ID: <span id="passportId">SPARC-XXXX-XXXX</span></div>
     </div>
 
     <!-- Overview Section -->
@@ -240,22 +240,22 @@
       <div class="passport-grid">
         <div class="passport-metric">
           <div class="passport-metric-label">Total Emissions</div>
-          <div class="passport-metric-value">2,450,000</div>
+          <div class="passport-metric-value" id="totalEmissions">0</div>
           <div class="passport-metric-unit">tCO₂e / year</div>
         </div>
         <div class="passport-metric">
           <div class="passport-metric-label">Scope 1</div>
-          <div class="passport-metric-value">1,850,000</div>
+          <div class="passport-metric-value" id="scope1">0</div>
           <div class="passport-metric-unit">tCO₂e</div>
         </div>
         <div class="passport-metric">
           <div class="passport-metric-label">Scope 2</div>
-          <div class="passport-metric-value">420,000</div>
+          <div class="passport-metric-value" id="scope2">0</div>
           <div class="passport-metric-unit">tCO₂e</div>
         </div>
         <div class="passport-metric">
           <div class="passport-metric-label">Scope 3</div>
-          <div class="passport-metric-value">180,000</div>
+          <div class="passport-metric-value" id="scope3">0</div>
           <div class="passport-metric-unit">tCO₂e</div>
         </div>
       </div>
@@ -267,75 +267,61 @@
       <div class="passport-grid">
         <div class="passport-metric">
           <div class="passport-metric-label">Target Year</div>
-          <div class="passport-metric-value">2045</div>
+          <div class="passport-metric-value" id="targetYear">2050</div>
           <div class="passport-metric-unit">Net Zero Goal</div>
         </div>
         <div class="passport-metric">
           <div class="passport-metric-label">Reduction Target</div>
-          <div class="passport-metric-value">45%</div>
+          <div class="passport-metric-value" id="reductionTarget">50%</div>
           <div class="passport-metric-unit">by 2030</div>
         </div>
         <div class="passport-metric">
           <div class="passport-metric-label">Credits Retired</div>
-          <div class="passport-metric-value">128,500</div>
+          <div class="passport-metric-value" id="creditsRetired">0</div>
           <div class="passport-metric-unit">tCO₂e</div>
         </div>
         <div class="passport-metric">
           <div class="passport-metric-label">Progress</div>
-          <div class="passport-metric-value">18%</div>
+          <div class="passport-metric-value" id="progress">0%</div>
           <div class="passport-metric-unit">to target</div>
         </div>
       </div>
     </div>
 
-    <!-- Chart Section -->
-    <div class="passport-section">
-      <h2>Year-on-Year Offset History</h2>
-      <canvas id="historyChart" style="max-height:320px; margin-top:20px;"></canvas>
-    </div>
-
     <!-- Certifications -->
     <div class="passport-section">
       <h2>Certifications & Standards</h2>
-      <div>
+      <div id="certifications">
         <span class="passport-badge">🌿 Verra VCS</span>
         <span class="passport-badge">🥇 Gold Standard</span>
         <span class="passport-badge">📊 SBTi Aligned</span>
         <span class="passport-badge">📋 ISO 14064</span>
-        <span class="passport-badge">🇮🇳 BEE India CCTS</span>
       </div>
     </div>
 
-    <!-- Projects Supported -->
+    <!-- Timeline -->
     <div class="passport-section">
-      <h2>Projects Supported</h2>
-      <div class="passport-timeline">
+      <h2>Climate Action Timeline</h2>
+      <div class="passport-timeline" id="timeline">
         <div class="passport-timeline-item">
-          <div class="passport-timeline-date">2022-2023</div>
+          <div class="passport-timeline-date">2025 Q1</div>
           <div class="passport-timeline-content">
-            <div class="passport-timeline-title">Amazon Reforestation Initiative — Brazil</div>
-            <div class="passport-timeline-desc">22,500 tCO₂e retired | Verra VCS certified</div>
+            <div class="passport-timeline-title">Baseline Assessment</div>
+            <div class="passport-timeline-desc">Completed comprehensive Scope 1, 2, and 3 emissions inventory</div>
           </div>
         </div>
         <div class="passport-timeline-item">
-          <div class="passport-timeline-date">2023-2024</div>
+          <div class="passport-timeline-date">2025 Q2</div>
           <div class="passport-timeline-content">
-            <div class="passport-timeline-title">Rajasthan Solar Farm — India</div>
-            <div class="passport-timeline-desc">27,800 tCO₂e retired | Gold Standard certified</div>
+            <div class="passport-timeline-title">Net Zero Strategy</div>
+            <div class="passport-timeline-desc">Developed SBTi-aligned reduction roadmap with year-by-year milestones</div>
           </div>
         </div>
         <div class="passport-timeline-item">
-          <div class="passport-timeline-date">2024-2025</div>
+          <div class="passport-timeline-date">2025 Q3</div>
           <div class="passport-timeline-content">
-            <div class="passport-timeline-title">Sundarbans Mangrove Restoration — India</div>
-            <div class="passport-timeline-desc">34,100 tCO₂e retired | Verra VCS certified</div>
-          </div>
-        </div>
-        <div class="passport-timeline-item">
-          <div class="passport-timeline-date">2025</div>
-          <div class="passport-timeline-content">
-            <div class="passport-timeline-title">Tamil Nadu Wind Farm — India</div>
-            <div class="passport-timeline-desc">44,100 tCO₂e retired | Gold Standard certified</div>
+            <div class="passport-timeline-title">Carbon Credit Procurement</div>
+            <div class="passport-timeline-desc">Retired verified carbon credits for residual emissions</div>
           </div>
         </div>
       </div>
@@ -351,15 +337,11 @@
         </div>
         <div style="display: flex; justify-content: space-between; padding: 12px; background: var(--forest); border-radius: 8px;">
           <span style="color: var(--muted);">Last Updated:</span>
-          <span style="color: var(--cream); font-weight: 600;">April 2025</span>
+          <span style="color: var(--cream); font-weight: 600;" id="lastUpdated">April 2025</span>
         </div>
         <div style="display: flex; justify-content: space-between; padding: 12px; background: var(--forest); border-radius: 8px;">
           <span style="color: var(--muted);">Methodology:</span>
           <span style="color: var(--cream); font-weight: 600;">GHG Protocol, IPCC Guidelines</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; padding: 12px; background: var(--forest); border-radius: 8px;">
-          <span style="color: var(--muted);">Industry:</span>
-          <span style="color: var(--cream); font-weight: 600;">Steel Manufacturing</span>
         </div>
         <div style="display: flex; justify-content: space-between; padding: 12px; background: var(--forest); border-radius: 8px;">
           <span style="color: var(--muted);">Verification Status:</span>
@@ -409,46 +391,6 @@
     </div>
   </footer>
 
-  <script>
-    new Chart(document.getElementById("historyChart"), {
-      type: "bar",
-      data: {
-        labels: ["2022", "2023", "2024", "2025"],
-        datasets: [{
-          label: "tCO₂e retired",
-          data: [22500, 27800, 34100, 44100],
-          backgroundColor: "#52b788"
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            labels: {
-              color: "#f5f0e8"
-            }
-          }
-        },
-        scales: {
-          x: {
-            ticks: {
-              color: "#8a9e8e"
-            },
-            grid: {
-              color: "rgba(138, 158, 142, 0.1)"
-            }
-          },
-          y: {
-            ticks: {
-              color: "#8a9e8e"
-            },
-            grid: {
-              color: "rgba(138, 158, 142, 0.1)"
-            }
-          }
-        }
-      }
-    });
-  </script>
 </body>
+
 </html>
