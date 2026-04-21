@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carbon Credit Estimator - Sparc Energy</title>
+  <meta name="description" content="Estimate annual emissions, credits needed, and cost range for your organization." />
+  <link rel="stylesheet" href="css/styles.css?v=4" />
+</head>
+<body>
+  <div class="page-bg-overlay"></div>
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo"><div class="logo-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><div class="logo-text">Sparc Energy</div><div class="logo-sub">CARBON INTELLIGENCE</div></div></a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Overview</a>
+      <a href="consultation.html" class="nav-link">Consultation</a>
+      <a href="estimator.html" class="nav-link active">Estimator</a>
+      <a href="asset-calculator.html" class="nav-link">Asset Calculator</a>
+    </div>
+  </nav>
+
+  <main class="container section">
+    <h1 class="section-title">Carbon Credit Estimator</h1>
+    <p class="section-sub">Get an indicative estimate for annual emissions, credits needed, and procurement budget.</p>
+    <section class="card">
+      <div class="grid-3">
+        <div class="form-group">
+          <label class="form-label" for="industry">Industry</label>
+          <select id="industry" class="form-select" title="Industry">
+            <option value="manufacturing">Manufacturing / Steel</option>
+            <option value="it">IT / Technology</option>
+            <option value="energy">Energy / Utilities</option>
+            <option value="retail">Retail / FMCG</option>
+            <option value="realestate">Real Estate</option>
+            <option value="financial">Financial Services</option>
+            <option value="automotive">Automotive</option>
+            <option value="pharma">Pharmaceuticals</option>
+            <option value="hospitality">Hospitality / Tourism</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="revenue">Annual Revenue (Cr INR)</label>
+          <input id="revenue" class="form-input" type="number" min="0.1" step="0.1" placeholder="e.g. 120" title="Annual Revenue" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="goal">Sustainability Goal</label>
+          <select id="goal" class="form-select" title="Sustainability Goal">
+            <option>Net Zero</option>
+            <option>ESG Report</option>
+            <option>BRSR Compliance</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary mt-20" onclick="calculateEstimate()">Calculate My Carbon Footprint</button>
+    </section>
+
+    <section class="card mt-20" id="resultCard" style="display:none;">
+      <h2 class="card-title">Your Indicative Carbon Plan</h2>
+      <div class="grid-3 mt-16">
+        <div><div class="stat-label">Estimated Annual Emissions</div><div class="stat-value" id="rEmissions"></div></div>
+        <div><div class="stat-label">Credits Needed</div><div class="stat-value" id="rCredits"></div></div>
+        <div><div class="stat-label">Estimated Annual Cost</div><div class="stat-value" id="rCost"></div></div>
+      </div>
+      <div class="mt-16 text-sm text-muted" id="rSummary"></div>
+      <div class="mt-20" style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a href="consultation.html" class="btn btn-primary">Book a Consultation</a>
+        <button class="btn btn-secondary" onclick="window.print()">Download Report (PDF)</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const benchmark = {
+      manufacturing: { min: 45, max: 120, standard: "Verra VCS", priceMin: 670, priceMax: 1500 },
+      it: { min: 3, max: 8, standard: "Gold Standard", priceMin: 1250, priceMax: 2500 },
+      energy: { min: 200, max: 800, standard: "Verra VCS", priceMin: 670, priceMax: 1500 },
+      retail: { min: 8, max: 25, standard: "Gold Standard", priceMin: 1250, priceMax: 2500 },
+      realestate: { min: 15, max: 40, standard: "Verra VCS", priceMin: 670, priceMax: 1500 },
+      financial: { min: 2, max: 6, standard: "Gold Standard", priceMin: 1250, priceMax: 2500 },
+      automotive: { min: 60, max: 150, standard: "Verra VCS", priceMin: 670, priceMax: 1500 },
+      pharma: { min: 20, max: 55, standard: "Gold Standard", priceMin: 1250, priceMax: 2500 },
+      hospitality: { min: 10, max: 30, standard: "Gold Standard", priceMin: 1250, priceMax: 2500 }
+    };
+
+    function inr(value) { return "₹" + Math.round(value).toLocaleString("en-IN"); }
+
+    function calculateEstimate() {
+      const industry = document.getElementById("industry").value;
+      const revenue = Number(document.getElementById("revenue").value || "0");
+      if (!revenue || revenue <= 0) { alert("Enter annual revenue in crores INR."); return; }
+      const b = benchmark[industry];
+      const emissionsMin = revenue * b.min;
+      const emissionsMax = revenue * b.max;
+      const creditsMid = Math.round((emissionsMin + emissionsMax) / 2);
+      const costMin = creditsMid * b.priceMin;
+      const costMax = creditsMid * b.priceMax;
+
+      document.getElementById("rEmissions").textContent = `${Math.round(emissionsMin).toLocaleString()} - ${Math.round(emissionsMax).toLocaleString()} tCO2e`;
+      document.getElementById("rCredits").textContent = `${creditsMid.toLocaleString()} credits/year`;
+      document.getElementById("rCost").textContent = `${inr(costMin)} - ${inr(costMax)}`;
+      document.getElementById("rSummary").textContent = `Recommended certification: ${b.standard}. This is an indicative estimate based on industry benchmarks and should be validated with a full Scope 1/2/3 assessment.`;
+      document.getElementById("resultCard").style.display = "block";
+    }
+  </script>
+</body>
+</html>

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>KYC Verification — Sparc Energy Carbon Intelligence</title>
   <link rel="stylesheet" href="css/styles.css" />
   <style>
@@ -20,22 +21,22 @@
 </div>
 <div class="page-bg-overlay"></div>
 
-<nav class="navbar"><a href="index.html" class="nav-logo"><div class="logo-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><div class="logo-text">Sparc Energy</div><div class="logo-sub">CARBON INTELLIGENCE</div></div></a><div class="nav-links"><a href="index.html" class="nav-link">Home</a><a href="marketplace.html" class="nav-link">Marketplace</a><a href="projects.html" class="nav-link">Projects</a><a href="dashboard.html" class="nav-link">Dashboard</a></div></nav>
+<nav class="navbar"><a href="index.html" class="nav-logo"><div class="logo-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><div class="logo-text">Sparc Energy</div><div class="logo-sub">CARBON INTELLIGENCE</div></div></a><div class="nav-links"><a href="index.html" class="nav-link">Home</a><a href="marketplace.html" class="nav-link">Projects</a><a href="projects.html" class="nav-link">Registry</a><a href="dashboard.html" class="nav-link">Dashboard</a></div></nav>
 <main class="container section">
   <div style="max-width: 600px; margin: 0 auto;">
     <div class="kyc-badge badge-pending">📡 Status: Verification Required</div>
     <h1 class="hero-title" style="font-size: 36px; margin-bottom: 12px;">Institutional Onboarding</h1>
-    <p style="color: var(--text-secondary); margin-bottom: 40px;">Complete our bank-grade verification to unlock institutional trading, larger credit volumes, and registry withdrawals.</p>
+    <p style="color: var(--text-secondary); margin-bottom: 40px;">Complete our bank-grade verification to unlock advisory onboarding, larger credit procurement support, and registry documentation workflows.</p>
 
     <div class="kyc-step active" id="step-1">
       <h3 style="margin-bottom: 16px;">1. Business Identification</h3>
       <div class="form-group">
-        <label>Company Type</label>
-        <select class="form-input"><option>Private Limited</option><option>Public Limited</option><option>LLP / Partnership</option><option>Individual Professional</option></select>
+        <label for="kyc-company-type">Company Type</label>
+        <select id="kyc-company-type" class="form-input" title="Company Type"><option>Private Limited</option><option>Public Limited</option><option>LLP / Partnership</option><option>Individual Professional</option></select>
       </div>
       <div class="form-group">
-        <label>GSTN / PAN Number</label>
-        <input type="text" class="form-input" placeholder="Enter Registration ID" />
+        <label for="kyc-registration-id">GSTN / PAN Number</label>
+        <input id="kyc-registration-id" type="text" class="form-input" placeholder="Enter Registration ID" title="GSTN or PAN Number" />
       </div>
       <button class="btn btn-primary" onclick="nextStep(1)">Continue</button>
     </div>
@@ -44,12 +45,12 @@
       <h3 style="margin-bottom: 16px;">2. Document Uploads</h3>
       <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Upload proof of incorporation and directory identification (Aadhaar/PAN).</p>
       <div class="form-group">
-        <label>Aadhaar / ID Card (Front & Back)</label>
-        <input type="file" class="form-input" />
+        <label for="kyc-id-upload">Aadhaar / ID Card (Front & Back)</label>
+        <input id="kyc-id-upload" type="file" class="form-input" title="Upload Aadhaar or ID Card" />
       </div>
       <div class="form-group">
-        <label>Incorporation Certificate / PDD (for Developers)</label>
-        <input type="file" class="form-input" />
+        <label for="kyc-incorporation-upload">Incorporation Certificate / PDD (for Developers)</label>
+        <input id="kyc-incorporation-upload" type="file" class="form-input" title="Upload Incorporation Certificate or PDD" />
       </div>
       <button class="btn btn-secondary" onclick="nextStep(2)">Submit Verification</button>
     </div>

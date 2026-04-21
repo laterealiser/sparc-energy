@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project ROI Calculator - Sparc Energy</title>
+  <meta name="description" content="Estimate 10-year and 20-year ROI for carbon projects." />
+  <link rel="stylesheet" href="css/styles.css?v=4" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo"><div class="logo-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><div class="logo-text">Sparc Energy</div><div class="logo-sub">CARBON INTELLIGENCE</div></div></a>
+    <div class="nav-links"><a href="index.html" class="nav-link">Overview</a><a href="asset-calculator.html" class="nav-link">Asset Calculator</a><a href="roi-calculator.html" class="nav-link active">ROI Calculator</a><a href="experts.html" class="nav-link">Experts</a></div>
+  </nav>
+
+  <main class="container section">
+    <h1 class="section-title">Project ROI Calculator</h1>
+    <p class="section-sub">Estimate break-even and profit for land-based carbon projects over 10 and 20 years.</p>
+
+    <section class="card">
+      <div class="grid-3">
+        <div class="form-group"><label class="form-label" for="area">Land Area (hectares)</label><input id="area" type="number" class="form-input" min="0.1" step="0.1" title="Land area in hectares" /></div>
+        <div class="form-group"><label class="form-label" for="type">Land Type</label><select id="type" class="form-select" title="Land Type"><option value="forest">Forest</option><option value="farmland">Farmland</option><option value="degraded">Degraded</option></select></div>
+        <div class="form-group"><label class="form-label" for="project">Project Type</label><select id="project" class="form-select" title="Project Type"><option>Reforestation</option><option>Agroforestry</option><option>Solar</option></select></div>
+      </div>
+      <div class="grid-3 mt-16">
+        <div class="form-group"><label class="form-label" for="cost">Upfront Cost (INR)</label><input id="cost" type="number" class="form-input" min="0" placeholder="optional" title="Upfront cost in INR" /></div>
+        <div class="form-group"><label class="form-label" for="price">Expected Price (INR/tCO2e)</label><input id="price" type="number" class="form-input" min="500" value="1500" title="Expected price in INR per tCO2e" /></div>
+        <div class="form-group"><label class="form-label" for="credits">Credits per year (tCO2e)</label><input id="credits" type="number" class="form-input" min="1" title="Credits generated per year" /></div>
+      </div>
+      <button class="btn btn-primary mt-20" onclick="calculateROI()">Calculate ROI</button>
+    </section>
+
+    <section class="card mt-20" id="roiResult" style="display:none;">
+      <div class="grid-4">
+        <div><div class="stat-label">10-Year Revenue</div><div class="stat-value" id="rev10"></div></div>
+        <div><div class="stat-label">20-Year Revenue</div><div class="stat-value" id="rev20"></div></div>
+        <div><div class="stat-label">Break-Even Year</div><div class="stat-value" id="breakeven"></div></div>
+        <div><div class="stat-label">20-Year Net Profit</div><div class="stat-value" id="profit20"></div></div>
+      </div>
+      <canvas id="roiChart" style="max-height:320px; margin-top:16px;"></canvas>
+      <a href="experts.html" class="btn btn-primary mt-20">Connect with a Project Developer</a>
+    </section>
+  </main>
+
+  <script>
+    const defaults = { forest: 15, farmland: 6, degraded: 8 };
+    let roiChart;
+    function toINR(v) { return "₹" + Math.round(v).toLocaleString("en-IN"); }
+
+    function calculateROI() {
+      const area = Number(document.getElementById("area").value || "0");
+      const type = document.getElementById("type").value;
+      const price = Number(document.getElementById("price").value || "0");
+      let credits = Number(document.getElementById("credits").value || "0");
+      let upfront = Number(document.getElementById("cost").value || "0");
+
+      if (!area || !price) { alert("Enter area and expected price."); return; }
+      if (!credits) credits = area * defaults[type];
+      if (!upfront) upfront = 800000; // base estimate if not provided
+
+      const yearlyRevenue = credits * price;
+      const rev10 = yearlyRevenue * 10;
+      const rev20 = yearlyRevenue * 20;
+      const costWithValidation = upfront + 1200000;
+      const breakEven = Math.max(1, Math.ceil(costWithValidation / yearlyRevenue));
+      const profit20 = rev20 - costWithValidation;
+
+      document.getElementById("rev10").textContent = toINR(rev10);
+      document.getElementById("rev20").textContent = toINR(rev20);
+      document.getElementById("breakeven").textContent = `${breakEven}`;
+      document.getElementById("profit20").textContent = toINR(profit20);
+      document.getElementById("roiResult").style.display = "block";
+
+      const labels = Array.from({ length: 20 }, (_, i) => `Y${i + 1}`);
+      const cumulative = labels.map((_, i) => (yearlyRevenue * (i + 1)) - costWithValidation);
+      if (roiChart) roiChart.destroy();
+      roiChart = new Chart(document.getElementById("roiChart"), {
+        type: "line",
+        data: { labels, datasets: [{ label: "Cumulative Profit/Loss", data: cumulative, borderColor: "#00f5b8", tension: 0.25 }] },
+        options: { plugins: { legend: { labels: { color: "#e6efe9" } } }, scales: { x: { ticks: { color: "#94a3b8" } }, y: { ticks: { color: "#94a3b8" } } } }
+      });
+    }
+  </script>
+</body>
+</html>

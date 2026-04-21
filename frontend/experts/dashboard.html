@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expert Dashboard - Sparc Energy</title>
+  <link rel="stylesheet" href="../css/styles.css?v=4" />
+</head>
+<body>
+  <nav class="navbar">
+    <a href="../index.html" class="nav-logo"><div class="logo-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><div class="logo-text">Sparc Energy</div><div class="logo-sub">CARBON INTELLIGENCE</div></div></a>
+    <div class="nav-links"><a href="../experts.html" class="nav-link">Experts</a><a href="dashboard.html" class="nav-link active">Dashboard</a></div>
+  </nav>
+
+  <main class="container section">
+    <h1 class="section-title">Expert Dashboard</h1>
+    <p class="section-sub">Manage profile visibility, enquiries, and availability.</p>
+
+    <div class="grid-4">
+      <section class="card"><div class="stat-label">New Enquiries</div><div class="stat-value">4</div><div class="text-sm text-muted">Last 7 days</div></section>
+      <section class="card"><div class="stat-label">Response Rate</div><div class="stat-value">92%</div><div class="text-sm text-muted">Sparc benchmark: 85%</div></section>
+      <section class="card"><div class="stat-label">Active Proposals</div><div class="stat-value">3</div><div class="text-sm text-muted">Awaiting client response</div></section>
+      <section class="card"><div class="stat-label">Profile Status</div><div class="stat-value">Verified</div><div class="text-sm text-muted">Badge active</div></section>
+    </div>
+
+    <section class="card mt-20">
+      <h2 class="card-title">Recent Enquiries</h2>
+      <table class="data-table mt-16">
+        <thead><tr><th>Date</th><th>Company</th><th>Project</th><th>Budget</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>2026-04-20</td><td>GreenSteel Pvt Ltd</td><td>ARR in Telangana</td><td>₹6L</td><td><span class="badge badge-verified">Replied</span></td></tr>
+          <tr><td>2026-04-19</td><td>SolNova Energy</td><td>VVB Validation</td><td>₹12L</td><td><span class="badge badge-pending">Pending</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card mt-20">
+      <h2 class="card-title">Profile Controls</h2>
+      <div class="grid-2 mt-16">
+        <div class="form-group"><label class="form-label" for="availability">Availability</label><select id="availability" class="form-select" title="Availability"><option>Available</option><option>Busy - limited slots</option><option>Unavailable</option></select></div>
+        <div class="form-group"><label class="form-label" for="responseTime">Typical Response Time</label><input id="responseTime" class="form-input" title="Typical Response Time" value="Within 24 hours" /></div>
+      </div>
+      <button class="btn btn-primary mt-20" onclick="saveProfile()">Save Changes</button>
+      <p id="saveMsg" class="text-sm text-muted mt-16"></p>
+    </section>
+  </main>
+
+  <script>
+    function saveProfile() {
+      document.getElementById("saveMsg").textContent = "Profile settings updated successfully.";
+    }
+  </script>
+</body>
+</html>

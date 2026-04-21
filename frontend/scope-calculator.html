@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scope 1, 2, 3 Emissions Calculator - Sparc Energy</title>
+  <meta name="description" content="Calculate Scope 1, Scope 2 and Scope 3 emissions for BRSR and ESG reporting." />
+  <link rel="stylesheet" href="css/styles.css?v=4" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo"><div class="logo-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><div class="logo-text">Sparc Energy</div><div class="logo-sub">CARBON INTELLIGENCE</div></div></a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Overview</a>
+      <a href="scope-calculator.html" class="nav-link active">Scope Calculator</a>
+      <a href="brsr-generator.html" class="nav-link">BRSR Generator</a>
+      <a href="consultation.html" class="nav-link">Consultation</a>
+    </div>
+  </nav>
+
+  <main class="container section">
+    <h1 class="section-title">Scope 1, 2 & 3 Calculator</h1>
+    <p class="section-sub">India-specific factors based on BEE/MoEFCC references for indicative reporting.</p>
+
+    <section class="card">
+      <div class="grid-3">
+        <div class="form-group"><label class="form-label" for="electricity">Electricity (kWh/year)</label><input id="electricity" class="form-input" type="number" min="0" title="Electricity kWh per year" /></div>
+        <div class="form-group"><label class="form-label" for="diesel">Diesel (litres/year)</label><input id="diesel" class="form-input" type="number" min="0" title="Diesel litres per year" /></div>
+        <div class="form-group"><label class="form-label" for="petrol">Petrol (litres/year)</label><input id="petrol" class="form-input" type="number" min="0" title="Petrol litres per year" /></div>
+      </div>
+      <div class="grid-3 mt-16">
+        <div class="form-group"><label class="form-label" for="flights">Flights (passenger-km/year)</label><input id="flights" class="form-input" type="number" min="0" title="Flights passenger kilometres per year" /></div>
+        <div class="form-group"><label class="form-label" for="train">Train Travel (passenger-km/year)</label><input id="train" class="form-input" type="number" min="0" title="Train passenger kilometres per year" /></div>
+        <div class="form-group"><label class="form-label" for="waste">Waste to landfill (kg/year)</label><input id="waste" class="form-input" type="number" min="0" title="Waste to landfill in kilograms per year" /></div>
+      </div>
+      <button class="btn btn-primary mt-20" onclick="calculateScopes()">Calculate Scope Emissions</button>
+    </section>
+
+    <section class="card mt-20" id="scopeResult" style="display:none;">
+      <div class="grid-4">
+        <div><div class="stat-label">Scope 1</div><div class="stat-value" id="scope1"></div></div>
+        <div><div class="stat-label">Scope 2</div><div class="stat-value" id="scope2"></div></div>
+        <div><div class="stat-label">Scope 3</div><div class="stat-value" id="scope3"></div></div>
+        <div><div class="stat-label">Total</div><div class="stat-value" id="scopeTotal"></div></div>
+      </div>
+      <canvas id="scopePie" style="max-height:300px; margin-top:16px;"></canvas>
+      <p class="text-sm text-muted mt-16" id="scopeRecommendation"></p>
+      <div class="mt-20" style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a href="brsr-generator.html" class="btn btn-primary">Generate My BRSR Report</a>
+        <a href="consultation.html" class="btn btn-secondary">Book a Consultation</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Emission factors (kgCO2e unit)
+    const EF = {
+      electricity: 0.82, // per kWh
+      diesel: 2.68,      // per litre
+      petrol: 2.31,      // per litre
+      flights: 0.255,    // per passenger-km
+      train: 0.041,      // per passenger-km
+      waste: 0.57        // per kg
+    };
+
+    let scopeChart;
+    function val(id) { return Number(document.getElementById(id).value || "0"); }
+    function toTons(kg) { return kg / 1000; }
+    function fmt(v) { return `${v.toFixed(2)} tCO2e`; }
+
+    function calculateScopes() {
+      const scope1 = toTons((val("diesel") * EF.diesel) + (val("petrol") * EF.petrol));
+      const scope2 = toTons(val("electricity") * EF.electricity);
+      const scope3 = toTons((val("flights") * EF.flights) + (val("train") * EF.train) + (val("waste") * EF.waste));
+      const total = scope1 + scope2 + scope3;
+
+      document.getElementById("scope1").textContent = fmt(scope1);
+      document.getElementById("scope2").textContent = fmt(scope2);
+      document.getElementById("scope3").textContent = fmt(scope3);
+      document.getElementById("scopeTotal").textContent = fmt(total);
+      document.getElementById("scopeRecommendation").textContent =
+        `To offset ${total.toFixed(0)} tCO2e, consider approximately ${Math.round(total)} credits/year. Indicative cost: ₹${Math.round(total * 1250).toLocaleString("en-IN")} - ₹${Math.round(total * 2500).toLocaleString("en-IN")}.`;
+
+      if (scopeChart) scopeChart.destroy();
+      scopeChart = new Chart(document.getElementById("scopePie"), {
+        type: "pie",
+        data: {
+          labels: ["Scope 1", "Scope 2", "Scope 3"],
+          datasets: [{ data: [scope1, scope2, scope3], backgroundColor: ["#00f5b8", "#3d8bff", "#ffcc00"] }]
+        },
+        options: { plugins: { legend: { labels: { color: "#e6efe9" } } } }
+      });
+
+      document.getElementById("scopeResult").style.display = "block";
+    }
+  </script>
+</body>
+</html>
