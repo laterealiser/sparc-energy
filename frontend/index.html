@@ -50,7 +50,7 @@
       
       <nav class="nav-menu" id="navMenu" role="navigation">
         <div class="nav-group">
-          <a href="index.html" class="nav-item">Solutions</a>
+          <a href="index.html" class="nav-item active">Home</a>
           <a href="projects.html" class="nav-item">Projects</a>
           
           <div class="nav-dropdown">
@@ -624,6 +624,7 @@
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </button>
+            <div class="form-error hidden" id="consultationError" role="alert"></div>
             <div class="form-ok hidden" id="consultationOk" role="alert">✓ Thank you! We will be in touch within 24
               hours.</div>
           </form>
@@ -702,8 +703,114 @@
   <script src="js/landing.js"></script>
   <script src="js/video-handler.js"></script>
   <script>
-    // Additional video error handling for story videos
+    // Consultation form validation and submission
     document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('consultationForm');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+
+          // Get form fields
+          const firstName = document.getElementById('c-fname').value.trim();
+          const lastName = document.getElementById('c-lname').value.trim();
+          const email = document.getElementById('c-email').value.trim();
+          const company = document.getElementById('c-company').value.trim();
+          const industry = document.getElementById('c-industry').value.trim();
+          const emissions = document.getElementById('c-emissions').value.trim();
+          const message = document.getElementById('c-message').value.trim();
+
+          const errorBox = document.getElementById('consultationError');
+          const okBox = document.getElementById('consultationOk');
+          const btn = document.getElementById('consultationBtn');
+
+          // Reset messages
+          errorBox.classList.add('hidden');
+          okBox.classList.add('hidden');
+
+          // Validate required fields
+          if (!firstName) {
+            errorBox.textContent = 'Please enter your first name';
+            errorBox.classList.remove('hidden');
+            return;
+          }
+          if (!lastName) {
+            errorBox.textContent = 'Please enter your last name';
+            errorBox.classList.remove('hidden');
+            return;
+          }
+          if (!email) {
+            errorBox.textContent = 'Please enter your email address';
+            errorBox.classList.remove('hidden');
+            return;
+          }
+          if (!email.includes('@')) {
+            errorBox.textContent = 'Please enter a valid email address';
+            errorBox.classList.remove('hidden');
+            return;
+          }
+          if (!company) {
+            errorBox.textContent = 'Please enter your company name';
+            errorBox.classList.remove('hidden');
+            return;
+          }
+          if (!industry) {
+            errorBox.textContent = 'Please select your industry';
+            errorBox.classList.remove('hidden');
+            return;
+          }
+          if (!emissions) {
+            errorBox.textContent = 'Please select your emissions range';
+            errorBox.classList.remove('hidden');
+            return;
+          }
+
+          // Disable button and show loading state
+          btn.disabled = true;
+          document.getElementById('consultationBtnTxt').textContent = 'Sending...';
+
+          // Prepare form data for Formspree
+          const formData = new FormData();
+          formData.append('firstName', firstName);
+          formData.append('lastName', lastName);
+          formData.append('email', email);
+          formData.append('company', company);
+          formData.append('industry', industry);
+          formData.append('emissions', emissions);
+          formData.append('message', message);
+
+          // Submit to Formspree
+          fetch('https://formspree.io/f/xpwzgkqb', {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'Accept': 'application/json'
+            }
+          })
+          .then(response => {
+            if (response.ok) {
+              // Success
+              form.reset();
+              okBox.classList.remove('hidden');
+              btn.disabled = false;
+              document.getElementById('consultationBtnTxt').textContent = 'Schedule My Free Consultation';
+              
+              // Hide success message after 5 seconds
+              setTimeout(() => {
+                okBox.classList.add('hidden');
+              }, 5000);
+            } else {
+              throw new Error('Form submission failed');
+            }
+          })
+          .catch(error => {
+            errorBox.textContent = 'Error sending form. Please try again or email info@sparcenergy.in';
+            errorBox.classList.remove('hidden');
+            btn.disabled = false;
+            document.getElementById('consultationBtnTxt').textContent = 'Schedule My Free Consultation';
+          });
+        });
+      }
+
       // Handle story video switching
       const storyVideos = document.querySelectorAll('.story-vid-bg video');
       storyVideos.forEach(video => {

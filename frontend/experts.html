@@ -1,710 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Find Carbon Market Experts — Verified Professionals</title>
-  <meta name="description"
-    content="Find verified carbon market experts for PDD writing, project validation, BRSR reporting, and carbon accounting. All experts vetted by Sparc Energy." />
-  <link rel="canonical" href="https://sparcenergy.in/experts" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Find Carbon Market Experts — Sparc Energy</title>
+  <meta name="description" content="Find verified carbon market experts for PDD writing, project validation, BRSR reporting, and carbon accounting."/>
+  <link rel="canonical" href="https://sparcenergy.in/experts"/>
+  <meta property="og:title" content="Find Carbon Market Experts — Sparc Energy"/>
+  <meta property="og:type" content="website"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css" />
-  <!-- GA4 tag: replace UA-XXXXX -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/luxury.css"/>
+  <style>
+    .experts-layout { display:grid; grid-template-columns:280px 1fr; gap:40px; align-items:start; }
+    .experts-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:24px; }
+    .expert-card { background:var(--white); border:1px solid var(--border); border-radius:16px; padding:28px; position:relative; transition:all 0.25s var(--ease); }
+    .expert-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-2px); border-color:var(--border-2); }
+    .verified-badge { position:absolute; top:16px; right:16px; background:#DCFCE7; color:#166534; padding:4px 10px; border-radius:20px; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; }
+    .expert-avatar { width:56px; height:56px; border-radius:50%; background:var(--forest); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:18px; color:var(--sage); flex-shrink:0; }
+    .expert-name { font-family:var(--f-serif); font-size:19px; font-weight:600; color:var(--forest); margin-bottom:3px; }
+    .expert-type { font-size:13px; font-weight:600; color:var(--sage-mid); margin-bottom:8px; }
+    .stars { color:#F59E0B; font-size:13px; }
+    .detail-row { display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid var(--border); font-size:13px; }
+    .detail-row:last-child { border-bottom:none; }
+    .cert-tag { display:inline-flex; padding:3px 9px; background:var(--sage-lt); color:var(--sage-mid); border-radius:20px; font-size:11px; font-weight:600; }
+    .expert-bio { font-size:13.5px; color:var(--slate-2); line-height:1.6; margin:16px 0; }
+    .expert-cta { width:100%; padding:11px; background:var(--forest); color:white; border:none; border-radius:8px; font-weight:600; font-size:14px; cursor:pointer; transition:all 0.2s; }
+    .expert-cta:hover { background:var(--forest-2); }
+    .search-input { width:100%; padding:11px 14px; border:1.5px solid var(--border); border-radius:8px; font-size:14px; font-family:var(--f-sans); outline:none; transition:border-color 0.2s; background:var(--white); }
+    .search-input:focus { border-color:var(--sage); }
+    .no-results { grid-column:1/-1; text-align:center; padding:60px 20px; color:var(--slate-2); font-size:16px; }
+    @media(max-width:900px){ .experts-layout{grid-template-columns:1fr;} .experts-grid{grid-template-columns:1fr;} }
+  </style>
 </head>
-
 <body>
-  <!-- ── NAVIGATION ── -->
-  <header class="nav" id="mainNav">
-    <div class="nav-wrap">
-      <a href="index.html" class="nav-logo">
-        <div class="logo-mark">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-            viewBox="0 0 24 24">
-            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-          </svg>
-        </div>
-        <div>
-          <div class="logo-name">Sparc Energy</div>
-          <div class="logo-sub">CARBON INTELLIGENCE</div>
-        </div>
-      </a>
-      <nav class="nav-links" id="navLinks" role="navigation">
-        <a href="index.html" class="nl">Home</a>
-        <a href="projects.html" class="nl">Projects</a>
-        <div class="tools-dropdown">
-          <a href="#" class="nl">Tools ▾</a>
-          <div class="dropdown-menu">
-            <a href="tools/estimator.html">Carbon Credit Estimator</a>
-            <a href="tools/asset-calculator.html">Asset Value Calculator</a>
-            <a href="tools/scope-calculator.html">Scope 1/2/3 Calculator</a>
-            <a href="tools/timeline.html">Timeline Estimator</a>
-            <a href="tools/price-tracker.html">Price Tracker</a>
-            <a href="tools/brsr-generator.html">BRSR Report Generator</a>
-          </div>
-        </div>
-        <a href="intelligence.html" class="nl">Carbon Intelligence</a>
-        <a href="experts.html" class="nl active">Find an Expert</a>
-      </nav>
-      <div class="nav-end">
-        <a href="auth.html" class="btn-ghost-sm">Sign In</a>
-        <a href="index.html#contact" class="btn-solid-sm">Book a Call</a>
-        <button class="burger" id="burger" aria-label="Menu">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </div>
-  </header>
 
-  <!-- ═══════════════════════ HERO ═══════════════════════════ -->
-  <section class="tool-hero">
-    <div class="container">
-      <h1 class="tool-h1">Find a Carbon Market Expert</h1>
-      <p class="tool-sub">Verified professionals for PDD writing, project validation, BRSR reporting and carbon
-        accounting</p>
+  <!-- ── PAGE HERO ── -->
+  <section class="lux-page-hero">
+    <div class="lux-page-hero-inner">
+      <div class="lux-page-eyebrow">Expert Network</div>
+      <h1 class="lux-page-h1">Find a Carbon Market <em>Expert</em></h1>
+      <p class="lux-page-sub">Verified professionals for PDD writing, project validation, BRSR reporting and carbon accounting</p>
     </div>
   </section>
 
-  <!-- ═══════════════════════ EXPERTS ═══════════════════════════ -->
-  <section class="sect">
-    <div class="container">
+  <!-- ── EXPERTS ── -->
+  <section class="lux-section">
+    <div class="lux-container">
       <div class="experts-layout">
-        <!-- Filter Sidebar -->
-        <div class="filter-sidebar">
-          <div class="search-box">
-            <input type="text" id="expertSearch" placeholder="Search experts..." onkeyup="searchExperts()">
+
+        <!-- Sidebar -->
+        <div class="lux-filter-sidebar">
+          <div class="lux-filter-title">Filter Experts</div>
+
+          <div style="margin-bottom:20px;">
+            <input type="text" id="expertSearch" class="search-input" placeholder="Search by name, skill..." oninput="applyFilters()"/>
           </div>
 
-          <div class="filter-group">
-            <h4>Expert Type</h4>
-            <label class="filter-checkbox">
-              <input type="checkbox" value="PDD Writer" onchange="applyFilters()">
-              <span>PDD Writer</span>
-            </label>
-            <label class="filter-checkbox">
-              <input type="checkbox" value="Project Validator" onchange="applyFilters()">
-              <span>Project Validator</span>
-            </label>
-            <label class="filter-checkbox">
-              <input type="checkbox" value="Third-Party Auditor" onchange="applyFilters()">
-              <span>Third-Party Auditor</span>
-            </label>
-            <label class="filter-checkbox">
-              <input type="checkbox" value="BRSR Consultant" onchange="applyFilters()">
-              <span>BRSR Consultant</span>
-            </label>
-            <label class="filter-checkbox">
-              <input type="checkbox" value="Carbon Accountant" onchange="applyFilters()">
-              <span>Carbon Accountant</span>
-            </label>
-            <label class="filter-checkbox">
-              <input type="checkbox" value="ESG Consultant" onchange="applyFilters()">
-              <span>ESG Consultant</span>
-            </label>
-            <label class="filter-checkbox">
-              <input type="checkbox" value="Legal/Regulatory Advisor" onchange="applyFilters()">
-              <span>Legal/Regulatory Advisor</span>
-            </label>
+          <div class="lux-filter-group">
+            <div class="lux-filter-group-title">Expert Type</div>
+            <label class="lux-filter-check"><input type="checkbox" value="PDD Writer" onchange="applyFilters()"/><span>PDD Writer</span></label>
+            <label class="lux-filter-check"><input type="checkbox" value="Project Validator" onchange="applyFilters()"/><span>Project Validator</span></label>
+            <label class="lux-filter-check"><input type="checkbox" value="Third-Party Auditor" onchange="applyFilters()"/><span>Third-Party Auditor</span></label>
+            <label class="lux-filter-check"><input type="checkbox" value="BRSR Consultant" onchange="applyFilters()"/><span>BRSR Consultant</span></label>
+            <label class="lux-filter-check"><input type="checkbox" value="Carbon Accountant" onchange="applyFilters()"/><span>Carbon Accountant</span></label>
+            <label class="lux-filter-check"><input type="checkbox" value="ESG Consultant" onchange="applyFilters()"/><span>ESG Consultant</span></label>
           </div>
 
-          <div class="filter-group">
-            <h4>Certification</h4>
-            <label class="filter-checkbox">
-              <input type="checkbox" value="Verra VCS" onchange="applyFilters()">
-              <span>Verra VCS</span>
-            </label>
-            <label class="filter-checkbox">
-              <input type="checkbox" value="Gold Standard" onchange="applyFilters()">
-              <span>Gold Standard</span>
-            </label>
-            <label class="filter-checkbox">
-              <input type="checkbox" value="ISO14064" onchange="applyFilters()">
-              <span>ISO 14064</span>
-            </label>
-            <label class="filter-checkbox">
-              <input type="checkbox" value="GHG Protocol" onchange="applyFilters()">
-              <span>GHG Protocol</span>
-            </label>
-            <label class="filter-checkbox">
-              <input type="checkbox" value="BRSR Specialist" onchange="applyFilters()">
-              <span>BRSR Specialist</span>
-            </label>
+          <div class="lux-filter-group">
+            <div class="lux-filter-group-title">Certification</div>
+            <label class="lux-filter-check"><input type="checkbox" value="Verra VCS" onchange="applyFilters()"/><span>Verra VCS</span></label>
+            <label class="lux-filter-check"><input type="checkbox" value="Gold Standard" onchange="applyFilters()"/><span>Gold Standard</span></label>
+            <label class="lux-filter-check"><input type="checkbox" value="ISO14064" onchange="applyFilters()"/><span>ISO 14064</span></label>
+            <label class="lux-filter-check"><input type="checkbox" value="BRSR Specialist" onchange="applyFilters()"/><span>BRSR Specialist</span></label>
           </div>
 
-          <div class="filter-group">
-            <h4>Budget Range</h4>
-            <label class="filter-checkbox">
-              <input type="checkbox" value="Under Rs.50K" onchange="applyFilters()">
-              <span>Under Rs.50K</span>
-            </label>
-            <label class="filter-checkbox">
-              <input type="checkbox" value="Rs.50K-2L" onchange="applyFilters()">
-              <span>Rs.50K-2L</span>
-            </label>
-            <label class="filter-checkbox">
-              <input type="checkbox" value="Rs.2-10L" onchange="applyFilters()">
-              <span>Rs.2-10L</span>
-            </label>
-            <label class="filter-checkbox">
-              <input type="checkbox" value="Rs.10L+" onchange="applyFilters()">
-              <span>Rs.10L+</span>
-            </label>
+          <div class="lux-filter-group">
+            <div class="lux-filter-group-title">Verified Only</div>
+            <label class="lux-filter-check"><input type="checkbox" id="verifiedOnly" onchange="applyFilters()"/><span><strong>Sparc Verified</strong></span></label>
           </div>
 
-          <div class="filter-group">
-            <label class="filter-checkbox">
-              <input type="checkbox" id="verifiedOnly" onchange="applyFilters()">
-              <span><strong>Sparc Verified Only</strong></span>
-            </label>
-          </div>
+          <button onclick="clearFilters()" style="width:100%;padding:10px;border:1.5px solid var(--border-2);border-radius:8px;font-size:14px;font-weight:500;color:var(--slate);cursor:pointer;background:none;transition:all 0.2s;" onmouseover="this.style.background='var(--ivory-2)'" onmouseout="this.style.background='none'">Clear Filters</button>
 
-          <button class="btn-secondary" onclick="clearFilters()">Clear Filters</button>
+          <div style="margin-top:24px;padding:20px;background:var(--sage-lt);border-radius:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:600;color:var(--forest);margin-bottom:8px;">Are you an expert?</div>
+            <a href="experts/register.html" style="display:inline-block;padding:9px 18px;background:var(--forest);color:white;border-radius:8px;font-size:13px;font-weight:600;">Join Our Network</a>
+          </div>
         </div>
 
-        <!-- Experts Grid -->
-        <div class="experts-main">
-          <div class="experts-header">
-            <div class="results-count">
-              Showing <span id="expertCount">8</span> experts
-            </div>
+        <!-- Grid -->
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+            <p style="font-size:14px;color:var(--slate-2);">Showing <strong id="expertCount" style="color:var(--forest);">8</strong> experts</p>
           </div>
-
-          <div class="experts-grid" id="expertsGrid">
-            <!-- Expert cards will be populated here -->
-          </div>
+          <div class="experts-grid" id="expertsGrid"></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════ FOOTER ════════════════════════════════ -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="index.html" class="nav-logo" style="margin-bottom:16px;display:inline-flex;">
-            <div class="logo-mark-light"><svg width="16" height="16" fill="none" stroke="currentColor"
-                stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-              </svg></div>
-            <div>
-              <div class="logo-name" style="font-size:15px;">Sparc Energy</div>
-              <div class="logo-sub">CARBON INTELLIGENCE</div>
-            </div>
-          </a>
-          <p class="footer-desc">Boutique climate intelligence for organisations serious about net zero. Science-based,
-            AI-augmented, personally delivered.</p>
-          <div class="f-socials">
-            <a href="https://linkedin.com/in/sparcenergy" class="f-soc" aria-label="LinkedIn" target="_blank"
-              rel="noopener"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
-                viewBox="0 0 24 24">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
-                <rect x="2" y="9" width="4" height="12" />
-                <circle cx="4" cy="4" r="2" />
-              </svg></a>
-            <a href="mailto:info@sparcenergy.in" class="f-soc" aria-label="Email"><svg width="16" height="16"
-                fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                <polyline points="22,6 12,13 2,6" />
-              </svg></a>
-          </div>
-        </div>
-        <div class="footer-col">
-          <div class="fc-title">Services</div>
-          <a href="index.html#services" class="fl">Carbon Measurement</a>
-          <a href="index.html#services" class="fl">Net Zero Strategy</a>
-          <a href="index.html#services" class="fl">Credit Procurement</a>
-          <a href="index.html#services" class="fl">ESG Reporting</a>
-        </div>
-        <div class="footer-col">
-          <div class="fc-title">Tools</div>
-          <a href="tools/estimator.html" class="fl">Carbon Credit Estimator</a>
-          <a href="tools/asset-calculator.html" class="fl">Asset Value Calculator</a>
-          <a href="tools/scope-calculator.html" class="fl">Scope 1/2/3 Calculator</a>
-          <a href="tools/timeline.html" class="fl">Timeline Estimator</a>
-          <a href="tools/price-tracker.html" class="fl">Price Tracker</a>
-          <a href="tools/brsr-generator.html" class="fl">BRSR Report Generator</a>
-        </div>
-        <div class="footer-col">
-          <div class="fc-title">Company</div>
-          <a href="about.html" class="fl">About</a>
-          <a href="intelligence.html" class="fl">Insights</a>
-          <a href="index.html#contact" class="fl">Contact</a>
-          <a href="privacy.html" class="fl">Privacy</a>
-          <a href="terms.html" class="fl">Terms</a>
-          <a href="carbon-101.html" class="fl">Carbon 101</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© 2025 Sparc Energy. All rights reserved.</span>
-        <div class="footer-certs">
-          <span>🌿 Verra VCS</span><span>🥇 Gold Standard</span><span>📊 SBTi Aligned</span>
-        </div>
-      </div>
-    </div>
-  </footer>
-
+  <script src="js/lux-nav.js"></script>
   <script>
-    // Sample expert data
+    renderNav('Experts');
+    renderFooter();
+
     const experts = [
-      {
-        id: 1,
-        name: "Priya Sharma",
-        type: "PDD Writer",
-        location: "Maharashtra, India",
-        experience: "8 years",
-        projects: 24,
-        certifications: ["Verra VCS", "Gold Standard"],
-        rate: "Rs.2-10L",
-        verified: true,
-        rating: 4.8,
-        reviews: 12,
-        bio: "Experienced PDD writer specializing in reforestation and renewable energy projects across India.",
-        initials: "PS"
-      },
-      {
-        id: 2,
-        name: "Rajesh Kumar",
-        type: "Project Validator",
-        location: "Delhi, India",
-        experience: "12 years",
-        projects: 41,
-        certifications: ["Verra VCS", "CDM", "ISO14064"],
-        rate: "Rs.10L+",
-        verified: true,
-        rating: 4.9,
-        reviews: 18,
-        bio: "Senior project validator with extensive experience in large-scale renewable energy and AFOLU projects.",
-        initials: "RK"
-      },
-      {
-        id: 3,
-        name: "Ananya Rao",
-        type: "BRSR Consultant",
-        location: "Karnataka, India",
-        experience: "5 years",
-        projects: 18,
-        certifications: ["BRSR Specialist", "GHG Protocol"],
-        rate: "Rs.50K-2L",
-        verified: true,
-        rating: 4.7,
-        reviews: 9,
-        bio: "BRSR specialist helping companies navigate ESG reporting requirements and sustainability disclosures.",
-        initials: "AR"
-      },
-      {
-        id: 4,
-        name: "Mohammed Faiz",
-        type: "Carbon Accountant",
-        location: "Gujarat, India",
-        experience: "7 years",
-        projects: 31,
-        certifications: ["ISO14064", "GHG Protocol"],
-        rate: "Rs.2-10L",
-        verified: false,
-        rating: 4.6,
-        reviews: 15,
-        bio: "Carbon accounting expert with focus on manufacturing and industrial emissions measurement.",
-        initials: "MF"
-      },
-      {
-        id: 5,
-        name: "Sunita Patel",
-        type: "ESG Consultant",
-        location: "Tamil Nadu, India",
-        experience: "6 years",
-        projects: 22,
-        certifications: ["GRI", "TCFD", "BRSR Specialist"],
-        rate: "Rs.50K-2L",
-        verified: true,
-        rating: 4.8,
-        reviews: 11,
-        bio: "ESG consultant specializing in sustainability strategy and climate risk assessment.",
-        initials: "SP"
-      },
-      {
-        id: 6,
-        name: "Vikram Singh",
-        type: "Legal/Regulatory Advisor",
-        location: "Delhi, India",
-        experience: "10 years",
-        projects: 15,
-        certifications: ["India CCTS"],
-        rate: "Rs.2-10L",
-        verified: false,
-        rating: 4.5,
-        reviews: 8,
-        bio: "Legal expert specializing in India CCTS regulations and carbon market compliance.",
-        initials: "VS"
-      },
-      {
-        id: 7,
-        name: "Deepa Menon",
-        type: "Project Validator",
-        location: "Kerala, India",
-        experience: "9 years",
-        projects: 28,
-        certifications: ["Gold Standard", "Verra VCS"],
-        rate: "Rs.10L+",
-        verified: true,
-        rating: 4.9,
-        reviews: 14,
-        bio: "Gold Standard auditor with expertise in community-based carbon projects and co-benefits assessment.",
-        initials: "DM"
-      },
-      {
-        id: 8,
-        name: "Arjun Nair",
-        type: "PDD Writer",
-        location: "Telangana, India",
-        experience: "4 years",
-        projects: 11,
-        certifications: ["Verra VCS"],
-        rate: "Rs.50K-2L",
-        verified: false,
-        rating: 4.4,
-        reviews: 6,
-        bio: "Emerging PDD writer focusing on technology-based emission reduction projects.",
-        initials: "AN"
-      }
+      { id:1, name:"Priya Sharma", type:"PDD Writer", location:"Maharashtra", experience:"8 years", projects:24, certifications:["Verra VCS","Gold Standard"], rate:"₹2–10L", verified:true, rating:4.8, reviews:12, bio:"Experienced PDD writer specializing in reforestation and renewable energy projects across India.", initials:"PS" },
+      { id:2, name:"Rajesh Kumar", type:"Project Validator", location:"Delhi", experience:"12 years", projects:41, certifications:["Verra VCS","CDM","ISO14064"], rate:"₹10L+", verified:true, rating:4.9, reviews:18, bio:"Senior project validator with extensive experience in large-scale renewable energy and AFOLU projects.", initials:"RK" },
+      { id:3, name:"Ananya Rao", type:"BRSR Consultant", location:"Karnataka", experience:"5 years", projects:18, certifications:["BRSR Specialist","GHG Protocol"], rate:"₹50K–2L", verified:true, rating:4.7, reviews:9, bio:"BRSR specialist helping companies navigate ESG reporting requirements and sustainability disclosures.", initials:"AR" },
+      { id:4, name:"Mohammed Faiz", type:"Carbon Accountant", location:"Gujarat", experience:"7 years", projects:31, certifications:["ISO14064","GHG Protocol"], rate:"₹2–10L", verified:false, rating:4.6, reviews:15, bio:"Carbon accounting expert with focus on manufacturing and industrial emissions measurement.", initials:"MF" },
+      { id:5, name:"Sunita Patel", type:"ESG Consultant", location:"Tamil Nadu", experience:"6 years", projects:22, certifications:["GRI","TCFD","BRSR Specialist"], rate:"₹50K–2L", verified:true, rating:4.8, reviews:11, bio:"ESG consultant specializing in sustainability strategy and climate risk assessment.", initials:"SP" },
+      { id:6, name:"Vikram Singh", type:"Third-Party Auditor", location:"Delhi", experience:"10 years", projects:15, certifications:["ISO14064"], rate:"₹2–10L", verified:false, rating:4.5, reviews:8, bio:"Legal expert specializing in India CCTS regulations and carbon market compliance.", initials:"VS" },
+      { id:7, name:"Deepa Menon", type:"Project Validator", location:"Kerala", experience:"9 years", projects:28, certifications:["Gold Standard","Verra VCS"], rate:"₹10L+", verified:true, rating:4.9, reviews:14, bio:"Gold Standard auditor with expertise in community-based carbon projects and co-benefits assessment.", initials:"DM" },
+      { id:8, name:"Arjun Nair", type:"PDD Writer", location:"Telangana", experience:"4 years", projects:11, certifications:["Verra VCS"], rate:"₹50K–2L", verified:false, rating:4.4, reviews:6, bio:"Emerging PDD writer focusing on technology-based emission reduction projects.", initials:"AN" }
     ];
 
-    let filteredExperts = [...experts];
+    let filtered = [...experts];
 
     function renderExperts() {
       const grid = document.getElementById('expertsGrid');
-      const count = document.getElementById('expertCount');
-
-      count.textContent = filteredExperts.length;
-
-      if (filteredExperts.length === 0) {
-        grid.innerHTML = '<div class="no-results">No experts match your criteria. Try adjusting your filters.</div>';
-        return;
-      }
-
-      grid.innerHTML = filteredExperts.map(expert => `
+      document.getElementById('expertCount').textContent = filtered.length;
+      if (!filtered.length) { grid.innerHTML = '<div class="no-results">No experts match your criteria.</div>'; return; }
+      grid.innerHTML = filtered.map(e => `
         <div class="expert-card">
-          ${expert.verified ? '<div class="verified-badge">SPARC VERIFIED</div>' : ''}
-          <div class="expert-header">
-            <div class="expert-avatar">
-              <span>${expert.initials}</span>
-            </div>
-            <div class="expert-info">
-              <h3 class="expert-name">${expert.name}</h3>
-              <div class="expert-type">${expert.type}</div>
-              <div class="expert-rating">
-                <span class="stars">${'★'.repeat(Math.floor(expert.rating))}${'☆'.repeat(5 - Math.floor(expert.rating))}</span>
-                <span class="rating-text">(${expert.rating}) — ${expert.reviews} reviews</span>
+          ${e.verified ? '<div class="verified-badge">✓ Sparc Verified</div>' : ''}
+          <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:20px;">
+            <div class="expert-avatar">${e.initials}</div>
+            <div>
+              <div class="expert-name">${e.name}</div>
+              <div class="expert-type">${e.type}</div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <span class="stars">${'★'.repeat(Math.floor(e.rating))}${'☆'.repeat(5-Math.floor(e.rating))}</span>
+                <span style="font-size:12px;color:var(--slate-3);">${e.rating} (${e.reviews} reviews)</span>
               </div>
             </div>
           </div>
-          
-          <div class="expert-details">
-            <div class="detail-row">
-              <span class="detail-label">Location:</span>
-              <span class="detail-value">${expert.location}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Experience:</span>
-              <span class="detail-value">${expert.experience}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Projects:</span>
-              <span class="detail-value">${expert.projects} completed</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Rate:</span>
-              <span class="detail-value">${expert.rate} per project</span>
-            </div>
+          <div style="margin-bottom:16px;">
+            <div class="detail-row"><span style="color:var(--slate-2);">Location</span><span style="font-weight:500;color:var(--forest);">${e.location}</span></div>
+            <div class="detail-row"><span style="color:var(--slate-2);">Experience</span><span style="font-weight:500;color:var(--forest);">${e.experience}</span></div>
+            <div class="detail-row"><span style="color:var(--slate-2);">Projects</span><span style="font-weight:500;color:var(--forest);">${e.projects} completed</span></div>
+            <div class="detail-row"><span style="color:var(--slate-2);">Rate</span><span style="font-weight:500;color:var(--forest);">${e.rate} / project</span></div>
           </div>
-
-          <div class="expert-certifications">
-            ${expert.certifications.slice(0, 3).map(cert => `<span class="cert-badge">${cert}</span>`).join('')}
-            ${expert.certifications.length > 3 ? `<span class="cert-more">+${expert.certifications.length - 3} more</span>` : ''}
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">
+            ${e.certifications.slice(0,3).map(c=>`<span class="cert-tag">${c}</span>`).join('')}
           </div>
-
-          <p class="expert-bio">${expert.bio}</p>
-
-          <button class="expert-contact-btn" onclick="contactExpert('${expert.name}')">Contact Expert</button>
-        </div>
-      `).join('');
+          <p class="expert-bio">${e.bio}</p>
+          <button class="expert-cta" onclick="contactExpert('${e.name}')">Contact Expert</button>
+        </div>`).join('');
     }
 
     function applyFilters() {
-      const typeFilters = Array.from(document.querySelectorAll('input[type="checkbox"]:not(#verifiedOnly)'))
-        .filter(cb => cb.checked)
-        .map(cb => cb.value);
-
+      const checks = [...document.querySelectorAll('input[type=checkbox]:not(#verifiedOnly)')].filter(c=>c.checked).map(c=>c.value);
       const verifiedOnly = document.getElementById('verifiedOnly').checked;
-      const searchTerm = document.getElementById('expertSearch').value.toLowerCase();
-
-      filteredExperts = experts.filter(expert => {
-        // Search filter
-        const matchesSearch = !searchTerm ||
-          expert.name.toLowerCase().includes(searchTerm) ||
-          expert.bio.toLowerCase().includes(searchTerm) ||
-          expert.certifications.some(cert => cert.toLowerCase().includes(searchTerm)) ||
-          expert.location.toLowerCase().includes(searchTerm);
-
-        // Type/certification/rate filters
-        const matchesFilters = typeFilters.length === 0 ||
-          typeFilters.includes(expert.type) ||
-          expert.certifications.some(cert => typeFilters.includes(cert)) ||
-          typeFilters.includes(expert.rate);
-
-        // Verified filter
-        const matchesVerified = !verifiedOnly || expert.verified;
-
-        return matchesSearch && matchesFilters && matchesVerified;
+      const q = document.getElementById('expertSearch').value.toLowerCase();
+      filtered = experts.filter(e => {
+        const matchQ = !q || e.name.toLowerCase().includes(q) || e.bio.toLowerCase().includes(q) || e.certifications.some(c=>c.toLowerCase().includes(q));
+        const matchF = !checks.length || checks.includes(e.type) || e.certifications.some(c=>checks.includes(c));
+        const matchV = !verifiedOnly || e.verified;
+        return matchQ && matchF && matchV;
       });
-
       renderExperts();
-    }
-
-    function searchExperts() {
-      applyFilters();
     }
 
     function clearFilters() {
-      document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-      document.getElementById('expertSearch').value = '';
-      filteredExperts = [...experts];
+      document.querySelectorAll('input[type=checkbox]').forEach(c=>c.checked=false);
+      document.getElementById('expertSearch').value='';
+      filtered=[...experts];
       renderExperts();
     }
 
-    function contactExpert(expertName) {
-      // Check if user is logged in (simplified check)
-      const isLoggedIn = false; // This would be determined by actual auth state
-
-      if (isLoggedIn) {
-        // Show contact modal with expert's email
-        alert(`Contact information for ${expertName} would be displayed here.`);
-      } else {
-        // Redirect to auth with return URL
-        window.location.href = `auth.html?redirect=experts.html&expert=${encodeURIComponent(expertName)}`;
-      }
+    function contactExpert(name) {
+      window.location.href = `auth.html?redirect=experts.html&expert=${encodeURIComponent(name)}`;
     }
 
-    // Initialize
-    document.addEventListener('DOMContentLoaded', function () {
-      renderExperts();
-    });
+    document.addEventListener('DOMContentLoaded', renderExperts);
   </script>
-
-  <style>
-    .experts-layout {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 40px;
-      margin-top: 40px;
-    }
-
-    .search-box {
-      margin-bottom: 24px;
-    }
-
-    .search-box input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid var(--emerald);
-      border-radius: 8px;
-      background: var(--forest);
-      color: var(--cream);
-      font-size: 14px;
-    }
-
-    .search-box input::placeholder {
-      color: var(--muted);
-    }
-
-    .experts-main {
-      min-height: 600px;
-    }
-
-    .experts-header {
-      margin-bottom: 24px;
-    }
-
-    .results-count {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .experts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-      gap: 24px;
-    }
-
-    .expert-card {
-      background: var(--emerald);
-      border-radius: 12px;
-      padding: 24px;
-      border: 1px solid var(--mint);
-      position: relative;
-      transition: all 0.2s;
-    }
-
-    .expert-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(82, 183, 136, 0.2);
-    }
-
-    .verified-badge {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: #10b981;
-      color: white;
-      padding: 4px 8px;
-      border-radius: 12px;
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .expert-header {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    .expert-avatar {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: var(--mint);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 18px;
-      color: var(--forest);
-      flex-shrink: 0;
-    }
-
-    .expert-info {
-      flex: 1;
-    }
-
-    .expert-name {
-      color: var(--cream);
-      font-family: 'Playfair Display', serif;
-      font-size: 20px;
-      margin-bottom: 4px;
-    }
-
-    .expert-type {
-      color: var(--mint);
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .expert-rating {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-    }
-
-    .stars {
-      color: #fbbf24;
-    }
-
-    .rating-text {
-      color: var(--muted);
-    }
-
-    .expert-details {
-      margin-bottom: 16px;
-    }
-
-    .detail-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 6px;
-      font-size: 13px;
-    }
-
-    .detail-label {
-      color: var(--muted);
-    }
-
-    .detail-value {
-      color: var(--cream);
-      font-weight: 500;
-    }
-
-    .expert-certifications {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 16px;
-    }
-
-    .cert-badge {
-      background: var(--mint);
-      color: var(--forest);
-      padding: 4px 8px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 600;
-    }
-
-    .cert-more {
-      color: var(--muted);
-      font-size: 11px;
-      padding: 4px 8px;
-    }
-
-    .expert-bio {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.4;
-      margin-bottom: 20px;
-    }
-
-    .expert-contact-btn {
-      width: 100%;
-      background: var(--mint);
-      color: var(--forest);
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .expert-contact-btn:hover {
-      background: var(--cream);
-    }
-
-    .no-results {
-      grid-column: 1 / -1;
-      text-align: center;
-      color: var(--muted);
-      padding: 60px 20px;
-      font-size: 16px;
-    }
-
-    @media (max-width: 768px) {
-      .experts-layout {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-
-      .experts-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
-
 </body>
-
 </html>
