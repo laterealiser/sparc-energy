@@ -71,8 +71,10 @@
 
 <!-- Background Video -->
 <div class="vid-bg-wrap">
-  <video autoplay muted loop playsinline class="vid-bg">
+  <video autoplay muted loop playsinline class="vid-bg" preload="auto">
     <source src="assets/videos/dashboard.mp4" type="video/mp4">
+    <source src="assets/videos/dashboard.webm" type="video/webm">
+    <div class="video-fallback" style="background: linear-gradient(135deg, var(--forest) 0%, var(--emerald) 100%); position: absolute; inset: 0;"></div>
   </video>
 </div>
 <div class="page-bg-overlay"></div>

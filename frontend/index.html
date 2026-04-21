@@ -73,8 +73,11 @@
   <section class="hero" id="hero">
     <!-- Renewable Energy Drone Video -->
     <div class="vid-bg-wrap">
-      <video autoplay muted loop playsinline class="vid-bg">
+      <video autoplay muted loop playsinline class="vid-bg" preload="auto" poster="">
         <source src="assets/videos/hero.mp4" type="video/mp4">
+        <source src="assets/videos/hero.webm" type="video/webm">
+        <!-- Fallback for browsers that don't support video -->
+        <div class="video-fallback" style="background: linear-gradient(135deg, var(--forest) 0%, var(--emerald) 100%); position: absolute; inset: 0;"></div>
       </video>
     </div>
     <div class="hero-overlay"></div>
@@ -135,18 +138,24 @@
       <!-- Dynamic Thematic Videos -->
       <div class="story-video-wrap">
         <div class="vid-bg-wrap story-vid-bg active" id="sv-crisis">
-          <video autoplay muted loop playsinline class="vid-bg">
+          <video autoplay muted loop playsinline class="vid-bg" preload="auto">
             <source src="assets/videos/crisis.mp4" type="video/mp4">
+            <source src="assets/videos/crisis.webm" type="video/webm">
+            <div class="video-fallback" style="background: var(--forest);"></div>
           </video>
         </div>
         <div class="vid-bg-wrap story-vid-bg" id="sv-method">
-          <video autoplay muted loop playsinline class="vid-bg">
+          <video autoplay muted loop playsinline class="vid-bg" preload="auto">
              <source src="assets/videos/method.mp4" type="video/mp4">
+             <source src="assets/videos/method.webm" type="video/webm">
+             <div class="video-fallback" style="background: var(--forest);"></div>
           </video>
         </div>
         <div class="vid-bg-wrap story-vid-bg" id="sv-outcome">
-          <video autoplay muted loop playsinline class="vid-bg">
+          <video autoplay muted loop playsinline class="vid-bg" preload="auto">
             <source src="assets/videos/outcome.mp4" type="video/mp4">
+            <source src="assets/videos/outcome.webm" type="video/webm">
+            <div class="video-fallback" style="background: var(--forest);"></div>
           </video>
         </div>
         <div class="story-vid-overlay"></div>
@@ -308,8 +317,10 @@
         <div class="why-right reveal-r">
           <div class="why-vid-wrap">
             <div class="vid-bg-wrap">
-              <video autoplay muted loop playsinline class="vid-bg">
+              <video autoplay muted loop playsinline class="vid-bg" preload="auto">
                 <source src="assets/videos/why-sparc.mp4" type="video/mp4">
+                <source src="assets/videos/why-sparc.webm" type="video/webm">
+                <div class="video-fallback" style="background: var(--forest);"></div>
               </video>
             </div>
             <div class="why-vid-card">
@@ -370,8 +381,10 @@
   <!-- ═══════════════════════ ABOUT ═══════════════════════════════ -->
   <section class="sect sect-dark-video" id="about">
     <div class="vid-bg-wrap">
-      <video autoplay muted loop playsinline class="vid-bg">
+      <video autoplay muted loop playsinline class="vid-bg" preload="auto">
         <source src="assets/videos/consultation.mp4" type="video/mp4">
+        <source src="assets/videos/consultation.webm" type="video/webm">
+        <div class="video-fallback" style="background: var(--forest);"></div>
       </video>
     </div>
     <div class="sect-bg-overlay"></div>
@@ -716,6 +729,23 @@
   </footer>
 
   <script src="js/landing.js"></script>
+  <script src="js/video-handler.js"></script>
+  <script>
+    // Additional video error handling for story videos
+    document.addEventListener('DOMContentLoaded', function() {
+      // Handle story video switching
+      const storyVideos = document.querySelectorAll('.story-vid-bg video');
+      storyVideos.forEach(video => {
+        video.addEventListener('error', function() {
+          console.warn('Story video failed:', this.src);
+          const container = this.closest('.story-vid-bg');
+          if (container) {
+            container.style.background = 'linear-gradient(135deg, #0a1f12 0%, #1a4a2e 100%)';
+          }
+        });
+      });
+    });
+  </script>
 </body>
 
 </html>
