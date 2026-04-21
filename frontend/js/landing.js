@@ -10,9 +10,12 @@ let scrollY = window.scrollY;
 function initNav() {
   const nav = document.getElementById('mainNav');
   const fab = document.getElementById('fab');
+  const burger = document.getElementById('navBurger');
+  const menu = document.getElementById('navMenu');
 
   if (!nav) return;
 
+  // Scroll behavior
   window.addEventListener('scroll', () => {
     scrollY = window.scrollY;
 
@@ -32,6 +35,35 @@ function initNav() {
       }
     }
   }, { passive: true });
+
+  // Mobile menu toggle
+  if (burger && menu) {
+    burger.addEventListener('click', () => {
+      const isExpanded = burger.getAttribute('aria-expanded') === 'true';
+      burger.setAttribute('aria-expanded', !isExpanded);
+      menu.classList.toggle('active');
+    });
+  }
+
+  // Dropdown toggle for mobile
+  const dropdownTriggers = document.querySelectorAll('.nav-trigger');
+  dropdownTriggers.forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      if (window.innerWidth <= 1024) {
+        e.preventDefault();
+        const dropdown = trigger.closest('.nav-dropdown');
+        dropdown.classList.toggle('active');
+      }
+    });
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (menu && burger && !nav.contains(e.target)) {
+      burger.setAttribute('aria-expanded', 'false');
+      menu.classList.remove('active');
+    }
+  });
 }
 
 // ── Intersection Observer for Reveals ──

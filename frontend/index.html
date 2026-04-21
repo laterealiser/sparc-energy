@@ -20,55 +20,100 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="css/landing.css?v=3" />
+  <link rel="stylesheet" href="css/nav-modern.css?v=1" />
 </head>
 
 <body>
 
   <!-- ── FLOATING CONTACT BUTTON ── -->
-  <a href="#contact" class="fab" id="fab" aria-label="Book free audit">
-    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+  <a href="#contact" class="fab-modern" id="fab" aria-label="Get started">
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
     </svg>
-    <span>Book Free Audit</span>
+    <span>Get Started</span>
   </a>
 
   <!-- ── NAVIGATION ── -->
-  <header class="nav" id="mainNav">
-    <div class="nav-wrap">
-      <a href="index.html" class="nav-logo">
-        <div class="logo-mark">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-            viewBox="0 0 24 24">
+  <header class="nav-modern" id="mainNav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>
         </div>
-        <div>
-          <div class="logo-name">Sparc Energy</div>
-          <div class="logo-sub">CARBON INTELLIGENCE</div>
-        </div>
+        <span class="brand-text">Sparc Energy</span>
       </a>
-      <nav class="nav-links" id="navLinks" role="navigation">
-        <a href="index.html" class="nl" id="nl-1">Home</a>
-        <a href="projects.html" class="nl" id="nl-2">Projects</a>
-        <div class="tools-dropdown">
-          <a href="#" class="nl" id="nl-3">Tools ▾</a>
-          <div class="dropdown-menu">
-            <a href="tools/estimator.html">Carbon Credit Estimator</a>
-            <a href="tools/asset-calculator.html">Asset Value Calculator</a>
-            <a href="tools/scope-calculator.html">Scope 1/2/3 Calculator</a>
-            <a href="tools/timeline.html">Timeline Estimator</a>
-            <a href="tools/price-tracker.html">Price Tracker</a>
-            <a href="tools/brsr-generator.html">BRSR Report Generator</a>
+      
+      <nav class="nav-menu" id="navMenu" role="navigation">
+        <div class="nav-group">
+          <a href="index.html" class="nav-item">Solutions</a>
+          <a href="projects.html" class="nav-item">Projects</a>
+          
+          <div class="nav-dropdown">
+            <button class="nav-item nav-trigger" aria-expanded="false">
+              Resources
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+            <div class="nav-dropdown-menu">
+              <div class="dropdown-section">
+                <div class="dropdown-label">Tools</div>
+                <a href="tools/estimator.html" class="dropdown-item">
+                  <div class="dropdown-item-icon">📊</div>
+                  <div>
+                    <div class="dropdown-item-title">Carbon Credit Estimator</div>
+                    <div class="dropdown-item-desc">Calculate your offset needs</div>
+                  </div>
+                </a>
+                <a href="tools/scope-calculator.html" class="dropdown-item">
+                  <div class="dropdown-item-icon">🔍</div>
+                  <div>
+                    <div class="dropdown-item-title">Scope 1/2/3 Calculator</div>
+                    <div class="dropdown-item-desc">Measure your emissions</div>
+                  </div>
+                </a>
+                <a href="tools/brsr-generator.html" class="dropdown-item">
+                  <div class="dropdown-item-icon">📄</div>
+                  <div>
+                    <div class="dropdown-item-title">BRSR Report Generator</div>
+                    <div class="dropdown-item-desc">Generate compliance reports</div>
+                  </div>
+                </a>
+              </div>
+              <div class="dropdown-section">
+                <div class="dropdown-label">Learn</div>
+                <a href="intelligence.html" class="dropdown-item">
+                  <div class="dropdown-item-icon">🤖</div>
+                  <div>
+                    <div class="dropdown-item-title">Carbon Intelligence AI</div>
+                    <div class="dropdown-item-desc">Ask our AI assistant</div>
+                  </div>
+                </a>
+                <a href="carbon-101.html" class="dropdown-item">
+                  <div class="dropdown-item-icon">📚</div>
+                  <div>
+                    <div class="dropdown-item-title">Carbon 101</div>
+                    <div class="dropdown-item-desc">Learn the basics</div>
+                  </div>
+                </a>
+              </div>
+            </div>
           </div>
+          
+          <a href="experts.html" class="nav-item">Experts</a>
+          <a href="about.html" class="nav-item">About</a>
         </div>
-        <a href="intelligence.html" class="nl" id="nl-4">Carbon Intelligence</a>
-        <a href="experts.html" class="nl" id="nl-5">Find an Expert</a>
       </nav>
-      <div class="nav-end">
-        <a href="auth.html" class="btn-ghost-sm">Sign In</a>
-        <a href="#contact" class="btn-solid-sm">Book a Call</a>
-        <button class="burger" id="burger" aria-label="Menu">
-          <span></span><span></span><span></span>
+
+      <div class="nav-actions">
+        <a href="auth.html" class="nav-btn nav-btn-ghost">Sign In</a>
+        <a href="auth.html?mode=register" class="nav-btn nav-btn-primary">Sign Up</a>
+        <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
       </div>
     </div>
