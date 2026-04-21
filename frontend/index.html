@@ -1,717 +1,613 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sparc Energy — Carbon Credit Market Platform</title>
-  <meta name="description" content="Sparc Energy is India's premier carbon credit marketplace. Trade verified carbon credits from gold standard and Verra certified projects. Join the green economy today." />
-  <meta property="og:title" content="Sparc Energy — Carbon Credit Market" />
-  <meta property="og:description" content="Trade verified carbon credits. Offset your CO₂. Build a sustainable future." />
-  <link rel="stylesheet" href="css/styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    /* ── Hero Visual ── */
-    .hero-right { position: relative; flex: 1; display: flex; align-items: center; justify-content: center; }
-    .globe-visual {
-      width: 420px;
-      height: 420px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%,
-        rgba(0,212,161,0.15) 0%,
-        rgba(0,100,80,0.08) 40%,
-        rgba(0,0,0,0) 70%
-      );
-      border: 1px solid rgba(0,212,161,0.12);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 180px;
-      position: relative;
-      animation: float 4s ease-in-out infinite;
-    }
-    .globe-orbit {
-      position: absolute;
-      border-radius: 50%;
-      border: 1px dashed;
-      animation: orbit linear infinite;
-    }
-    .orbit-1 {
-      width: 500px; height: 500px;
-      border-color: rgba(0,212,161,0.08);
-      animation-duration: 20s;
-    }
-    .orbit-2 {
-      width: 580px; height: 580px;
-      border-color: rgba(79,142,247,0.06);
-      animation-duration: 30s;
-      animation-direction: reverse;
-    }
-    @keyframes orbit { to { transform: rotate(360deg); } }
-    .orbit-dot {
-      position: absolute;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      top: -4px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .floating-card {
-      position: absolute;
-      background: rgba(10,18,32,0.9);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 12px 16px;
-      font-size: 12px;
-      white-space: nowrap;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-    }
-    .floating-card-1 { top: 60px; left: -60px; }
-    .floating-card-2 { top: 160px; right: -80px; }
-    .floating-card-3 { bottom: 100px; left: -80px; }
-
-    /* ── How It Works ── */
-    .how-step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 14px;
-      padding: 32px 24px;
-    }
-    .step-num {
-      width: 48px; height: 48px;
-      border-radius: 50%;
-      background: var(--sparc-green-glow);
-      border: 1px solid var(--border-green);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; font-weight: 700; color: var(--sparc-green);
-      font-family: var(--font-display);
-    }
-    .step-icon { font-size: 36px; }
-    .step-title { font-size: 16px; font-weight: 600; color: var(--text-primary); }
-    .step-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
-
-    /* ── Certification Section ── */
-    .cert-logo-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 24px 32px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      transition: var(--transition);
-    }
-    .cert-logo-card:hover { border-color: var(--border-green); transform: translateY(-2px); }
-    .cert-logo-icon { font-size: 40px; }
-    .cert-logo-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
-    .cert-logo-desc { font-size: 12px; color: var(--text-secondary); text-align: center; }
-
-    /* ── Impact Stats ── */
-    .impact-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      overflow: hidden;
-    }
-    .impact-cell {
-      background: var(--bg-secondary);
-      padding: 32px;
-      text-align: center;
-      transition: var(--transition);
-    }
-    .impact-cell:hover { background: var(--bg-card-hover); }
-    .impact-value {
-      font-family: var(--font-display);
-      font-size: 40px;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--sparc-green), var(--sparc-blue));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .impact-label { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
-
-    /* ── Market Highlight ── */
-    .mh-chart-wrap { height: 200px; }
-  </style>
-  <!-- Core Dependencies -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/api.js"></script>
+  <title>Sparc Energy — Carbon Intelligence & Net Zero Advisory</title>
+  <meta name="description"
+    content="Science-based carbon strategy, net-zero roadmaps, and verified carbon credit procurement for organisations committed to real climate action." />
+  <meta property="og:title" content="Sparc Energy — Carbon Intelligence" />
+  <meta property="og:description" content="Science-based net-zero advisory. Carbon credits. ESG reporting." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/landing.css" />
 </head>
+
 <body>
 
-<!-- Live Ticker -->
-<div class="ticker-bar">
-  <div class="ticker-track" id="tickerTrack">
-    <!-- Populated by JS -->
-  </div>
-</div>
-
-<!-- Navigation -->
-<nav class="navbar">
-  <a href="index.html" class="nav-logo">
-    <div class="logo-icon">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-    </div>
-    <div>
-      <span class="logo-text">Sparc Energy</span>
-      <span class="logo-sub">CARBON MARKET</span>
-    </div>
+  <!-- ── FLOATING CONTACT BUTTON ── -->
+  <a href="#contact" class="fab" id="fab" aria-label="Book free audit">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </svg>
+    <span>Book Free Audit</span>
   </a>
-  <div class="nav-links">
-    <a href="index.html" class="nav-link active" id="nav-home">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Home
-    </a>
-    <a href="marketplace.html" class="nav-link" id="nav-market">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg> Marketplace
-    </a>
-    <a href="projects.html" class="nav-link" id="nav-projects">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 8"></path><path d="M11 20a7 7 0 0 1-6-12.1"></path><path d="M11 20v-5a7 7 0 0 1-6-6"></path><path d="M11 20V9"></path></svg> Projects
-    </a>
-    <a href="dashboard.html" class="nav-link" id="nav-dash">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg> Dashboard
-    </a>
-  </div>
-  <div class="nav-actions">
-    <div id="nav-auth-guest">
-      <a href="auth.html" class="btn btn-secondary btn-sm">Login</a>
-      <a href="auth.html?mode=register" class="btn btn-primary btn-sm">Get Started</a>
-    </div>
-    <div id="nav-auth-user" class="hidden" style="display:flex;gap:10px;align-items:center;">
-      <span style="font-size:13px;color:var(--text-secondary)">Balance: <strong style="color:var(--sparc-green)" id="nav-balance">—</strong></span>
-      <a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a>
-      <button class="btn btn-ghost btn-sm" onclick="logout()">Logout</button>
-    </div>
-  </div>
-</nav>
 
-<!-- Hero Section -->
-<section class="hero">
-  <div class="container" style="display:flex;align-items:center;gap:80px;position:relative;">
-    <div class="hero-content" style="flex:1;">
-      <div class="hero-eyebrow animate-float">
-        <span class="green-dot animate-pulse-green"></span>
-        INSTITUTIONAL CARBON EXCHANGE · ASIA PACIFIC
+  <!-- ── NAVIGATION ── -->
+  <header class="nav" id="mainNav">
+    <div class="nav-wrap">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-mark">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            viewBox="0 0 24 24">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
+        </div>
+        <div>
+          <div class="logo-name">Sparc Energy</div>
+          <div class="logo-sub">CARBON INTELLIGENCE</div>
+        </div>
+      </a>
+      <nav class="nav-links" id="navLinks" role="navigation">
+        <a href="#story" class="nl" id="nl-1">Our Approach</a>
+        <a href="#services" class="nl" id="nl-2">Services</a>
+        <a href="#about" class="nl" id="nl-3">About</a>
+        <a href="#insights" class="nl" id="nl-4">Insights</a>
+        <a href="marketplace.html" class="nl" id="nl-5">Exchange</a>
+      </nav>
+      <div class="nav-end">
+        <a href="auth.html" class="btn-ghost-sm">Sign In</a>
+        <a href="#contact" class="btn-solid-sm">Get Started</a>
+        <button class="burger" id="burger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
-      <h1 class="hero-title">
-        Powering the<br><em>Net Zero</em><br>Economy
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+  <section class="hero" id="hero">
+    <!-- Renewable Energy Drone Video -->
+    <div class="vid-bg-wrap">
+      <iframe title="Hero Background"
+        src="https://www.youtube.com/embed/JqNhCCJ6zBU?autoplay=1&mute=1&loop=1&playlist=JqNhCCJ6zBU&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-body">
+      <div class="eyebrow">
+        <span class="dot-live"></span>
+        Climate Advisory · Carbon Markets · Net Zero Strategy
+      </div>
+      <h1 class="hero-h1">
+        The World Needs<br>
+        <em>Credible</em> Climate Action.<br>
+        We Deliver It.
       </h1>
-      <p class="hero-desc">
-        The most liquid and transparent carbon credit marketplace in India. Trade Verra and Gold Standard certified assets with bank-grade security and instant retirement.
+      <p class="hero-sub">
+        Science-based carbon strategy, verified offset procurement, and investor-grade ESG reporting — for organisations
+        that take climate seriously.
       </p>
-      <div class="hero-cta">
-        <a href="marketplace.html" class="btn btn-primary btn-lg">🚀 Start Trading</a>
-        <a href="projects.html" class="btn btn-secondary btn-lg">Explore Projects</a>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-hero-primary">Book a Free Climate Audit</a>
+        <a href="marketplace.html" class="btn-hero-ghost">Explore Carbon Exchange</a>
       </div>
-        <div class="hero-stats" style="margin-top:60px;">
-          <div class="hero-stat-item">
-            <span class="hero-stat-value" id="hs-credits">—</span>
-            <span class="hero-stat-label">Credits Listed</span>
-          </div>
-          <div class="hero-stat-item" style="border-left:1px solid var(--glass-border);padding-left:32px;">
-            <span class="hero-stat-value" id="hs-projects">0</span>
-            <span class="hero-stat-label">Verified Projects</span>
-          </div>
-          <div class="hero-stat-item" style="border-left:1px solid var(--glass-border);padding-left:32px;">
-            <span class="hero-stat-value" id="hs-volume">₹0.0</span>
-            <span class="hero-stat-label">Global Volume</span>
-          </div>
-        </div>
     </div>
-    
-    <!-- Hero Visual: Floating 3D Cards -->
-      <!-- Dynamic Marketplace CTA instead of fake cards -->
-      <div class="card card-glow animate-float" style="width:380px; position:absolute; z-index:10; text-align:center; padding:40px;">
-        <div class="logo-icon" style="font-size:48px; margin-bottom:20px;">⚡</div>
-        <h3 style="font-size:24px; margin-bottom:12px;">Marketplace Launching</h3>
-        <p style="color:var(--text-secondary); font-size:14px; margin-bottom:24px;">Deploy real-time project verification and institutional liquidity tracking.</p>
-        <button class="btn btn-primary w-full" onclick="location.href='marketplace.html'">Enter Exchange →</button>
-      </div>
 
-      <div class="card glass animate-float" style="width:220px; position:absolute; bottom:60px; left:-40px; z-index:15; animation-delay: -2s; transform: rotate(-8deg);">
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div style="width:32px;height:32px;border-radius:50%;background:rgba(0,245,184,0.1);display:flex;align-items:center;justify-content:center;font-size:16px;">🏅</div>
-          <div>
-            <div style="font-size:12px;font-weight:700;">Certificate Issued</div>
-            <div style="font-size:10px;color:var(--text-secondary);">Order #9401 Verified</div>
-          </div>
-        </div>
-      </div>
+    <div class="hero-stats">
+      <div class="hs"><span class="hs-num" data-count="142" data-suffix="K+">—</span><span class="hs-lbl">tCO₂
+          Advised</span></div>
+      <div class="hs-div"></div>
+      <div class="hs"><span class="hs-num" data-count="38" data-suffix="+">—</span><span class="hs-lbl">Projects
+          Vetted</span></div>
+      <div class="hs-div"></div>
+      <div class="hs"><span class="hs-num" data-count="4" data-suffix=" Standards">—</span><span
+          class="hs-lbl">Certifications</span></div>
+    </div>
+
+    <a href="#story" class="scroll-cue" aria-label="Scroll down">
+      <div class="sc-line"></div>
+      <span>Scroll</span>
+    </a>
+  </section>
+
+  <!-- ── STANDARDS MARQUEE ── -->
+  <div class="marquee-band">
+    <div class="marquee-track" id="marqueeTrack">
+      <span>🌿 Verra VCS</span><span>🥇 Gold Standard</span><span>📊 Science Based Targets</span>
+      <span>🌐 UN CDM Protocol</span><span>⚖️ UNFCCC Compliant</span><span>📋 ISO 14064</span>
+      <span>🔬 IPCC Aligned</span><span>🇮🇳 BEE India</span>
+      <span>🌿 Verra VCS</span><span>🥇 Gold Standard</span><span>📊 Science Based Targets</span>
+      <span>🌐 UN CDM Protocol</span><span>⚖️ UNFCCC Compliant</span><span>📋 ISO 14064</span>
+      <span>🔬 IPCC Aligned</span><span>🇮🇳 BEE India</span>
     </div>
   </div>
-</section>
 
-<!-- Impact Stats -->
-<section class="section-sm" style="background:var(--bg-secondary); border-top:1px solid var(--glass-border); border-bottom:1px solid var(--glass-border);">
-  <div class="container">
-    <div class="impact-grid" id="impactGrid" style="background:transparent; border:none; gap:24px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
-      <div class="card impact-cell card-glow">
-        <div class="impact-value" id="imp-credits">0</div>
-        <div class="impact-label">🌿 CREDITS LISTED</div>
-      </div>
-      <div class="card impact-cell">
-        <div class="impact-value" id="imp-co2">0</div>
-        <div class="impact-label">🌍 TONS OFFSET</div>
-      </div>
-      <div class="card impact-cell">
-        <div class="impact-value" id="imp-projects">0</div>
-        <div class="impact-label">✅ VERIFIED PROJECTS</div>
-      </div>
-      <div class="card impact-cell">
-        <div class="impact-value" id="imp-volume">₹0.00</div>
-        <div class="impact-label">💰 NET LIQUIDITY</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Featured Credits -->
-<section class="section">
-  <div class="container">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px;">
-      <div>
-        <h2 class="section-title">🔥 Trending Carbon Credits</h2>
-        <p class="section-sub">Top performing credits across all certifications · Updated live</p>
-      </div>
-      <a href="marketplace.html" class="btn btn-secondary">View All →</a>
-    </div>
-    <div class="grid-auto" id="featuredCredits">
-      <!-- Populated by JS -->
-      <div class="skeleton" style="height:200px;border-radius:16px;"></div>
-      <div class="skeleton" style="height:200px;border-radius:16px;"></div>
-      <div class="skeleton" style="height:200px;border-radius:16px;"></div>
-      <div class="skeleton" style="height:200px;border-radius:16px;"></div>
-    </div>
-  </div>
-</section>
-
-<!-- Market Chart -->
-<section class="section-sm" style="background:var(--bg-secondary);border-top:1px solid var(--border);">
-  <div class="container">
-    <div class="grid-2" style="gap:32px;align-items:center;">
-      <div>
-        <h2 class="section-title">Live Market Overview</h2>
-        <p style="color:var(--text-secondary);font-size:14px;margin-bottom:20px;">Carbon credit prices across all asset classes — real-time pricing powered by active order books</p>
-        <div style="display:flex;flex-direction:column;gap:12px;" id="marketPriceList">
-          <!-- Populated by JS -->
+  <!-- ═══════════════════ SCROLL STORY SECTION ═══════════════════ -->
+  <!-- Users scroll through 300vh; the video stays pinned while text panels swap -->
+  <section class="story-outer" id="story">
+    <div class="story-inner">
+      <!-- Dynamic Thematic Videos -->
+      <div class="story-video-wrap">
+        <div class="vid-bg-wrap story-vid-bg active" id="sv-crisis">
+          <iframe title="Crisis Background"
+            src="https://www.youtube.com/embed/cK4rMWlewl0?autoplay=1&mute=1&loop=1&playlist=cK4rMWlewl0&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+            frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+        <div class="vid-bg-wrap story-vid-bg" id="sv-method">
+          <iframe title="Method Background"
+            src="https://www.youtube.com/embed/WeDvNscRRPE?autoplay=1&mute=1&loop=1&playlist=WeDvNscRRPE&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+            frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+        <div class="vid-bg-wrap story-vid-bg" id="sv-outcome">
+          <iframe title="Outcome Background"
+            src="https://www.youtube.com/embed/tDByZz5r-Y8?autoplay=1&mute=1&loop=1&playlist=tDByZz5r-Y8&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+            frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+        <div class="story-vid-overlay"></div>
+        <!-- Scroll progress bar -->
+        <div class="story-progress">
+          <div class="story-progress-fill" id="storyFill"></div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Carbon Index (SPARC-CI)</div>
-            <div style="font-size:12px;color:var(--text-secondary)">Composite index of all listed credits</div>
-          </div>
-          <div class="chart-controls">
-            <button class="chart-period active" onclick="switchPeriod(this,'7d')">7D</button>
-            <button class="chart-period" onclick="switchPeriod(this,'30d')">30D</button>
+
+      <!-- Text panels stack -->
+      <div class="story-panels">
+
+        <div class="story-panel" id="sp-0">
+          <div class="sp-eyebrow">The Crisis</div>
+          <h2 class="sp-h2">Carbon pledges without credibility are liability, not strategy.</h2>
+          <p class="sp-body">Greenwashing fines in Europe surged 300% in 2024. Investors demand proof. Regulators now
+            require disclosure. The era of voluntary, unverified sustainability claims is ending — fast.</p>
+          <div class="sp-stat">
+            <span class="sp-stat-num">423</span>
+            <span class="sp-stat-lbl">ppm CO₂ — highest in 3 million years</span>
           </div>
         </div>
-        <div class="mh-chart-wrap">
-          <canvas id="indexChart"></canvas>
-        </div>
-        <div style="display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
-          <div><div style="font-size:11px;color:var(--text-muted)">INDEX VALUE</div><div style="font-size:18px;font-weight:700;color:var(--sparc-green)">₹1,842</div></div>
-          <div class="text-right"><div style="font-size:11px;color:var(--text-muted)">24H CHANGE</div><div style="font-size:16px;font-weight:600;color:var(--sparc-green)">+2.34%</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- How It Works -->
-<section class="section">
-  <div class="container">
-    <div class="text-center" style="margin-bottom:60px;">
-      <h2 class="section-title">Institutional Grade Trading</h2>
-      <p class="section-sub">Three simple steps to manage your carbon portfolio and offset emissions</p>
-    </div>
-    <div class="grid-3" style="gap:32px;">
-      <div class="card how-step card-hover">
-        <div class="step-num">01</div>
-        <div class="step-icon">🔐</div>
-        <div class="step-title">Secure Buy (Purchase)</div>
-        <div class="step-desc">Purchase high-integrity carbon credits into your institutional wallet with one click.</div>
-      </div>
-      <div class="card how-step card-hover" style="border-color:var(--sparc-green-border); box-shadow: var(--glow-green);">
-        <div class="step-num" style="background:var(--sparc-green); color:#000;">02</div>
-        <div class="step-icon">📤</div>
-        <div class="step-title">Sell (List Credits)</div>
-        <div class="step-desc">List your own verified credits back to the market to manage liquidity and ROI.</div>
-      </div>
-      <div class="card how-step card-hover">
-        <div class="step-num">03</div>
-        <div class="step-icon">🏅</div>
-        <div class="step-title">Retire (Offset)</div>
-        <div class="step-desc">Permanently retire credits to offset emissions and receive certified certificates.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Certification Partners -->
-<section class="section-sm" style="background:var(--bg-secondary);border-top:1px solid var(--border);">
-  <div class="container">
-    <div class="text-center" style="margin-bottom:36px;">
-      <h2 class="section-title">Trusted Standards & Certifications</h2>
-      <p style="color:var(--text-secondary);font-size:14px;">Every credit on Sparc Energy is verified under internationally recognized standards</p>
-    </div>
-    <div class="grid-4">
-      <div class="cert-logo-card">
-        <div class="cert-logo-icon">🌿</div>
-        <div class="cert-logo-name">Verra VCS</div>
-        <div class="cert-logo-desc">Verified Carbon Standard — world's leading carbon credit program</div>
-      </div>
-      <div class="cert-logo-card">
-        <div class="cert-logo-icon">🥇</div>
-        <div class="cert-logo-name">Gold Standard</div>
-        <div class="cert-logo-desc">Premium certification ensuring highest climate and SDG impact</div>
-      </div>
-      <div class="cert-logo-card">
-        <div class="cert-logo-icon">🌐</div>
-        <div class="cert-logo-name">CDM</div>
-        <div class="cert-logo-desc">UN Clean Development Mechanism certified international credits</div>
-      </div>
-      <div class="cert-logo-card">
-        <div class="cert-logo-icon">🇮🇳</div>
-        <div class="cert-logo-name">BEE India</div>
-        <div class="cert-logo-desc">Bureau of Energy Efficiency India certified renewable credits</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Projects Preview -->
-<section class="section">
-  <div class="container">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px;">
-      <div>
-        <h2 class="section-title">🌍 Featured Projects</h2>
-        <p class="section-sub">Verified climate projects generating carbon credits on Sparc Energy</p>
-      </div>
-      <a href="projects.html" class="btn btn-secondary">All Projects →</a>
-    </div>
-    <div class="grid-3" id="featuredProjects">
-      <div class="skeleton" style="height:320px;border-radius:16px;"></div>
-      <div class="skeleton" style="height:320px;border-radius:16px;"></div>
-      <div class="skeleton" style="height:320px;border-radius:16px;"></div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA Section -->
-<section class="section-sm" style="background: linear-gradient(135deg, rgba(0, 245, 184, 0.08), rgba(61, 139, 255, 0.06)); border-top: 1px solid var(--sparc-green-border); border-bottom: 1px solid var(--sparc-green-border);">
-  <div class="container text-center">
-    <h2 style="font-family: var(--font-display); font-size: 42px; font-weight: 800; margin-bottom: 16px; letter-spacing: -1px;">
-      Ready to Achieve <em style="background: linear-gradient(135deg, var(--sparc-green), var(--sparc-blue)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-style: normal;">Net Zero?</em>
-    </h2>
-    <p style="color: var(--text-secondary); font-size: 18px; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">
-      Join Sparc Energy's institutional ecosystem. Trade high-quality carbon assets and automate your sustainability reports.
-    </p>
-    <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-      <a href="auth.html?mode=register" class="btn btn-primary btn-lg" style="padding: 16px 40px;">🚀 Get Started Free</a>
-      <a href="marketplace.html" class="btn btn-secondary btn-lg" style="padding: 16px 40px;">Live Exchange</a>
-    </div>
-  </div>
-</section>
-
-<!-- Footer -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="nav-logo" style="margin-bottom:12px;">
-          <div class="logo-icon">⚡</div>
-          <div>
-            <span class="logo-text">Sparc Energy</span>
-            <span class="logo-sub">CARBON MARKET</span>
+        <div class="story-panel" id="sp-1">
+          <div class="sp-eyebrow">The Methodology</div>
+          <h2 class="sp-h2">We use science, not storytelling, to measure your impact.</h2>
+          <p class="sp-body">Our methodology follows IPCC guidelines and GHG Protocol frameworks. Every emission source
+            — Scope 1, 2, and 3 — is traced, quantified, and documented with audit-ready evidence.</p>
+          <div class="sp-checklist">
+            <div class="sp-check">✓ Scope 1, 2 & 3 full inventory</div>
+            <div class="sp-check">✓ SBTi-aligned reduction pathways</div>
+            <div class="sp-check">✓ Verified offset procurement</div>
           </div>
         </div>
-        <p class="footer-desc">India's most trusted carbon credit marketplace. Powering net-zero commitments with verified, high-quality carbon credits from around the world.</p>
-        <div style="display:flex;gap:12px;margin-top:16px;">
-          <span style="font-size:18px;cursor:pointer;">𝕏</span>
-          <span style="font-size:18px;cursor:pointer;">in</span>
-          <span style="font-size:18px;cursor:pointer;">📘</span>
-        </div>
-      </div>
-      <div>
-        <div class="footer-col-title">Platform</div>
-        <div class="footer-links">
-          <a href="marketplace.html" class="footer-link">Marketplace</a>
-          <a href="projects.html" class="footer-link">Projects</a>
-          <a href="dashboard.html" class="footer-link">Dashboard</a>
-          <a href="auth.html" class="footer-link">Register</a>
-        </div>
-      </div>
-      <div>
-        <div class="footer-col-title">Standards</div>
-        <div class="footer-links">
-          <a href="#" class="footer-link">Verra VCS</a>
-          <a href="#" class="footer-link">Gold Standard</a>
-          <a href="#" class="footer-link">CDM</a>
-          <a href="#" class="footer-link">BEE India</a>
-        </div>
-      </div>
-      <div>
-        <div class="footer-col-title">Company</div>
-        <div class="footer-links">
-          <a href="#" class="footer-link">About Sparc</a>
-          <a href="#" class="footer-link">Carbon 101</a>
-          <a href="#" class="footer-link">Privacy Policy</a>
-          <a href="#" class="footer-link">Terms of Use</a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div>© 2024 Sparc Energy Pvt. Ltd. All rights reserved.</div>
-      <div class="footer-certifications">
-        <span class="cert-logo badge badge-verra">🌿 Verra VCS</span>
-        <span class="cert-logo badge badge-gold">🥇 Gold Standard</span>
-        <span class="badge badge-cdm">🌐 CDM</span>
-      </div>
-    </div>
-  </div>
-</footer>
 
-<!-- Toast Container -->
-<div class="toast-container" id="toastContainer"></div>
-
-<script src="js/api.js"></script>
-<script src="js/auth.js"></script>
-<script>
-// ── Navigation Auth State ──
-function updateNavAuth() {
-  const user = getUser();
-  if (user) {
-    document.getElementById('nav-auth-guest').classList.add('hidden');
-    document.getElementById('nav-auth-user').classList.remove('hidden');
-    document.getElementById('nav-balance').textContent = '$' + Number(user.balance || 0).toFixed(2);
-  }
-}
-updateNavAuth();
-
-// ── Ticker ──
-const TICKERS = [
-  { name:'AMZN-REFOR-VCS', price:18.50, change:3.2 },
-  { name:'RAJ-SOLAR-GS', price:22.75, change:1.8 },
-  { name:'NORDIC-WIND-GS', price:31.20, change:-0.5 },
-  { name:'GUJ-MANGROVE-VCS', price:14.80, change:2.1 },
-  { name:'AMZN-REFOR-VCS-22', price:16.40, change:-1.2 },
-  { name:'IND-SOLAR-BEE', price:19.60, change:4.1 },
-  { name:'BRA-REDD-CDM', price:12.30, change:0.8 },
-  { name:'GHANA-COOK-GS', price:8.90, change:1.5 },
-];
-function buildTicker() {
-  const track = document.getElementById('tickerTrack');
-  const doubled = [...TICKERS, ...TICKERS];
-  track.innerHTML = doubled.map(t => `
-    <div class="ticker-item">
-      <div class="t-dot"></div>
-      <span class="t-name">${t.name}</span>
-      <span class="t-price">$${t.price.toFixed(2)}</span>
-      <span class="t-change ${t.change >= 0 ? 'up' : 'down'}">${t.change >= 0 ? '+' : ''}${t.change}%</span>
-    </div>
-  `).join('');
-}
-buildTicker();
-
-// ── Market Stats ──
-async function loadMarketStats() {
-  try {
-    const res = await api('/market/stats');
-    if (res.success && res.data) {
-      const d = res.data;
-      document.getElementById('imp-credits').textContent = formatNum(d.total_credits_listed);
-      document.getElementById('imp-co2').textContent = formatNum(d.total_co2_offset * 0 + 24850);
-      document.getElementById('imp-projects').textContent = d.verified_projects;
-      document.getElementById('imp-volume').textContent = '$' + formatNum(d.total_volume_24h + 2840000);
-      document.getElementById('hs-credits').textContent = formatNum(d.total_credits_listed) + '+';
-      document.getElementById('hs-projects').textContent = d.verified_projects + '+';
-      document.getElementById('hs-offset').textContent = '$' + formatNum(d.avg_price * d.total_credits_listed);
-    }
-  } catch(e) {}
-}
-loadMarketStats();
-
-function formatNum(n) {
-  if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
-  if (n >= 1000) return (n/1000).toFixed(1) + 'K';
-  return Math.round(n).toLocaleString();
-}
-
-// ── Featured Credits ──
-async function loadFeaturedCredits() {
-  const container = document.getElementById('featuredCredits');
-  try {
-    const res = await api('/credits?limit=4');
-    if (!res.success || !res.data?.length) return;
-    const certColors = { 'Verra VCS':'badge-verra', 'Gold Standard':'badge-gold', 'CDM':'badge-cdm' };
-    const typeIcons = { reforestation:'🌳', solar:'☀️', wind:'💨', blue_carbon:'🌊', methane:'🔥' };
-    container.innerHTML = res.data.map(c => `
-      <div class="credit-card card-hover" onclick="location.href='marketplace.html?id=${c.id}'">
-        <div class="credit-card-header">
-          <div>
-            <div class="credit-project">${typeIcons[c.project_type]||'🌿'} ${c.project_name}</div>
-            <div class="credit-type">${c.country} · Vintage ${c.vintage_year}</div>
+        <div class="story-panel" id="sp-2">
+          <div class="sp-eyebrow">The Outcome</div>
+          <h2 class="sp-h2">Disclosures that hold up to investors, auditors, and regulators.</h2>
+          <p class="sp-body">We deliver BRSR, TCFD, and CDP-aligned reports — not templates. Each document is specific
+            to your business, your sector, and your materiality profile. You receive a defensible climate story.</p>
+          <div class="sp-tags">
+            <span>BRSR</span><span>TCFD</span><span>CDP</span><span>GRI</span><span>SEBI Compliant</span>
           </div>
-          <span class="badge ${certColors[c.certification]||'badge-type'}">${c.certification}</span>
         </div>
-        <div class="credit-price">$${Number(c.price_per_ton).toFixed(2)} <span>/ tCO₂e</span></div>
-        <div class="credit-meta">
-          <span class="badge badge-type">${c.project_type.replace('_',' ')}</span>
-          <span class="badge badge-type">Vintage ${c.vintage_year}</span>
-        </div>
-        <div class="progress-bar" style="margin-bottom:10px;">
-          <div class="progress-fill" style="width:${Math.min(100,((c.quantity_tons-c.quantity_available)/c.quantity_tons)*100+20)}%"></div>
-        </div>
-        <div class="credit-footer">
-          <div class="credit-available">Available: <strong>${Number(c.quantity_available).toLocaleString()} t</strong></div>
-          <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();location.href='marketplace.html?id=${c.id}'">Buy Now</button>
-        </div>
-      </div>
-    `).join('');
-  } catch(e) {
-    container.innerHTML = '<div style="color:var(--text-muted);padding:20px;">Connect to backend to see live data.</div>';
-  }
-}
-loadFeaturedCredits();
 
-// ── Market Price List ──
-function buildMarketPriceList() {
-  const el = document.getElementById('marketPriceList');
-  el.innerHTML = TICKERS.slice(0,4).map(t => `
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);">
-      <div>
-        <div style="font-size:13px;font-weight:600;color:var(--text-primary)">${t.name}</div>
-        <div style="font-size:11px;color:var(--text-muted)">Carbon Credit</div>
+      </div><!-- /story-panels -->
+    </div><!-- /story-inner -->
+  </section>
+
+  <!-- ═══════════════════════ SERVICES ═══════════════════════════ -->
+  <section class="sect" id="services">
+    <div class="container">
+      <div class="sect-hdr">
+        <div class="eyebrow-dark">What We Do</div>
+        <h2 class="sect-h2">End-to-end climate<br>intelligence services</h2>
+        <p class="sect-sub">From first measurement to final disclosure — we own the full stack of your climate
+          programme.</p>
       </div>
-      <div class="text-right">
-        <div style="font-size:14px;font-weight:700;color:var(--text-primary)">$${t.price.toFixed(2)}</div>
-        <div class="${t.change>=0?'text-green':'text-red'}" style="font-size:12px;font-weight:600">${t.change>=0?'+':''}${t.change}%</div>
+
+      <div class="svc-grid">
+        <div class="svc-card reveal" id="sv1">
+          <div class="svc-num">01</div>
+          <div class="svc-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+            </svg>
+          </div>
+          <h3 class="svc-title">Carbon Measurement</h3>
+          <p class="svc-desc">Scope 1, 2, and 3 inventory using IPCC-aligned methodologies. Numbers you can stand behind
+            in front of any investor or regulator.</p>
+          <div class="svc-tags"><span>GHG Protocol</span><span>ISO 14064</span><span>Scope 1–3</span></div>
+        </div>
+
+        <div class="svc-card reveal" id="sv2" style="--rd:.12s">
+          <div class="svc-num">02</div>
+          <div class="svc-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 8v4l3 3" />
+            </svg>
+          </div>
+          <h3 class="svc-title">Net Zero Strategy</h3>
+          <p class="svc-desc">SBTi-aligned roadmaps with year-by-year milestones. Not aspirational documents —
+            executable plans your CFO can model.</p>
+          <div class="svc-tags"><span>SBTi</span><span>Paris Aligned</span><span>2030 Targets</span></div>
+        </div>
+
+        <div class="svc-card svc-featured reveal" id="sv3" style="--rd:.2s">
+          <div class="svc-badge">Most Requested</div>
+          <div class="svc-num">03</div>
+          <div class="svc-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5z" />
+              <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+          </div>
+          <h3 class="svc-title">Carbon Credit Procurement</h3>
+          <p class="svc-desc">Curated access to Gold Standard and Verra VCS registered projects. Every credit vetted for
+            permanence, additionality, and co-benefits.</p>
+          <div class="svc-tags"><span>Verra VCS</span><span>Gold Standard</span><span>Due Diligence</span></div>
+        </div>
+
+        <div class="svc-card reveal" id="sv4" style="--rd:.28s">
+          <div class="svc-num">04</div>
+          <div class="svc-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+            </svg>
+          </div>
+          <h3 class="svc-title">ESG Reporting & Disclosure</h3>
+          <p class="svc-desc">BRSR, TCFD, and CDP-aligned sustainability reports that satisfy auditors, investors, and
+            regulators — without the agency price tag.</p>
+          <div class="svc-tags"><span>BRSR</span><span>TCFD</span><span>GRI</span></div>
+        </div>
+      </div>
+
+      <div class="sect-cta reveal">
+        <a href="#contact" class="btn-primary-lg">Schedule a Consultation</a>
       </div>
     </div>
-  `).join('');
-}
-buildMarketPriceList();
+  </section>
 
-// ── Featured Projects ──
-async function loadFeaturedProjects() {
-  const container = document.getElementById('featuredProjects');
-  try {
-    const res = await api('/projects');
-    if (!res.success || !res.data?.length) return;
-    const icons = { reforestation:'🌳', solar:'☀️', wind:'💨', blue_carbon:'🌊' };
-    const bg = { reforestation:'rgba(34,197,94,0.1)', solar:'rgba(245,158,11,0.1)', wind:'rgba(96,165,250,0.1)', blue_carbon:'rgba(6,182,212,0.1)' };
-    container.innerHTML = res.data.slice(0,3).map(p => `
-      <div class="project-card card-hover" onclick="location.href='projects.html?id=${p.id}'">
-        <div class="project-image" style="background:${bg[p.project_type]||'var(--bg-secondary)'}">
-          ${icons[p.project_type]||'🌿'}
-          ${p.verified ? '<span class="verified-stamp badge badge-verra">✅ Verified</span>' : ''}
-        </div>
-        <div class="project-body">
-          <div class="project-name">${p.name}</div>
-          <div class="project-location">📍 ${p.location}, ${p.country}</div>
-          <div class="project-stats">
-            <div class="project-stat">
-              <div class="project-stat-label">CO₂ Reduction</div>
-              <div class="project-stat-value text-green">${(p.co2_reduction_per_year||0).toLocaleString()} t/yr</div>
+  <!-- ═══════════════════════ WHY DIFFERENT ═══════════════════════ -->
+  <section class="sect sect-tint" id="why">
+    <div class="container">
+      <div class="why-split">
+        <!-- Left: comparison -->
+        <div class="why-left reveal-l">
+          <div class="eyebrow-dark">Why Sparc</div>
+          <h2 class="sect-h2">Boutique expertise.<br>No agency overhead.</h2>
+          <p class="why-body">Large advisory firms charge premium rates and hand your project to juniors. We work
+            differently. You deal with the expert directly — from first call to final report.</p>
+          <div class="why-points">
+            <div class="wp">
+              <div class="wp-icon">→</div>
+              <div><strong>2-week first deliverable</strong> — not months of scoping fees</div>
             </div>
-            <div class="project-stat">
-              <div class="project-stat-label">Certification</div>
-              <div class="project-stat-value">${p.certification||'Pending'}</div>
+            <div class="wp">
+              <div class="wp-icon">→</div>
+              <div><strong>Every credit personally vetted</strong> — not bulk-purchased from registries</div>
+            </div>
+            <div class="wp">
+              <div class="wp-icon">→</div>
+              <div><strong>AI-augmented research</strong> — faster outputs, same scientific rigour</div>
+            </div>
+            <div class="wp">
+              <div class="wp-icon">→</div>
+              <div><strong>Annual re-baselining included</strong> — not a one-shot report that stales</div>
             </div>
           </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--border);">
-            <div class="sdg-chips">${(p.sdg_goals||'').split(',').map(g=>`<div class="sdg-chip">${g.trim()}</div>`).join('')}</div>
-            <a href="projects.html?id=${p.id}" class="btn btn-secondary btn-sm">Details</a>
+          <a href="#contact" class="btn-primary-lg" style="margin-top:40px;display:inline-flex;">Start a
+            Conversation</a>
+        </div>
+
+        <!-- Right: Corporate Glass Architecture 4K Video -->
+        <div class="why-right reveal-r">
+          <div class="why-vid-wrap">
+            <div class="vid-bg-wrap">
+              <iframe title="Corporate Background"
+                src="https://www.youtube.com/embed/J3w1iHUkNT8?autoplay=1&mute=1&loop=1&playlist=J3w1iHUkNT8&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <div class="why-vid-card">
+              <div class="wvc-label">Avg. Time to First Report</div>
+              <div class="wvc-num">14 days</div>
+              <div class="wvc-sub">vs. industry avg of 10–16 weeks</div>
+            </div>
           </div>
         </div>
       </div>
-    `).join('');
-  } catch(e) {}
-}
-loadFeaturedProjects();
+    </div>
+  </section>
 
-// ── Index Chart ──
-function buildIndexChart() {
-  const ctx = document.getElementById('indexChart').getContext('2d');
-  const labels = Array.from({length:30},(_,i)=>{
-    const d=new Date(); d.setDate(d.getDate()-29+i);
-    return d.toLocaleDateString('en',{month:'short',day:'numeric'});
-  });
-  let v = 1600;
-  const data = labels.map(()=>{
-    v += (Math.random()-0.4)*20;
-    return Math.round(v);
-  });
-  new Chart(ctx, {
-    type:'line',
-    data:{
-      labels,
-      datasets:[{
-        data,
-        borderColor:'#00d4a1',
-        backgroundColor:'rgba(0,212,161,0.08)',
-        fill:true,
-        tension:0.4,
-        pointRadius:0,
-        borderWidth:2,
-      }]
-    },
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{
-        backgroundColor:'rgba(10,18,32,0.95)',
-        borderColor:'rgba(0,212,161,0.3)',
-        borderWidth:1,
-        titleColor:'#7a8fa6',
-        bodyColor:'#e8f1ff',
-        callbacks:{label:c=>`₹${c.raw.toLocaleString()}`}
-      }},
-      scales:{
-        x:{display:false},
-        y:{display:false}
-      }
-    }
-  });
-}
-buildIndexChart();
+  <!-- ═══════════════════════ PROCESS ════════════════════════════ -->
+  <section class="sect" id="process">
+    <div class="container">
+      <div class="sect-hdr" style="text-align:left;max-width:560px;">
+        <div class="eyebrow-dark">The Engagement Model</div>
+        <h2 class="sect-h2">Four steps. No ambiguity.</h2>
+      </div>
+      <div class="proc-grid">
+        <div class="proc-step reveal" id="proc1">
+          <div class="proc-num">01</div>
+          <div class="proc-line"></div>
+          <h3 class="proc-title">Assess &amp; Inventory</h3>
+          <p class="proc-desc">Full Scope 1–3 emissions inventory. Every tonne traced to source, quantified with
+            auditable evidence.</p>
+          <div class="proc-time">2–4 weeks</div>
+        </div>
+        <div class="proc-step reveal" id="proc2" style="--rd:.1s">
+          <div class="proc-num">02</div>
+          <div class="proc-line"></div>
+          <h3 class="proc-title">Strategise &amp; Target</h3>
+          <p class="proc-desc">SBTi-aligned reduction roadmap by scope, business unit, and timeline — with clear
+            ownership.</p>
+          <div class="proc-time">3–6 weeks</div>
+        </div>
+        <div class="proc-step reveal" id="proc3" style="--rd:.2s">
+          <div class="proc-num">03</div>
+          <div class="proc-line"></div>
+          <h3 class="proc-title">Offset &amp; Retire</h3>
+          <p class="proc-desc">Curated, verified carbon credits for residual emissions. Full retirement certificates and
+            chain-of-custody documentation.</p>
+          <div class="proc-time">2–3 weeks</div>
+        </div>
+        <div class="proc-step reveal" id="proc4" style="--rd:.3s">
+          <div class="proc-num">04</div>
+          <div class="proc-line" style="display:none;"></div>
+          <h3 class="proc-title">Report &amp; Disclose</h3>
+          <p class="proc-desc">Investor-grade sustainability disclosure. BRSR, TCFD, CDP-ready. Annual monitoring to
+            track progress year-on-year.</p>
+          <div class="proc-time">Ongoing</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-function switchPeriod(btn, period) {
-  document.querySelectorAll('.chart-period').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-}
-</script>
-  <script>
-    async function loadLiveStats() {
-      try {
-        const res = await api('/market/stats');
-        if (res.success) {
-          const s = res.data;
-          document.getElementById('hs-credits').textContent = s.total_credits.toLocaleString() + '+';
-          document.getElementById('imp-credits').textContent = s.total_credits.toLocaleString();
-          document.getElementById('hs-volume').textContent = '₹' + (s.total_volume / 10000000).toFixed(1) + 'Cr';
-          document.getElementById('hs-price').textContent = '₹' + s.avg_price.toLocaleString();
-          
-          // Additional Impact Stats
-          if (document.getElementById('imp-co2')) document.getElementById('imp-co2').textContent = (s.total_credits * 0.8).toLocaleString(); // Approx conversion
-          if (document.getElementById('imp-projects')) document.getElementById('imp-projects').textContent = s.total_projects || '0';
-          if (document.getElementById('imp-volume')) document.getElementById('imp-volume').textContent = '₹' + (s.total_volume / 10000000).toFixed(1) + 'Cr';
-        }
-      } catch (e) {
-        console.error('Failed to load market stats', e);
-      }
-    }
-    loadLiveStats();
-  </script>
+  <!-- ═══════════════════════ ABOUT ═══════════════════════════════ -->
+  <section class="sect sect-dark-video" id="about">
+    <div class="vid-bg-wrap">
+      <iframe title="Abstract Background"
+        src="https://www.youtube.com/embed/gClVod-peQ4?autoplay=1&mute=1&loop=1&playlist=gClVod-peQ4&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    <div class="sect-bg-overlay"></div>
+    <div class="container" style="position:relative;z-index:2;">
+      <div class="about-split">
+        <div class="about-left">
+          <div class="eyebrow-light">About the Founder</div>
+          <h2 class="about-h2">A specialist you work <em>with</em> — not a firm that works <em>on</em> you.</h2>
+          <p class="about-body">Sparc Energy is a boutique climate intelligence practice. As a solo expert, I bring the
+            depth of a specialist and the speed of a startup — without bureaucracy, junior analyst handoffs, or inflated
+            retainers.</p>
+          <p class="about-body">Every engagement is handled personally. You always deal with the expert — not an account
+            manager.</p>
+          <div class="about-creds">
+            <div class="cred"><span class="cred-icon">🎓</span>Climate Finance &amp; Carbon Markets — advanced
+              practitioner</div>
+            <div class="cred"><span class="cred-icon">🔍</span>Due diligence on 38+ projects across reforestation, solar
+              &amp; blue carbon</div>
+            <div class="cred"><span class="cred-icon">⚡</span>AI-augmented workflow — faster deliverables, zero quality
+              compromise</div>
+          </div>
+          <a href="#contact" class="btn-hero-primary" style="margin-top:40px;display:inline-flex;">Start a
+            Conversation</a>
+        </div>
+        <div class="about-right">
+          <blockquote class="about-quote">
+            "The best climate action is one that is permanent, additional, measurable — and most importantly, real."
+          </blockquote>
+          <div class="about-badges-row">
+            <div class="ab">Verra VCS Specialist</div>
+            <div class="ab">SBTi Practitioner</div>
+            <div class="ab">India Carbon Markets</div>
+            <div class="ab">AI-Augmented Research</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ IMPACT NUMBERS ══════════════════════ -->
+  <section class="sect sect-tint" id="impact">
+    <div class="container">
+      <div class="impact-grid">
+        <div class="impact-cell reveal">
+          <div class="ic-num" data-count="142" data-suffix="K+">—</div>
+          <div class="ic-lbl">tCO₂e advised on offsetting</div>
+        </div>
+        <div class="impact-cell reveal" style="--rd:.1s">
+          <div class="ic-num" data-count="38" data-suffix="+">—</div>
+          <div class="ic-lbl">Carbon projects assessed</div>
+        </div>
+        <div class="impact-cell reveal" style="--rd:.2s">
+          <div class="ic-num" data-count="14" data-suffix=" days">—</div>
+          <div class="ic-lbl">Avg. time to first deliverable</div>
+        </div>
+        <div class="impact-cell reveal" style="--rd:.3s">
+          <div class="ic-num" data-count="100" data-suffix="%">—</div>
+          <div class="ic-lbl">Science-based methodology</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ INSIGHTS ════════════════════════════ -->
+  <section class="sect" id="insights">
+    <div class="container">
+      <div class="ins-hdr">
+        <div>
+          <div class="eyebrow-dark">Thought Leadership</div>
+          <h2 class="sect-h2">From the climate intelligence desk</h2>
+        </div>
+        <a href="#insights" class="link-arrow">All insights →</a>
+      </div>
+      <div class="ins-grid">
+        <article class="ins-card ins-featured reveal" id="ins1">
+          <div class="ins-tag">Carbon Markets</div>
+          <h3 class="ins-title">India's Carbon Credit Market: Why 2025 Is the Year to Act</h3>
+          <p class="ins-exc">The CCTS framework is reshaping obligations for India's top 500 companies. Here's a
+            deep-dive on what's changing, what it means for your balance sheet, and how to position early.</p>
+          <div class="ins-meta"><span>April 2025</span><span class="ins-dot">·</span><span>8 min read</span></div>
+        </article>
+        <article class="ins-card reveal" id="ins2" style="--rd:.12s">
+          <div class="ins-tag">Due Diligence</div>
+          <h3 class="ins-title">7 Red Flags That Reveal a Low-Quality Carbon Credit</h3>
+          <p class="ins-exc">Not all offsets are equal. A framework for separating real climate action from greenwash.
+          </p>
+          <div class="ins-meta"><span>March 2025</span><span class="ins-dot">·</span><span>6 min</span></div>
+        </article>
+        <article class="ins-card reveal" id="ins3" style="--rd:.22s">
+          <div class="ins-tag">ESG Reporting</div>
+          <h3 class="ins-title">BRSR vs TCFD: What Indian CFOs Need to Know in 2025</h3>
+          <p class="ins-exc">Dual disclosure frameworks are converging. The definitive comparison for compliance teams.
+          </p>
+          <div class="ins-meta"><span>February 2025</span><span class="ins-dot">·</span><span>5 min</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ CONTACT ══════════════════════════════ -->
+  <section class="sect sect-tint" id="contact">
+    <div class="container">
+      <div class="contact-split">
+        <div class="contact-left reveal-l">
+          <div class="eyebrow-dark">Work With Us</div>
+          <h2 class="sect-h2">Let's build your<br>climate strategy.</h2>
+          <p class="contact-sub">The first conversation is always free. Whether you're starting from zero or optimising
+            an existing programme — we can help.</p>
+          <div class="channels">
+            <a href="mailto:info@sparcenergy.in" class="channel" id="ch-email">
+              <div class="ch-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg></div>
+              <div>
+                <div class="ch-lbl">Email</div>
+                <div class="ch-val">info@sparcenergy.in</div>
+              </div>
+            </a>
+            <a href="https://wa.me/919441140429" class="channel" id="ch-wa" target="_blank" rel="noopener">
+              <div class="ch-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg></div>
+              <div>
+                <div class="ch-lbl">WhatsApp</div>
+                <div class="ch-val">Message directly →</div>
+              </div>
+            </a>
+            <a href="https://linkedin.com/in/sparcenergy" class="channel" id="ch-li" target="_blank" rel="noopener">
+              <div class="ch-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+                  <rect x="2" y="9" width="4" height="12" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg></div>
+              <div>
+                <div class="ch-lbl">LinkedIn</div>
+                <div class="ch-val">Connect professionally →</div>
+              </div>
+            </a>
+          </div>
+          <div class="contact-note">⏱ Typical response within 24 hours · First consultation free</div>
+        </div>
+
+        <div class="contact-right reveal-r">
+          <form class="cform" id="contactForm" novalidate>
+            <h3 class="cform-h">Send a message</h3>
+            <div class="cform-row">
+              <div class="fg"><label for="f-name">Full Name *</label><input type="text" id="f-name" name="name"
+                  placeholder="Jane Smith" required autocomplete="name" /></div>
+              <div class="fg"><label for="f-co">Organisation</label><input type="text" id="f-co" name="company"
+                  placeholder="Acme Corp" autocomplete="organization" /></div>
+            </div>
+            <div class="fg"><label for="f-email">Work Email *</label><input type="email" id="f-email" name="email"
+                placeholder="jane@company.com" required autocomplete="email" /></div>
+            <div class="fg">
+              <label for="f-svc">How can we help?</label>
+              <select id="f-svc" name="service">
+                <option value="">Select a service area...</option>
+                <option>Carbon Footprint Measurement</option>
+                <option>Net Zero Strategy</option>
+                <option>Carbon Credit Procurement</option>
+                <option>ESG / BRSR Reporting</option>
+                <option>Free Initial Audit</option>
+              </select>
+            </div>
+            <div class="fg"><label for="f-msg">Your challenge *</label><textarea id="f-msg" name="message" rows="4"
+                placeholder="Describe your situation and what you'd like to achieve..." required></textarea></div>
+            <button type="submit" class="btn-form" id="formBtn">
+              <span id="formBtnTxt">Send Message</span>
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+            <div class="form-ok hidden" id="formOk" role="alert">✓ Message sent — we'll be in touch within 24 hours.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FOOTER ════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="margin-bottom:16px;display:inline-flex;">
+            <div class="logo-mark-light"><svg width="16" height="16" fill="none" stroke="currentColor"
+                stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+              </svg></div>
+            <div>
+              <div class="logo-name" style="font-size:15px;">Sparc Energy</div>
+              <div class="logo-sub">CARBON INTELLIGENCE</div>
+            </div>
+          </a>
+          <p class="footer-desc">Boutique climate intelligence for organisations serious about net zero. Science-based,
+            AI-augmented, personally delivered.</p>
+          <div class="f-socials">
+            <a href="https://linkedin.com/in/sparcenergy" class="f-soc" aria-label="LinkedIn" target="_blank"
+              rel="noopener"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+                <rect x="2" y="9" width="4" height="12" />
+                <circle cx="4" cy="4" r="2" />
+              </svg></a>
+            <a href="mailto:info@sparcenergy.in" class="f-soc" aria-label="Email"><svg width="16" height="16"
+                fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Services</div>
+          <a href="#services" class="fl">Carbon Measurement</a>
+          <a href="#services" class="fl">Net Zero Strategy</a>
+          <a href="#services" class="fl">Credit Procurement</a>
+          <a href="#services" class="fl">ESG Reporting</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Platform</div>
+          <a href="marketplace.html" class="fl">Carbon Exchange</a>
+          <a href="projects.html" class="fl">Project Registry</a>
+          <a href="dashboard.html" class="fl">Dashboard</a>
+          <a href="auth.html" class="fl">Sign In</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Company</div>
+          <a href="#about" class="fl">About</a>
+          <a href="#insights" class="fl">Insights</a>
+          <a href="#contact" class="fl">Contact</a>
+          <a href="privacy.html" class="fl">Privacy</a>
+          <a href="terms.html" class="fl">Terms</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Sparc Energy. All rights reserved.</span>
+        <div class="footer-certs">
+          <span>🌿 Verra VCS</span><span>🥇 Gold Standard</span><span>📊 SBTi Aligned</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/landing.js"></script>
 </body>
+
 </html>
-
-

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Global Carbon Marketplace — Sparc Energy</title>
+  <title>Global Carbon Exchange — Sparc Energy Carbon Intelligence</title>
   <link rel="stylesheet" href="css/styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -16,7 +16,9 @@
       border-top: 1px solid var(--glass-border);
     }
     .market-col { 
-      background: var(--bg-primary); 
+      background: rgba(15, 23, 42, 0.55); 
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
       display: flex; 
       flex-direction: column; 
     }
@@ -56,7 +58,7 @@
     }
     .terminal-active-price {
       padding: 16px;
-      background: var(--bg-secondary);
+      background: transparent;
       display: flex;
       align-items: baseline;
       gap: 8px;
@@ -64,14 +66,19 @@
   </style>
 </head>
 <body>
-<nav class="navbar" style="position:static;">
+
+<!-- Background Video -->
+<div class="vid-bg-wrap">
+  <iframe title="Marketplace Background" src="https://www.youtube.com/embed/PzP1xcA5W14?autoplay=1&mute=1&loop=1&playlist=PzP1xcA5W14&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+<div class="page-bg-overlay"></div><nav class="navbar" style="position:static;">
   <a href="index.html" class="nav-logo">
     <div class="logo-icon">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
     </div>
     <div>
-      <span class="logo-text">Sparc Energy</span>
-      <span class="logo-sub">CARBON MARKET</span>
+      <div class="logo-text">Sparc Energy</div>
+      <div class="logo-sub">CARBON INTELLIGENCE</div>
     </div>
   </a>
   <div class="nav-links">
@@ -96,57 +103,71 @@
   </div>
 </nav>
 
-<div class="market-overview-bar">
-  <div class="market-overview-item">
-    <span class="market-overview-name">🌍 GLOBAL AVG</span>
-    <span class="market-overview-price" id="mo-global">₹0.00</span>
-    <span class="market-overview-change moc-up">0.0% ▲</span>
+<div class="market-overview-bar" style="background:var(--bg-secondary); border-bottom:1px solid var(--glass-border); display:flex; gap:1px; padding:0;">
+  <div class="market-overview-item" style="flex:1; padding:16px 24px; background:var(--glass-bg); backdrop-filter: blur(16px);">
+    <span class="market-overview-name" style="font-size:11px; color:var(--text-muted); font-weight:700;">GLOBAL AVERAGE INDEX</span>
+    <div id="mo-global" style="font-size:18px; font-weight:800; color:var(--text-primary); margin-top:4px;">
+        <span class="skeleton" style="width:120px; height:22px;"></span>
+    </div>
   </div>
-  <div class="market-overview-item">
-    <span class="market-overview-name">🌿 VERRA VCS</span>
-    <span class="market-overview-price" id="mo-verra">₹0.00</span>
-    <span class="market-overview-change moc-up">0.0% ▲</span>
+  <div class="market-overview-item" style="flex:1; padding:16px 24px; background:var(--glass-bg); backdrop-filter: blur(16px);">
+    <span class="market-overview-name" style="font-size:11px; color:var(--text-muted); font-weight:700;">VERRA VCS PREMIUM</span>
+    <div id="mo-verra" style="font-size:18px; font-weight:800; color:var(--sparc-green); margin-top:4px;">
+        <span class="skeleton" style="width:100px; height:22px;"></span>
+    </div>
   </div>
-  <div class="market-overview-item">
-    <span class="market-overview-name">🥇 GOLD STANDARD</span>
-    <span class="market-overview-price" id="mo-gold">₹0.00</span>
-    <span class="market-overview-change moc-down">0.0% ▼</span>
+  <div class="market-overview-item" style="flex:1; padding:16px 24px; background:var(--glass-bg); backdrop-filter: blur(16px);">
+    <span class="market-overview-name" style="font-size:11px; color:var(--text-muted); font-weight:700;">GOLD STANDARD INDEX</span>
+    <div id="mo-gold" style="font-size:18px; font-weight:800; color:var(--sparc-gold); margin-top:4px;">
+        <span class="skeleton" style="width:100px; height:22px;"></span>
+    </div>
   </div>
-  <div class="market-overview-item">
-    <span class="market-overview-name">📜 REGISTRY VOL</span>
-    <span class="market-overview-price" id="mo-vol">0</span>
-    <span class="market-overview-change moc-up">LIVE 📡</span>
+  <div class="market-overview-item" style="flex:1; padding:16px 24px; background:var(--glass-bg); backdrop-filter: blur(16px);">
+    <span class="market-overview-name" style="font-size:11px; color:var(--text-muted); font-weight:700;">DAILY NETWORK VOLUME</span>
+    <div id="mo-vol" style="font-size:18px; font-weight:800; color:var(--text-primary); margin-top:4px;">
+        <span class="skeleton" style="width:80px; height:22px;"></span>
+    </div>
   </div>
 </div>
 
 <div class="container-fluid" style="padding: 0 40px;">
-<div class="market-layout">
+<div class="market-layout" style="background:var(--glass-border);">
     
     <!-- LEFT: Order Book -->
     <aside class="market-col" style="border-right: 1px solid var(--glass-border);">
-      <div class="col-header">
-        <span>Order Book</span>
-        <span style="color:var(--sparc-green); font-size:10px;">LIVE 📡</span>
+      <div class="col-header" style="height:48px; border-top: 1px solid var(--glass-border);">
+        <span style="font-family: var(--font-display); font-weight:700; color:var(--text-primary);">ORDER BOOK</span>
+        <div class="badge badge-verified" style="font-size:9px; padding:2px 6px;">LIVE HUB</div>
       </div>
-      <div style="padding:10px 16px;font-size:10px;color:var(--text-muted);display:grid;grid-template-columns:1fr 1fr 1fr; border-bottom: 1px solid var(--glass-border);">
+      <div style="padding:12px 16px; font-size:10px; color:var(--text-muted); display:grid; grid-template-columns:1fr 1fr 1fr; border-bottom: 1px solid var(--glass-border); font-weight:700;">
         <span>PRICE (₹)</span><span>QTY (t)</span><span class="text-right">TOTAL</span>
       </div>
-      <div id="asks" style="display:flex;flex-direction:column-reverse;gap:1px; padding: 4px 0;">
-        <!-- Sellers (Asks) -->
+      <div id="asks" style="display:flex; flex-direction:column-reverse; gap:1px; min-height:180px; padding: 8px 0;">
+          <div style="padding:20px; display:flex; flex-direction:column; gap:8px;">
+              <span class="skeleton" style="width: 100%; height: 12px;"></span>
+              <span class="skeleton" style="width: 100%; height: 12px; opacity:0.6;"></span>
+              <span class="skeleton" style="width: 100%; height: 12px; opacity:0.3;"></span>
+          </div>
       </div>
-      <div class="terminal-active-price">
-        <span style="font-size:24px;font-weight:800;color:var(--sparc-green);" id="lastPrice">₹0.00</span>
-        <span style="font-size:13px;color:var(--sparc-green);font-weight:600;" id="priceChange">0.0%</span>
+      <div class="terminal-active-price" style="border-top:1px solid var(--glass-border); border-bottom:1px solid var(--glass-border); padding: 20px 16px;">
+        <span style="font-size:28px; font-weight:900; font-family:var(--font-display); color:var(--sparc-green);" id="lastPrice">
+            <span class="skeleton" style="width:140px; height:32px;"></span>
+        </span>
+        <span style="font-size:14px; color:var(--sparc-green); font-weight:700;" id="priceChange">CONNECTED</span>
       </div>
-      <div id="bids" style="display:flex;flex-direction:column;gap:1px; padding: 4px 0;">
-        <!-- Buyers (Bids) -->
+      <div id="bids" style="display:flex; flex-direction:column; gap:1px; min-height:180px; padding: 8px 0;">
+          <div style="padding:20px; display:flex; flex-direction:column; gap:8px;">
+              <span class="skeleton" style="width: 100%; height: 12px; opacity:0.3;"></span>
+              <span class="skeleton" style="width: 100%; height: 12px; opacity:0.6;"></span>
+              <span class="skeleton" style="width: 100%; height: 12px;"></span>
+          </div>
       </div>
     </aside>
 
     <!-- CENTER: Main Charts -->
     <main class="market-col">
       <div style="flex:1; display:flex; flex-direction:column;">
-        <div class="col-header" style="background:var(--bg-secondary);">
+        <div class="col-header" style="background:transparent;">
           <div style="display:flex; gap:16px; align-items:center;">
              <span>MARKET CHART</span>
              <span style="color:var(--text-primary); font-weight:600;">VCS-AFOLU-2024</span>
@@ -163,7 +184,7 @@
       </div>
       
       <!-- Bottom: Execution Panel -->
-      <div style="height:280px; background:var(--bg-secondary); border-top: 1px solid var(--glass-border); padding:24px;">
+      <div style="height:280px; background:transparent; border-top: 1px solid var(--glass-border); padding:24px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
            <h2 style="font-size:15px; font-weight:700;">EXECUTION PANEL</h2>
            <div style="font-size:12px; color:var(--text-muted);">Available: <strong style="color:var(--text-primary);" id="userBalance">₹0.00</strong></div>
