@@ -1022,7 +1022,7 @@ img { max-width: 100%; }
   .dash-sidebar { display: none; }
 }
 @media (max-width: 768px) {
-  .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
   .nav-links { display: none; }
   .hamburger { display: flex; }
   .hero-stats { flex-direction: column; gap: 16px; }
