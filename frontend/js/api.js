@@ -3,8 +3,8 @@
 // ═══════════════════════════════════════════════════════════════
 
 // 1. Initialize Supabase Client (BaaS)
-const SUPABASE_URL = 'https://loldpnnmjqttgvsxcgnr.supabase.co'; 
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxvbGRwbm5tanF0dGd2c3hjZ25yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMzEzODYsImV4cCI6MjA5MDcwNzM4Nn0.Jy12HHwMsWgrFA-TKdJ8WcWOMZYB97G9-SSJGdvwT3w'; 
+const SUPABASE_URL = 'https://loldpnnmjqttgvsxcgnr.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxvbGRwbm5tanF0dGd2c3hjZ25yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMzEzODYsImV4cCI6MjA5MDcwNzM4Nn0.Jy12HHwMsWgrFA-TKdJ8WcWOMZYB97G9-SSJGdvwT3w';
 
 // Use global supabase object from CDN
 const sp = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -18,7 +18,7 @@ const API_BASE = 'https://sparc-energy.onrender.com/api'; // Render Deployment U
 async function api(endpoint, options = {}) {
   const { data: { session } } = await sp.auth.getSession();
   const token = session?.access_token;
-  
+
   const headers = {
     'Content-Type': 'application/json',
     ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
@@ -66,7 +66,7 @@ async function uploadKYC(file, userId) {
   const { data, error } = await sp.storage
     .from('kyc-documents')
     .upload(`${userId}/id_proof_${Date.now()}`, file);
-  
+
   if (error) throw error;
   return data.path; // Return the path to store in Oracle DB
 }
