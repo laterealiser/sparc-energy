@@ -115,7 +115,7 @@
       </nav>
       <div class="nav-actions">
         <a href="../auth.html" class="nav-btn nav-btn-ghost">Sign In</a>
-        <a href="../index.html#contact" class="nav-btn nav-btn-primary">Book a Call</a>
+        <a href="../auth.html" class="nav-btn nav-btn-primary">Signup</a>
         <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
       </div>
     </div>
@@ -208,7 +208,7 @@
       <div class="share-buttons">
         <button class="share-btn" onclick="shareLinkedIn()">LinkedIn</button>
         <button class="share-btn" onclick="shareTwitter()">Twitter/X</button>
-        <button class="share-btn" onclick="shareWhatsApp()">WhatsApp</button>
+
         <button class="share-btn" onclick="copyLink()">Copy Link</button>
       </div>
     </div>
@@ -276,9 +276,7 @@
     function shareTwitter() {
       window.open('https://twitter.com/intent/tweet?text=Tata Steel has offset 142,500 tCO₂e — verified by Sparc Energy&url=' + encodeURIComponent(window.location.href), '_blank');
     }
-    function shareWhatsApp() {
-      window.open('https://wa.me/?text=' + encodeURIComponent('Tata Steel Carbon Passport: ' + window.location.href), '_blank');
-    }
+
     function copyLink() {
       navigator.clipboard.writeText(window.location.href).then(() => {
         alert('Link copied to clipboard!');

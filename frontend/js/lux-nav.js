@@ -86,7 +86,7 @@ function renderNav(activePage) {
         </nav>
         <div class="lux-nav-actions">
           <a href="auth.html" class="lux-btn-ghost">Sign In</a>
-          <a href="index.html#contact" class="lux-btn-primary">Book a Call</a>
+          <a href="auth.html" class="lux-btn-primary">Signup</a>
           <button class="lux-burger" id="luxBurger" aria-label="Menu" aria-expanded="false">
             <span></span><span></span><span></span>
           </button>
