@@ -134,40 +134,38 @@ function initScrollStory() {
 }
 
 // ── Number Counters ──
-function initCounters() {
+document.addEventListener('DOMContentLoaded', function() {
   function animateCounter(el) {
     const target = parseFloat(el.dataset.count);
     const suffix = el.dataset.suffix || '';
     const duration = 2000;
     const start = performance.now();
 
-    function update(now) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      // easeOutQuad
-      const ease = 1 - (1 - progress) * (1 - progress);
-      const current = Math.floor(ease * target);
-      el.textContent = current.toLocaleString('en-IN') + suffix;
-      if (progress < 1) requestAnimationFrame(update);
+    function tick(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      const val = Math.floor(ease * target);
+      el.textContent = val.toLocaleString('en-IN') + suffix;
+      if (p < 1) requestAnimationFrame(tick);
       else el.textContent = target.toLocaleString('en-IN') + suffix;
     }
-    requestAnimationFrame(update);
+    requestAnimationFrame(tick);
   }
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !entry.target.dataset.animated) {
-        entry.target.dataset.animated = 'true';
-        animateCounter(entry.target);
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !e.target.dataset.done) {
+        e.target.dataset.done = '1';
+        animateCounter(e.target);
       }
     });
-  }, { threshold: 0.3 });
+  }, { threshold: 0.2 });
 
   document.querySelectorAll('[data-count]').forEach(el => {
     el.textContent = '0';
-    observer.observe(el);
+    io.observe(el);
   });
-}
+});
 
 // ── Contact Form ──
 function initForm() {
@@ -213,6 +211,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initNav();
   initReveals();
   initScrollStory();
-  initCounters();
   initForm();
 });

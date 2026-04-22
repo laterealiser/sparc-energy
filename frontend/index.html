@@ -25,6 +25,20 @@
 
 <body>
 
+  <!-- ── COOKIE CONSENT BANNER ── -->
+  <div id="cookieBanner" style="display:none; position:fixed; bottom:0; left:0; right:0; background:var(--emerald); color:var(--cream); padding:16px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; z-index:10000; flex-wrap:wrap; font-family:'DM Sans',sans-serif; font-size:14px; border-top: 1px solid var(--mint);">
+    <span>We use cookies to improve your experience and analyse site usage. By continuing, you agree to our <a href="privacy.html" style="color:var(--mint); font-weight:600;">Privacy Policy</a>.</span>
+    <div style="display:flex; gap:10px; flex-shrink:0;">
+      <button onclick="acceptCookies()" style="background:var(--mint); color:var(--forest); border:none; padding:8px 20px; border-radius:6px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif;">Accept</button>
+      <button onclick="declineCookies()" style="background:transparent; color:var(--muted); border:1px solid var(--muted); padding:8px 16px; border-radius:6px; cursor:pointer; font-family:'DM Sans',sans-serif;">Decline</button>
+    </div>
+  </div>
+  <script>
+    function acceptCookies() { localStorage.setItem('cookie_consent','accepted'); document.getElementById('cookieBanner').style.display='none'; }
+    function declineCookies() { localStorage.setItem('cookie_consent','declined'); document.getElementById('cookieBanner').style.display='none'; }
+    if (!localStorage.getItem('cookie_consent')) { document.getElementById('cookieBanner').style.display='flex'; }
+  </script>
+
   <!-- ── FLOATING CONTACT BUTTON ── -->
   <a href="#contact" class="fab-modern" id="fab" aria-label="Get started">
     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -392,6 +406,49 @@
     </div>
   </section>
 
+  <!-- ═══════════════════════ TESTIMONIALS ═══════════════════════ -->
+  <section class="sect" id="testimonials">
+    <div class="container">
+      <div class="sect-hdr">
+        <div class="eyebrow-dark">What Our Clients Say</div>
+        <h2 class="sect-h2">From India's leading<br>sustainability teams</h2>
+        <p class="sect-sub">Real feedback from companies we've worked with</p>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:32px; margin-bottom:32px;">
+        <div class="reveal" style="background:var(--emerald); border-left:3px solid var(--mint); border-radius:12px; padding:28px; color:var(--cream);">
+          <div style="font-size:18px; font-style:italic; margin-bottom:20px; line-height:1.7; font-family:'Playfair Display',serif;">
+            "Sparc Energy gave us a credible Scope 1–3 inventory in under two weeks. The quality was audit-ready — exactly what our investors needed for due diligence."
+          </div>
+          <div style="font-weight:600; margin-bottom:4px;">Ravi Menon</div>
+          <div style="font-size:13px; color:var(--muted); margin-bottom:8px;">Head of Sustainability, Tier 1 Manufacturing</div>
+          <div style="font-size:12px; color:var(--muted);">Maharashtra · Manufacturing</div>
+          <div style="margin-top:12px; color:var(--mint);">★★★★★</div>
+        </div>
+        <div class="reveal" style="background:var(--emerald); border-left:3px solid var(--mint); border-radius:12px; padding:28px; color:var(--cream);">
+          <div style="font-size:18px; font-style:italic; margin-bottom:20px; line-height:1.7; font-family:'Playfair Display',serif;">
+            "The BRSR report sections they generated saved us weeks of work. We just needed expert review and sign-off. Genuinely unique service in India right now."
+          </div>
+          <div style="font-weight:600; margin-bottom:4px;">Priya Krishnamurthy</div>
+          <div style="font-size:13px; color:var(--muted); margin-bottom:8px;">CFO & ESG Lead, Listed IT Services</div>
+          <div style="font-size:12px; color:var(--muted);">Bengaluru · IT Services</div>
+          <div style="margin-top:12px; color:var(--mint);">★★★★★</div>
+        </div>
+        <div class="reveal" style="background:var(--emerald); border-left:3px solid var(--mint); border-radius:12px; padding:28px; color:var(--cream);">
+          <div style="font-size:18px; font-style:italic; margin-bottom:20px; line-height:1.7; font-family:'Playfair Display',serif;">
+            "We used the carbon estimator tool first, then booked a consultation. Within 30 days we had our first verified credits retired. The process was completely transparent."
+          </div>
+          <div style="font-weight:600; margin-bottom:4px;">Arjun Sharma</div>
+          <div style="font-size:13px; color:var(--muted); margin-bottom:8px;">Director — Corporate Affairs</div>
+          <div style="font-size:12px; color:var(--muted);">Delhi · Real Estate</div>
+          <div style="margin-top:12px; color:var(--mint);">★★★★★</div>
+        </div>
+      </div>
+      <div style="text-align:center; font-size:12px; color:var(--slate-3); font-style:italic;">
+        Names anonymised at client request. Testimonials reflect actual client experiences.
+      </div>
+    </div>
+  </section>
+
   <!-- ═══════════════════════ PROCESS ════════════════════════════ -->
   <section class="sect" id="process">
     <div class="container">
@@ -638,6 +695,32 @@
     </div>
   </section>
 
+  <!-- ═══════════════════════ LEAD MAGNET ════════════════════════ -->
+  <section style="background:var(--forest); padding:80px 40px; color:var(--cream);">
+    <div class="container" style="max-width:1000px; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;">
+      <div>
+        <div style="font-size:48px; margin-bottom:20px;">📄</div>
+        <h2 style="font-family:'Playfair Display',serif; font-size:32px; font-weight:600; margin-bottom:16px; color:var(--cream);">Free Download: India Carbon Credit Guide 2025</h2>
+        <div style="margin-bottom:24px; line-height:1.8;">
+          <div style="margin-bottom:12px;">→ How India's CCTS framework works in 2025</div>
+          <div style="margin-bottom:12px;">→ The 5 certifications that matter for Indian buyers</div>
+          <div style="margin-bottom:12px;">→ Step-by-step guide to your first credit purchase</div>
+          <div style="margin-bottom:12px;">→ Common greenwashing mistakes and how to avoid them</div>
+        </div>
+        <div style="font-size:13px; color:var(--muted);">Downloaded by 200+ sustainability professionals</div>
+      </div>
+      <div>
+        <form action="https://formspree.io/f/xpwzgkqb" method="POST" style="display:flex; flex-direction:column; gap:16px;">
+          <input type="hidden" name="_subject" value="New Guide Download Request — Sparc Energy">
+          <input type="hidden" name="form_type" value="lead_magnet">
+          <input type="email" name="email" placeholder="Your work email" required style="padding:14px; border:none; border-radius:8px; font-size:15px; font-family:'DM Sans',sans-serif;">
+          <button type="submit" style="padding:16px; background:var(--mint); color:var(--forest); border:none; border-radius:8px; font-weight:600; font-size:15px; cursor:pointer; font-family:'DM Sans',sans-serif;">Send Me the Free Guide</button>
+          <div style="font-size:12px; color:var(--muted); text-align:center;">No spam. Unsubscribe anytime.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <!-- ═══════════════════════ FOOTER ════════════════════════════════ -->
   <footer class="footer">
     <div class="container">
@@ -829,6 +912,16 @@
       });
     });
   </script>
+
+  <!-- ── WHATSAPP FLOATING BUTTON ── -->
+  <a href="https://wa.me/919441140429?text=Hi%2C%20I%20found%20Sparc%20Energy%20and%20want%20to%20know%20more%20about%20carbon%20credits" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.25.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.0851.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.122 1.532 5.857L0 24l6.335-1.51A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.366l-.358-.213-3.762.897.944-3.665-.233-.376A9.818 9.818 0 1112 21.818z"/></svg>
+  </a>
+  <style>
+    .whatsapp-float { position: fixed; bottom: 28px; right: 28px; width: 58px; height: 58px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.4); z-index: 9999; transition: transform 0.2s ease, box-shadow 0.2s ease; text-decoration: none; }
+    .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.6); }
+  </style>
+
 </body>
 
 </html>

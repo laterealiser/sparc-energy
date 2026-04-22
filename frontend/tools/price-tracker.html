@@ -199,48 +199,53 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="../js/landing.js"></script>
   <script>
-    async function loadPrices() {
-      try {
-        const response = await fetch('../data/prices.json');
-        const data = await response.json();
+    const PRICE_DATA = {
+      lastUpdated: "22 April 2025",
+      usdToInr: 83,
+      sparc_weekly_index: { value: 1842, change: 12, changePercent: 0.65 },
+      markets: [
+        { name: "EU ETS — European Allowances", ticker: "EUA", price: 65.20, currency: "EUR", change: -1.20, changePercent: -1.81, description: "EU Emissions Trading System compliance allowances", source: "EEX Exchange" },
+        { name: "California Cap-and-Trade", ticker: "CCA", price: 30.45, currency: "USD", change: 0.55, changePercent: 1.84, description: "California compliance allowances from CARB auctions", source: "CARB" },
+        { name: "India CCTS — BEE", ticker: "CCTS", price: 850, currency: "INR", change: 0, changePercent: 0, description: "India Carbon Credit Trading Scheme — BEE administered", source: "BEE India" },
+        { name: "Voluntary Market Average", ticker: "VCM-AVG", price: 15.00, currency: "USD", change: -0.50, changePercent: -3.23, description: "Average across voluntary carbon market registries", source: "Ecosystem Marketplace" },
+        { name: "Gold Standard Credits", ticker: "GS-VER", price: 22.00, currency: "USD", change: 1.00, changePercent: 4.76, description: "Gold Standard Verified Emission Reductions — premium", source: "Gold Standard Registry" },
+        { name: "Verra VCS Credits", ticker: "VCS-VCU", price: 15.50, currency: "USD", change: 0.50, changePercent: 3.33, description: "Verra Verified Carbon Units — most liquid voluntary", source: "Verra Registry" }
+      ]
+    };
 
-        document.getElementById('lastUpdated').textContent = data.lastUpdated;
+    function renderPrices(data) {
+      document.getElementById('lastUpdated').textContent = data.lastUpdated;
+      const index = data.sparc_weekly_index;
+      document.getElementById('indexValue').textContent = `₹${index.value.toLocaleString()}`;
+      const changeClass = index.change >= 0 ? 'positive' : 'negative';
+      const changeSymbol = index.change >= 0 ? '↑' : '↓';
+      document.getElementById('indexChange').innerHTML = `<span class="${changeClass}">${changeSymbol} ${Math.abs(index.change)} (${index.changePercent > 0 ? '+' : ''}${index.changePercent}%)</span>`;
 
-        const index = data.sparc_weekly_index;
-        document.getElementById('indexValue').textContent = `₹${index.value.toLocaleString()}`;
-        const changeClass = index.change >= 0 ? 'positive' : 'negative';
-        const changeSymbol = index.change >= 0 ? '↑' : '↓';
-        document.getElementById('indexChange').innerHTML = `<span class="${changeClass}">${changeSymbol} ${Math.abs(index.change)} (${index.changePercent > 0 ? '+' : ''}${index.changePercent}%)</span>`;
+      const grid = document.getElementById('marketsGrid');
+      grid.innerHTML = '';
 
-        const grid = document.getElementById('marketsGrid');
-        grid.innerHTML = '';
+      data.markets.forEach(market => {
+        const inrPrice = market.currency === 'INR' ? market.price : market.currency === 'EUR' ? market.price * 1.08 * data.usdToInr : market.price * data.usdToInr;
+        const changeClass = market.change >= 0 ? 'positive' : 'negative';
+        const changeSymbol = market.change >= 0 ? '↑' : '↓';
 
-        data.markets.forEach(market => {
-          const inrPrice = market.currency === 'INR' ? market.price : market.currency === 'EUR' ? market.price * 1.08 * data.usdToInr : market.price * data.usdToInr;
-          const changeClass = market.change >= 0 ? 'positive' : 'negative';
-          const changeSymbol = market.change >= 0 ? '↑' : '↓';
+        const card = document.createElement('div');
+        card.className = 'market-card';
+        card.innerHTML = `
+          <div class="market-header">
+            <div class="market-name">${market.name}</div>
+            <div class="market-ticker">${market.ticker}</div>
+          </div>
+          <div class="market-price">${market.currency === 'INR' ? '₹' : market.currency === 'EUR' ? '€' : '$'}${market.price.toFixed(2)}</div>
+          <div class="market-inr">≈ ₹${inrPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}/credit</div>
+          <div class="market-change ${changeClass}">${changeSymbol} ${Math.abs(market.change).toFixed(2)} (${market.changePercent > 0 ? '+' : ''}${market.changePercent.toFixed(2)}%)</div>
+          <div class="market-source">Source: ${market.source}</div>
+          <div class="market-desc">${market.description}</div>
+        `;
+        grid.appendChild(card);
+      });
 
-          const card = document.createElement('div');
-          card.className = 'market-card';
-          card.innerHTML = `
-            <div class="market-header">
-              <div class="market-name">${market.name}</div>
-              <div class="market-ticker">${market.ticker}</div>
-            </div>
-            <div class="market-price">${market.currency === 'INR' ? '₹' : market.currency === 'EUR' ? '€' : '$'}${market.price.toFixed(2)}</div>
-            <div class="market-inr">≈ ₹${inrPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}/credit</div>
-            <div class="market-change ${changeClass}">${changeSymbol} ${Math.abs(market.change).toFixed(2)} (${market.changePercent > 0 ? '+' : ''}${market.changePercent.toFixed(2)}%)</div>
-            <div class="market-source">Source: ${market.source}</div>
-            <div class="market-desc">${market.description}</div>
-          `;
-          grid.appendChild(card);
-        });
-
-        renderChart(data);
-      } catch (error) {
-        console.error('Error loading prices:', error);
-        document.getElementById('marketsGrid').innerHTML = '<p style="color: red;">Error loading prices. Please try again later.</p>';
-      }
+      renderChart(data);
     }
 
     function renderChart(data) {
@@ -279,7 +284,7 @@
       });
     }
 
-    loadPrices();
+    renderPrices(PRICE_DATA);
   </script>
 </body>
 </html>
