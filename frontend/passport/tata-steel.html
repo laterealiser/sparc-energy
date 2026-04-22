@@ -1,449 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tata Steel Carbon Passport — Sparc Energy</title>
-  <meta name="description" content="Verified carbon passport for Tata Steel's climate action tracking" />
+  <title>Carbon Passport — Tata Steel | Sparc Energy</title>
+  <meta name="description" content="Tata Steel's verified carbon offset record. 142,500 tCO₂e retired across 3 certified projects. Verified by Sparc Energy." />
+  <link rel="canonical" href="https://sparcenergy.in/passport/tata-steel.html" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="../css/landing.css?v=3" />
+  <link rel="stylesheet" href="../css/nav-modern.css?v=1" />
   <style>
-    .passport-container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 40px 20px;
+    :root {
+      --forest: #0a1f12;
+      --emerald: #1a4a2e;
+      --mint: #52b788;
+      --cream: #f5f0e8;
+      --muted: #8a9e8e;
+      --deep: #050f09;
     }
-
-    .passport-header {
-      background: var(--emerald);
-      border: 2px solid var(--mint);
-      border-radius: 16px;
-      padding: 40px;
-      text-align: center;
-      margin-bottom: 40px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .passport-header::before {
-      content: 'VERIFIED';
-      position: absolute;
-      top: 20px;
-      right: -30px;
-      background: var(--mint);
-      color: var(--forest);
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 2px;
-      padding: 6px 50px;
-      transform: rotate(35deg);
-    }
-
-    .passport-logo {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 20px;
-      background: var(--mint);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-    }
-
-    .passport-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 32px;
-      color: var(--cream);
-      margin-bottom: 8px;
-    }
-
-    .passport-subtitle {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .passport-id {
-      margin-top: 20px;
-      padding: 12px;
-      background: var(--forest);
-      border-radius: 8px;
-      font-family: monospace;
-      color: var(--mint);
-      font-size: 14px;
-    }
-
-    .passport-section {
-      background: var(--emerald);
-      border: 1px solid var(--mint);
-      border-radius: 12px;
-      padding: 32px;
-      margin-bottom: 24px;
-    }
-
-    .passport-section h2 {
-      font-family: 'Playfair Display', serif;
-      color: var(--cream);
-      font-size: 24px;
-      margin-bottom: 20px;
-      border-bottom: 2px solid var(--mint);
-      padding-bottom: 12px;
-    }
-
-    .passport-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-    }
-
-    .passport-metric {
-      background: var(--forest);
-      padding: 20px;
-      border-radius: 8px;
-      border: 1px solid var(--emerald);
-    }
-
-    .passport-metric-label {
-      color: var(--muted);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-    }
-
-    .passport-metric-value {
-      color: var(--cream);
-      font-size: 28px;
-      font-weight: 700;
-      font-family: 'Playfair Display', serif;
-    }
-
-    .passport-metric-unit {
-      color: var(--muted);
-      font-size: 14px;
-      margin-top: 4px;
-    }
-
-    .passport-timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .passport-timeline-item {
-      display: flex;
-      gap: 16px;
-      padding: 16px;
-      background: var(--forest);
-      border-radius: 8px;
-      border-left: 3px solid var(--mint);
-    }
-
-    .passport-timeline-date {
-      color: var(--mint);
-      font-weight: 600;
-      min-width: 100px;
-    }
-
-    .passport-timeline-content {
-      flex: 1;
-    }
-
-    .passport-timeline-title {
-      color: var(--cream);
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .passport-timeline-desc {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .passport-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      background: rgba(82, 183, 136, 0.2);
-      border: 1px solid var(--mint);
-      border-radius: 20px;
-      color: var(--mint);
-      font-size: 12px;
-      font-weight: 600;
-      margin-right: 8px;
-      margin-bottom: 8px;
-    }
-
-    .passport-footer {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    @media print {
-      .nav,
-      .passport-footer,
-      footer {
-        display: none;
-      }
-
-      .passport-container {
-        max-width: 100%;
-      }
+    .passport-hero { background: var(--forest); padding: 80px 40px; text-align: center; position: relative; overflow: hidden; }
+    .passport-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(82,183,136,0.15) 0%, transparent 70%); }
+    .passport-hero-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+    .demo-banner { background: #fef3c7; border: 1px solid #fcd34d; border-radius: 8px; padding: 12px 16px; margin-bottom: 24px; font-size: 13px; color: #92400e; text-align: center; }
+    .company-circle { width: 120px; height: 120px; background: var(--mint); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 700; color: white; margin: 0 auto 24px; }
+    .passport-h1 { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 600; color: white; margin-bottom: 8px; }
+    .passport-tagline { font-size: 16px; color: rgba(255,255,255,0.8); margin-bottom: 24px; }
+    .badge-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; font-size: 12px; font-weight: 600; color: white; }
+    .passport-container { max-width: 1000px; margin: 0 auto; padding: 60px 40px; }
+    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-bottom: 60px; }
+    .stat-card { background: white; border-radius: 12px; padding: 28px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--mint); margin-bottom: 8px; }
+    .stat-label { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+    .chart-container { background: white; border-radius: 12px; padding: 32px; margin-bottom: 48px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .chart-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: var(--forest); margin-bottom: 24px; }
+    .chart-canvas { max-height: 300px; }
+    .credits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 48px; }
+    .credit-card { background: white; border-radius: 12px; padding: 28px; border-left: 4px solid var(--mint); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .credit-icon { font-size: 32px; margin-bottom: 12px; }
+    .credit-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: var(--forest); margin-bottom: 8px; }
+    .credit-meta { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+    .credit-amount { font-size: 16px; font-weight: 600; color: var(--mint); margin-bottom: 12px; }
+    .credit-serial { font-size: 11px; color: var(--slate-3); font-family: monospace; margin-bottom: 12px; }
+    .credit-link { display: inline-block; font-size: 12px; color: var(--mint); font-weight: 600; text-decoration: none; }
+    .verification-box { background: #f0fdf4; border: 1px solid #86efac; border-radius: 12px; padding: 28px; text-align: center; margin-bottom: 48px; }
+    .verification-icon { font-size: 48px; margin-bottom: 12px; }
+    .verification-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: var(--forest); margin-bottom: 8px; }
+    .verification-text { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+    .sparc-badge { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; background: var(--mint); color: white; border-radius: 8px; font-weight: 600; }
+    .share-section { background: var(--cream); border-radius: 12px; padding: 32px; margin-bottom: 48px; }
+    .share-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: var(--forest); margin-bottom: 8px; }
+    .share-sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+    .share-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+    .share-btn { padding: 12px 20px; background: white; border: 1.5px solid var(--forest); border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+    .share-btn:hover { background: var(--forest); color: white; }
+    .embed-section { background: white; border-radius: 12px; padding: 32px; margin-bottom: 48px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .embed-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: var(--forest); margin-bottom: 16px; }
+    .embed-code { background: var(--deep); color: #86efac; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 12px; overflow-x: auto; margin-bottom: 12px; }
+    .copy-embed-btn { padding: 10px 16px; background: var(--mint); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; }
+    .cta-section { background: var(--mint); border-radius: 12px; padding: 48px 32px; text-align: center; color: white; }
+    .cta-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; margin-bottom: 12px; }
+    .cta-text { font-size: 16px; margin-bottom: 24px; opacity: 0.95; }
+    .cta-btn { display: inline-block; background: white; color: var(--mint); padding: 14px 32px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    @media (max-width: 640px) {
+      .passport-container { padding: 40px 20px; }
+      .passport-hero { padding: 60px 20px; }
+      .passport-h1 { font-size: 32px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .share-buttons { flex-direction: column; }
     }
   </style>
 </head>
 <body>
-  <!-- ── NAVIGATION ── -->
-  <header class="nav" id="mainNav">
-    <div class="nav-wrap">
-      <a href="../index.html" class="nav-logo">
-        <div class="logo-mark">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+  <header class="nav-modern" id="mainNav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>
         </div>
-        <div>
-          <div class="logo-name">Sparc Energy</div>
-          <div class="logo-sub">CARBON INTELLIGENCE</div>
+        <div class="brand-content">
+          <span class="brand-text">Sparc Energy</span>
+          <span class="brand-subtitle">CARBON INTELLIGENCE</span>
         </div>
       </a>
-      <nav class="nav-links" id="navLinks" role="navigation">
-        <a href="../index.html" class="nl">Home</a>
-        <a href="../projects.html" class="nl">Projects</a>
+      <nav class="nav-menu" id="navMenu" role="navigation">
+        <div class="nav-group">
+          <a href="../index.html" class="nav-item">Home</a>
+          <a href="../projects.html" class="nav-item">Projects</a>
+          <div class="nav-dropdown">
+            <button class="nav-item nav-trigger" aria-expanded="false">Tools<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="nav-dropdown-menu">
+              <div class="dropdown-section">
+                <a href="../tools/estimator.html" class="dropdown-item"><div class="dropdown-item-icon">📊</div><div><div class="dropdown-item-title">Carbon Credit Estimator</div><div class="dropdown-item-desc">Calculate your offset needs</div></div></a>
+                <a href="../tools/asset-calculator.html" class="dropdown-item"><div class="dropdown-item-icon">💰</div><div><div class="dropdown-item-title">Asset Value Calculator</div><div class="dropdown-item-desc">Value your carbon assets</div></div></a>
+                <a href="../tools/scope-calculator.html" class="dropdown-item"><div class="dropdown-item-icon">🔍</div><div><div class="dropdown-item-title">Scope 1/2/3 Calculator</div><div class="dropdown-item-desc">Measure your emissions</div></div></a>
+                <a href="../tools/timeline.html" class="dropdown-item"><div class="dropdown-item-icon">⏱️</div><div><div class="dropdown-item-title">Timeline Estimator</div><div class="dropdown-item-desc">Project development timeline</div></div></a>
+                <a href="../tools/price-tracker.html" class="dropdown-item"><div class="dropdown-item-icon">📈</div><div><div class="dropdown-item-title">Price Tracker</div><div class="dropdown-item-desc">Carbon market prices</div></div></a>
+                <a href="../tools/brsr-generator.html" class="dropdown-item"><div class="dropdown-item-icon">📄</div><div><div class="dropdown-item-title">BRSR Report Generator</div><div class="dropdown-item-desc">Generate compliance reports</div></div></a>
+              </div>
+            </div>
+          </div>
+          <a href="../intelligence.html" class="nav-item">Carbon Intelligence</a>
+          <a href="../experts.html" class="nav-item">Experts</a>
+          <a href="../about.html" class="nav-item">About</a>
+        </div>
       </nav>
-      <div class="nav-end">
-        <button onclick="window.print()" class="btn-ghost-sm">Print Passport</button>
-        <a href="../index.html#contact" class="btn-solid-sm">Book a Call</a>
+      <div class="nav-actions">
+        <a href="../auth.html" class="nav-btn nav-btn-ghost">Sign In</a>
+        <a href="../index.html#contact" class="nav-btn nav-btn-primary">Book a Call</a>
+        <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
       </div>
     </div>
   </header>
 
+  <section class="passport-hero">
+    <div class="passport-hero-inner">
+      <div class="demo-banner">This is a sample Carbon Passport showing how yours will look. Contact Sparc Energy after your first credit retirement to create yours.</div>
+      <div class="company-circle">TS</div>
+      <h1 class="passport-h1">Tata Steel Limited</h1>
+      <p class="passport-tagline">Carbon Neutral — Verified by Sparc Energy</p>
+      <div class="badge-row">
+        <div class="badge">Verra VCS</div>
+        <div class="badge">Gold Standard</div>
+        <div class="badge">2023–2025</div>
+      </div>
+    </div>
+  </section>
+
   <div class="passport-container">
-    <!-- Header -->
-    <div class="passport-header">
-      <div class="passport-logo">🏭</div>
-      <h1 class="passport-title">Tata Steel</h1>
-      <p class="passport-subtitle">Carbon Passport — Verified Climate Action Record</p>
-      <div class="passport-id">Passport ID: SPARC-TATA-2025-001</div>
-    </div>
-
-    <!-- Overview Section -->
-    <div class="passport-section">
-      <h2>Carbon Footprint Overview</h2>
-      <div class="passport-grid">
-        <div class="passport-metric">
-          <div class="passport-metric-label">Total Emissions</div>
-          <div class="passport-metric-value">2,450,000</div>
-          <div class="passport-metric-unit">tCO₂e / year</div>
-        </div>
-        <div class="passport-metric">
-          <div class="passport-metric-label">Scope 1</div>
-          <div class="passport-metric-value">1,850,000</div>
-          <div class="passport-metric-unit">tCO₂e</div>
-        </div>
-        <div class="passport-metric">
-          <div class="passport-metric-label">Scope 2</div>
-          <div class="passport-metric-value">420,000</div>
-          <div class="passport-metric-unit">tCO₂e</div>
-        </div>
-        <div class="passport-metric">
-          <div class="passport-metric-label">Scope 3</div>
-          <div class="passport-metric-value">180,000</div>
-          <div class="passport-metric-unit">tCO₂e</div>
-        </div>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num" data-count="142500" data-suffix="">—</div>
+        <div class="stat-label">Total Offset (tCO₂e)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" data-count="3" data-suffix="">—</div>
+        <div class="stat-label">Projects Supported</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" data-count="2023" data-suffix="">—</div>
+        <div class="stat-label">Year First Offset</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" data-count="100" data-suffix="%">—</div>
+        <div class="stat-label">Verified Credits</div>
       </div>
     </div>
 
-    <!-- Reduction Targets -->
-    <div class="passport-section">
-      <h2>Net Zero Commitment</h2>
-      <div class="passport-grid">
-        <div class="passport-metric">
-          <div class="passport-metric-label">Target Year</div>
-          <div class="passport-metric-value">2045</div>
-          <div class="passport-metric-unit">Net Zero Goal</div>
-        </div>
-        <div class="passport-metric">
-          <div class="passport-metric-label">Reduction Target</div>
-          <div class="passport-metric-value">45%</div>
-          <div class="passport-metric-unit">by 2030</div>
-        </div>
-        <div class="passport-metric">
-          <div class="passport-metric-label">Credits Retired</div>
-          <div class="passport-metric-value">128,500</div>
-          <div class="passport-metric-unit">tCO₂e</div>
-        </div>
-        <div class="passport-metric">
-          <div class="passport-metric-label">Progress</div>
-          <div class="passport-metric-value">18%</div>
-          <div class="passport-metric-unit">to target</div>
-        </div>
+    <div class="chart-container">
+      <h3 class="chart-title">Annual Offset History</h3>
+      <canvas id="offsetChart" class="chart-canvas"></canvas>
+    </div>
+
+    <div class="credits-grid">
+      <div class="credit-card">
+        <div class="credit-icon">🌳</div>
+        <div class="credit-title">Amazon Basin Reforestation</div>
+        <div class="credit-meta">Brazil · Verra VCS · AFOLU</div>
+        <div class="credit-amount">60,000 tCO₂e retired</div>
+        <div class="credit-meta">2023–2024</div>
+        <div class="credit-serial">Serial: VCS-7821-0000001 to VCS-7821-0060000</div>
+        <a href="https://registry.verra.org" class="credit-link" target="_blank">View on Verra Registry →</a>
+      </div>
+      <div class="credit-card">
+        <div class="credit-icon">☀️</div>
+        <div class="credit-title">Rajasthan Solar Farm</div>
+        <div class="credit-meta">India · Gold Standard · Renewable Energy</div>
+        <div class="credit-amount">52,500 tCO₂e retired</div>
+        <div class="credit-meta">2024–2025</div>
+        <div class="credit-serial">Serial: GS-4412-0000001 to GS-4412-0052500</div>
+        <a href="https://www.goldstandard.org" class="credit-link" target="_blank">View on Gold Standard Registry →</a>
+      </div>
+      <div class="credit-card">
+        <div class="credit-icon">🔥</div>
+        <div class="credit-title">Maharashtra Biogas Programme</div>
+        <div class="credit-meta">India · Gold Standard · Waste to Energy</div>
+        <div class="credit-amount">30,000 tCO₂e retired</div>
+        <div class="credit-meta">2025</div>
+        <div class="credit-serial">Serial: GS-5103-0000001 to GS-5103-0030000</div>
+        <a href="https://www.goldstandard.org" class="credit-link" target="_blank">View on Gold Standard Registry →</a>
       </div>
     </div>
 
-    <!-- Chart Section -->
-    <div class="passport-section">
-      <h2>Year-on-Year Offset History</h2>
-      <canvas id="historyChart" style="max-height:320px; margin-top:20px;"></canvas>
-    </div>
-
-    <!-- Certifications -->
-    <div class="passport-section">
-      <h2>Certifications & Standards</h2>
-      <div>
-        <span class="passport-badge">🌿 Verra VCS</span>
-        <span class="passport-badge">🥇 Gold Standard</span>
-        <span class="passport-badge">📊 SBTi Aligned</span>
-        <span class="passport-badge">📋 ISO 14064</span>
-        <span class="passport-badge">🇮🇳 BEE India CCTS</span>
+    <div class="verification-box">
+      <div class="verification-icon">✓</div>
+      <div class="verification-title">All Credits Independently Verified</div>
+      <div class="verification-text">All credits independently verified under Verra VCS and Gold Standard. Chain-of-custody documentation available upon request. Verified and facilitated by Sparc Energy.</div>
+      <div class="sparc-badge">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+        </svg>
+        Verified Partner
       </div>
     </div>
 
-    <!-- Projects Supported -->
-    <div class="passport-section">
-      <h2>Projects Supported</h2>
-      <div class="passport-timeline">
-        <div class="passport-timeline-item">
-          <div class="passport-timeline-date">2022-2023</div>
-          <div class="passport-timeline-content">
-            <div class="passport-timeline-title">Amazon Reforestation Initiative — Brazil</div>
-            <div class="passport-timeline-desc">22,500 tCO₂e retired | Verra VCS certified</div>
-          </div>
-        </div>
-        <div class="passport-timeline-item">
-          <div class="passport-timeline-date">2023-2024</div>
-          <div class="passport-timeline-content">
-            <div class="passport-timeline-title">Rajasthan Solar Farm — India</div>
-            <div class="passport-timeline-desc">27,800 tCO₂e retired | Gold Standard certified</div>
-          </div>
-        </div>
-        <div class="passport-timeline-item">
-          <div class="passport-timeline-date">2024-2025</div>
-          <div class="passport-timeline-content">
-            <div class="passport-timeline-title">Sundarbans Mangrove Restoration — India</div>
-            <div class="passport-timeline-desc">34,100 tCO₂e retired | Verra VCS certified</div>
-          </div>
-        </div>
-        <div class="passport-timeline-item">
-          <div class="passport-timeline-date">2025</div>
-          <div class="passport-timeline-content">
-            <div class="passport-timeline-title">Tamil Nadu Wind Farm — India</div>
-            <div class="passport-timeline-desc">44,100 tCO₂e retired | Gold Standard certified</div>
-          </div>
-        </div>
+    <div class="share-section">
+      <h3 class="share-title">Share this Carbon Passport</h3>
+      <p class="share-sub">Let the world know about your climate commitment</p>
+      <div class="share-buttons">
+        <button class="share-btn" onclick="shareLinkedIn()">LinkedIn</button>
+        <button class="share-btn" onclick="shareTwitter()">Twitter/X</button>
+        <button class="share-btn" onclick="shareWhatsApp()">WhatsApp</button>
+        <button class="share-btn" onclick="copyLink()">Copy Link</button>
       </div>
     </div>
 
-    <!-- Verification -->
-    <div class="passport-section">
-      <h2>Verification Details</h2>
-      <div style="display: grid; gap: 16px;">
-        <div style="display: flex; justify-content: space-between; padding: 12px; background: var(--forest); border-radius: 8px;">
-          <span style="color: var(--muted);">Verified By:</span>
-          <span style="color: var(--cream); font-weight: 600;">Sparc Energy</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; padding: 12px; background: var(--forest); border-radius: 8px;">
-          <span style="color: var(--muted);">Last Updated:</span>
-          <span style="color: var(--cream); font-weight: 600;">April 2025</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; padding: 12px; background: var(--forest); border-radius: 8px;">
-          <span style="color: var(--muted);">Methodology:</span>
-          <span style="color: var(--cream); font-weight: 600;">GHG Protocol, IPCC Guidelines</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; padding: 12px; background: var(--forest); border-radius: 8px;">
-          <span style="color: var(--muted);">Industry:</span>
-          <span style="color: var(--cream); font-weight: 600;">Steel Manufacturing</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; padding: 12px; background: var(--forest); border-radius: 8px;">
-          <span style="color: var(--muted);">Verification Status:</span>
-          <span style="color: var(--mint); font-weight: 600;">✓ Active</span>
-        </div>
-      </div>
+    <div class="embed-section">
+      <h3 class="embed-title">Add a Carbon Badge to Your Website</h3>
+      <div class="embed-code">&lt;iframe src="https://www.sparcenergy.in/passport/tata-steel.html" width="400" height="300" frameborder="0" style="border-radius:12px"&gt;&lt;/iframe&gt;</div>
+      <button class="copy-embed-btn" onclick="copyEmbed()">Copy Embed Code</button>
     </div>
 
-    <div class="passport-footer">
-      <p>This carbon passport is issued by Sparc Energy and represents a verified record of climate action.</p>
-      <p style="margin-top: 8px;">For verification inquiries: <a href="mailto:verify@sparcenergy.in" style="color: var(--mint);">verify@sparcenergy.in</a></p>
+    <div class="cta-section">
+      <h2 class="cta-title">Ready to create your own Carbon Passport?</h2>
+      <p class="cta-text">Complete your first credit retirement with Sparc Energy and receive a verified Carbon Passport you can share publicly.</p>
+      <a href="../index.html#contact" class="cta-btn">Get Your Carbon Passport</a>
     </div>
   </div>
 
-  <!-- ═══════════════════════ FOOTER ════════════════════════════════ -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
           <a href="../index.html" class="nav-logo" style="margin-bottom:16px;display:inline-flex;">
-            <div class="logo-mark-light">
-              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-              </svg>
-            </div>
-            <div>
-              <div class="logo-name" style="font-size:15px;">Sparc Energy</div>
-              <div class="logo-sub">CARBON INTELLIGENCE</div>
-            </div>
+            <div class="logo-mark-light"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg></div>
+            <div><div class="logo-name" style="font-size:15px;">Sparc Energy</div><div class="logo-sub">CARBON INTELLIGENCE</div></div>
           </a>
-          <p class="footer-desc">Boutique climate intelligence for organisations serious about net zero.</p>
+          <p class="footer-desc">Boutique climate intelligence for organisations serious about net zero. Science-based, AI-augmented, personally delivered.</p>
         </div>
         <div class="footer-col">
           <div class="fc-title">Services</div>
           <a href="../index.html#services" class="fl">Carbon Measurement</a>
           <a href="../index.html#services" class="fl">Net Zero Strategy</a>
+          <a href="../index.html#services" class="fl">Credit Procurement</a>
+          <a href="../index.html#services" class="fl">ESG Reporting</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Tools</div>
+          <a href="../tools/estimator.html" class="fl">Carbon Estimator</a>
+          <a href="../tools/scope-calculator.html" class="fl">Scope Calculator</a>
+          <a href="../tools/brsr-generator.html" class="fl">BRSR Generator</a>
+          <a href="../intelligence.html" class="fl">Carbon AI</a>
         </div>
         <div class="footer-col">
           <div class="fc-title">Company</div>
           <a href="../about.html" class="fl">About</a>
+          <a href="../experts.html" class="fl">Experts</a>
+          <a href="../carbon-101.html" class="fl">Carbon 101</a>
           <a href="../index.html#contact" class="fl">Contact</a>
+          <a href="../privacy.html" class="fl">Privacy</a>
+          <a href="../terms.html" class="fl">Terms</a>
         </div>
       </div>
       <div class="footer-bottom">
         <span>© 2025 Sparc Energy. All rights reserved.</span>
+        <div class="footer-certs"><span>🌿 Verra VCS</span><span>🥇 Gold Standard</span><span>📊 SBTi Aligned</span></div>
       </div>
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/landing.js"></script>
   <script>
-    new Chart(document.getElementById("historyChart"), {
-      type: "bar",
+    function shareLinkedIn() {
+      window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(window.location.href), '_blank');
+    }
+    function shareTwitter() {
+      window.open('https://twitter.com/intent/tweet?text=Tata Steel has offset 142,500 tCO₂e — verified by Sparc Energy&url=' + encodeURIComponent(window.location.href), '_blank');
+    }
+    function shareWhatsApp() {
+      window.open('https://wa.me/?text=' + encodeURIComponent('Tata Steel Carbon Passport: ' + window.location.href), '_blank');
+    }
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        alert('Link copied to clipboard!');
+      });
+    }
+    function copyEmbed() {
+      const code = '<iframe src="https://www.sparcenergy.in/passport/tata-steel.html" width="400" height="300" frameborder="0" style="border-radius:12px"></iframe>';
+      navigator.clipboard.writeText(code).then(() => {
+        alert('Embed code copied!');
+      });
+    }
+
+    const ctx = document.getElementById('offsetChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
       data: {
-        labels: ["2022", "2023", "2024", "2025"],
+        labels: ['2023', '2024', '2025'],
         datasets: [{
-          label: "tCO₂e retired",
-          data: [22500, 27800, 34100, 44100],
-          backgroundColor: "#52b788"
+          label: 'tCO₂e Offset',
+          data: [45000, 52500, 45000],
+          backgroundColor: '#52b788',
+          borderRadius: 6,
+          borderSkipped: false
         }]
       },
       options: {
         responsive: true,
+        maintainAspectRatio: true,
         plugins: {
-          legend: {
-            labels: {
-              color: "#f5f0e8"
-            }
-          }
+          legend: { display: false }
         },
         scales: {
-          x: {
-            ticks: {
-              color: "#8a9e8e"
-            },
-            grid: {
-              color: "rgba(138, 158, 142, 0.1)"
-            }
-          },
           y: {
+            beginAtZero: true,
             ticks: {
-              color: "#8a9e8e"
-            },
-            grid: {
-              color: "rgba(138, 158, 142, 0.1)"
+              callback: function(value) {
+                return value.toLocaleString('en-IN') + ' tCO₂e';
+              }
             }
           }
         }

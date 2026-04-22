@@ -135,42 +135,38 @@ function initScrollStory() {
 
 // ── Number Counters ──
 function initCounters() {
-  const counters = document.querySelectorAll('[data-count]');
+  function animateCounter(el) {
+    const target = parseFloat(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const duration = 2000;
+    const start = performance.now();
+
+    function update(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // easeOutQuad
+      const ease = 1 - (1 - progress) * (1 - progress);
+      const current = Math.floor(ease * target);
+      el.textContent = current.toLocaleString('en-IN') + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = target.toLocaleString('en-IN') + suffix;
+    }
+    requestAnimationFrame(update);
+  }
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const target = parseInt(el.getAttribute('data-count'), 10);
-        const suffix = el.getAttribute('data-suffix') || '';
-
-        let startTime = null;
-        const duration = 2000; // ms
-
-        const easeOutQuad = (t) => t * (2 - t);
-
-        const formatNumber = (num) => {
-          return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        };
-
-        const step = (now) => {
-          if (!startTime) startTime = now;
-          const progress = Math.min((now - startTime) / duration, 1);
-          const current = Math.floor(easeOutQuad(progress) * target);
-          el.innerText = formatNumber(current) + suffix;
-          if (progress < 1) {
-            requestAnimationFrame(step);
-          } else {
-            el.innerText = formatNumber(target) + suffix;
-          }
-        };
-
-        requestAnimationFrame(step);
-        observer.unobserve(el);
+      if (entry.isIntersecting && !entry.target.dataset.animated) {
+        entry.target.dataset.animated = 'true';
+        animateCounter(entry.target);
       }
     });
   }, { threshold: 0.3 });
 
-  counters.forEach(c => observer.observe(c));
+  document.querySelectorAll('[data-count]').forEach(el => {
+    el.textContent = '0';
+    observer.observe(el);
+  });
 }
 
 // ── Contact Form ──

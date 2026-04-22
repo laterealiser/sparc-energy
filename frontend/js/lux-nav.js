@@ -30,9 +30,21 @@ function renderNav(activePage) {
             <div class="lux-dd-icon">📊</div>
             <div><div class="lux-dd-title">Carbon Credit Estimator</div><div class="lux-dd-desc">Calculate your offset needs</div></div>
           </a>
+          <a href="tools/asset-calculator.html" class="lux-dd-item">
+            <div class="lux-dd-icon">💰</div>
+            <div><div class="lux-dd-title">Asset Value Calculator</div><div class="lux-dd-desc">Value your carbon assets</div></div>
+          </a>
           <a href="tools/scope-calculator.html" class="lux-dd-item">
             <div class="lux-dd-icon">🔍</div>
             <div><div class="lux-dd-title">Scope 1/2/3 Calculator</div><div class="lux-dd-desc">Measure your emissions</div></div>
+          </a>
+          <a href="tools/timeline.html" class="lux-dd-item">
+            <div class="lux-dd-icon">⏱️</div>
+            <div><div class="lux-dd-title">Timeline Estimator</div><div class="lux-dd-desc">Project development timeline</div></div>
+          </a>
+          <a href="tools/price-tracker.html" class="lux-dd-item">
+            <div class="lux-dd-icon">📈</div>
+            <div><div class="lux-dd-title">Price Tracker</div><div class="lux-dd-desc">Carbon market prices</div></div>
           </a>
           <a href="tools/brsr-generator.html" class="lux-dd-item">
             <div class="lux-dd-icon">📄</div>
