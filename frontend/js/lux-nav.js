@@ -9,6 +9,7 @@ function renderNav(activePage) {
   const links = [
     { href: 'index.html',        label: 'Home'     },
     { href: 'projects.html',     label: 'Projects'  },
+    { href: 'services.html',     label: 'Services'  },
     { href: 'experts.html',      label: 'Experts'   },
     { href: 'about.html',        label: 'About'     },
   ];
@@ -85,7 +86,7 @@ function renderNav(activePage) {
         </nav>
         <div class="lux-nav-actions">
           <a href="auth.html" class="lux-btn-ghost">Sign In</a>
-          <a href="auth.html?mode=register" class="lux-btn-primary">Sign Up</a>
+          <a href="index.html#contact" class="lux-btn-primary">Book a Call</a>
           <button class="lux-burger" id="luxBurger" aria-label="Menu" aria-expanded="false">
             <span></span><span></span><span></span>
           </button>

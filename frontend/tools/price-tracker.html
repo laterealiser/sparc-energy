@@ -199,92 +199,51 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="../js/landing.js"></script>
   <script>
-    const PRICE_DATA = {
+    const PRICES = {
       lastUpdated: "22 April 2025",
       usdToInr: 83,
-      sparc_weekly_index: { value: 1842, change: 12, changePercent: 0.65 },
+      index: { value: 1842, change: 12, pct: 0.65 },
       markets: [
-        { name: "EU ETS — European Allowances", ticker: "EUA", price: 65.20, currency: "EUR", change: -1.20, changePercent: -1.81, description: "EU Emissions Trading System compliance allowances", source: "EEX Exchange" },
-        { name: "California Cap-and-Trade", ticker: "CCA", price: 30.45, currency: "USD", change: 0.55, changePercent: 1.84, description: "California compliance allowances from CARB auctions", source: "CARB" },
-        { name: "India CCTS — BEE", ticker: "CCTS", price: 850, currency: "INR", change: 0, changePercent: 0, description: "India Carbon Credit Trading Scheme — BEE administered", source: "BEE India" },
-        { name: "Voluntary Market Average", ticker: "VCM-AVG", price: 15.00, currency: "USD", change: -0.50, changePercent: -3.23, description: "Average across voluntary carbon market registries", source: "Ecosystem Marketplace" },
-        { name: "Gold Standard Credits", ticker: "GS-VER", price: 22.00, currency: "USD", change: 1.00, changePercent: 4.76, description: "Gold Standard Verified Emission Reductions — premium", source: "Gold Standard Registry" },
-        { name: "Verra VCS Credits", ticker: "VCS-VCU", price: 15.50, currency: "USD", change: 0.50, changePercent: 3.33, description: "Verra Verified Carbon Units — most liquid voluntary", source: "Verra Registry" }
+        { name:"EU ETS", ticker:"EUA", price:65.20, currency:"EUR", change:-1.20, pct:-1.81, desc:"EU Emissions Trading System", source:"EEX Exchange" },
+        { name:"California Cap-and-Trade", ticker:"CCA", price:30.45, currency:"USD", change:0.55, pct:1.84, desc:"California compliance allowances", source:"CARB" },
+        { name:"India CCTS — BEE", ticker:"CCTS", price:850, currency:"INR", change:0, pct:0, desc:"India Carbon Credit Trading Scheme", source:"BEE India" },
+        { name:"Voluntary Market Avg", ticker:"VCM", price:15.00, currency:"USD", change:-0.50, pct:-3.23, desc:"Average across voluntary registries", source:"Ecosystem Marketplace" },
+        { name:"Gold Standard Credits", ticker:"GS-VER", price:22.00, currency:"USD", change:1.00, pct:4.76, desc:"Gold Standard Verified Emission Reductions", source:"Gold Standard Registry" },
+        { name:"Verra VCS Credits", ticker:"VCS-VCU", price:15.50, currency:"USD", change:0.50, pct:3.33, desc:"Verra Verified Carbon Units", source:"Verra Registry" }
       ]
     };
-
-    function renderPrices(data) {
-      document.getElementById('lastUpdated').textContent = data.lastUpdated;
-      const index = data.sparc_weekly_index;
-      document.getElementById('indexValue').textContent = `₹${index.value.toLocaleString()}`;
-      const changeClass = index.change >= 0 ? 'positive' : 'negative';
-      const changeSymbol = index.change >= 0 ? '↑' : '↓';
-      document.getElementById('indexChange').innerHTML = `<span class="${changeClass}">${changeSymbol} ${Math.abs(index.change)} (${index.changePercent > 0 ? '+' : ''}${index.changePercent}%)</span>`;
-
-      const grid = document.getElementById('marketsGrid');
-      grid.innerHTML = '';
-
-      data.markets.forEach(market => {
-        const inrPrice = market.currency === 'INR' ? market.price : market.currency === 'EUR' ? market.price * 1.08 * data.usdToInr : market.price * data.usdToInr;
-        const changeClass = market.change >= 0 ? 'positive' : 'negative';
-        const changeSymbol = market.change >= 0 ? '↑' : '↓';
-
-        const card = document.createElement('div');
-        card.className = 'market-card';
-        card.innerHTML = `
-          <div class="market-header">
-            <div class="market-name">${market.name}</div>
-            <div class="market-ticker">${market.ticker}</div>
-          </div>
-          <div class="market-price">${market.currency === 'INR' ? '₹' : market.currency === 'EUR' ? '€' : '$'}${market.price.toFixed(2)}</div>
-          <div class="market-inr">≈ ₹${inrPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}/credit</div>
-          <div class="market-change ${changeClass}">${changeSymbol} ${Math.abs(market.change).toFixed(2)} (${market.changePercent > 0 ? '+' : ''}${market.changePercent.toFixed(2)}%)</div>
-          <div class="market-source">Source: ${market.source}</div>
-          <div class="market-desc">${market.description}</div>
-        `;
-        grid.appendChild(card);
+    function toUSD(p,cur){if(cur==='EUR')return p*1.08;if(cur==='INR')return p/83;return p;}
+    function toINR(p,cur){if(cur==='EUR')return Math.round(p*1.08*83);if(cur==='USD')return Math.round(p*83);return Math.round(p);}
+    function renderPrices(){
+      const idx=PRICES.index;
+      document.getElementById('indexValue').textContent='Rs.'+idx.value.toLocaleString('en-IN');
+      const chgEl=document.getElementById('indexChange');
+      chgEl.textContent=(idx.change>0?'↑':'↓')+Math.abs(idx.change)+' ('+idx.pct+'%)';
+      chgEl.style.color=idx.change>=0?'#52b788':'#ef4444';
+      const grid=document.getElementById('marketsGrid');
+      grid.innerHTML=PRICES.markets.map(m=>{
+        const arrow=m.change>=0?'↑':'↓';
+        const color=m.change>=0?'#52b788':'#ef4444';
+        const inr=toINR(m.price,m.currency);
+        const sym=m.currency==='INR'?'Rs.':m.currency==='EUR'?'€':'$';
+        return `<div class="market-card">
+          <div class="market-header"><div class="market-name">${m.name}</div><div class="market-ticker">${m.ticker}</div></div>
+          <div class="market-price">${sym}${m.price.toFixed(2)}</div>
+          <div class="market-inr">≈ Rs.${inr.toLocaleString('en-IN')} / credit</div>
+          <div class="market-change" style="color:${color}">${arrow} ${Math.abs(m.change).toFixed(2)} (${m.pct}%)</div>
+          <div class="market-source">${m.source}</div>
+          <div class="market-desc">${m.desc}</div>
+        </div>`;
+      }).join('');
+      const ctx=document.getElementById('priceChart').getContext('2d');
+      new Chart(ctx,{
+        type:'bar',
+        data:{labels:PRICES.markets.map(m=>m.ticker),datasets:[{label:'USD equivalent',data:PRICES.markets.map(m=>toUSD(m.price,m.currency).toFixed(2)),backgroundColor:'#52b788',borderRadius:6}]},
+        options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#8a9e8e'}},y:{ticks:{color:'#f5f0e8'},grid:{display:false}}}}
       });
-
-      renderChart(data);
+      document.getElementById('lastUpdated').textContent='Last updated: '+PRICES.lastUpdated;
     }
-
-    function renderChart(data) {
-      const markets = data.markets;
-      const labels = markets.map(m => m.ticker);
-      const prices = markets.map(m => {
-        if (m.currency === 'INR') return m.price / data.usdToInr;
-        if (m.currency === 'EUR') return m.price * 1.08;
-        return m.price;
-      });
-
-      const ctx = document.getElementById('priceChart').getContext('2d');
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Price (USD/tCO₂e)',
-            data: prices,
-            backgroundColor: '#52b788',
-            borderRadius: 6,
-            borderSkipped: false
-          }]
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          maintainAspectRatio: true,
-          plugins: {
-            legend: { display: false }
-          },
-          scales: {
-            x: { beginAtZero: true }
-          }
-        }
-      });
-    }
-
-    renderPrices(PRICE_DATA);
+    document.addEventListener('DOMContentLoaded',renderPrices);
   </script>
 </body>
 </html>
