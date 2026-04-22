@@ -9,6 +9,7 @@ let scrollY = window.scrollY;
 
 function initNav() {
   const nav = document.getElementById('mainNav');
+  const fab = document.getElementById('fab');
   const burger = document.getElementById('navBurger');
   const menu = document.getElementById('navMenu');
 
@@ -19,13 +20,20 @@ function initNav() {
     scrollY = window.scrollY;
 
     // Navbar background transition
-    if (scrollY > 50) {
+    if (scrollY > 100) {
       nav.classList.add('scrolled');
     } else {
       nav.classList.remove('scrolled');
     }
 
-
+    // FAB visibility
+    if (fab) {
+      if (scrollY > window.innerHeight * 0.8) {
+        fab.classList.add('visible');
+      } else {
+        fab.classList.remove('visible');
+      }
+    }
   }, { passive: true });
 
   // Mobile menu toggle
@@ -114,12 +122,14 @@ function initScrollStory() {
       }
     });
 
-    if (vidBgs.length === panels.length) {
-      vidBgs.forEach((v, idx) => {
-        if (idx === activeIdx) v.classList.add('active');
-        else v.classList.remove('active');
-      });
-    }
+    // Ensure video backgrounds sync with panels
+    vidBgs.forEach((v, idx) => {
+      if (idx === activeIdx) {
+        v.classList.add('active');
+      } else {
+        v.classList.remove('active');
+      }
+    });
   }, { passive: true });
 
   window.dispatchEvent(new Event('scroll'));
