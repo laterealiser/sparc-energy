@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BRSR vs TCFD: What Indian CFOs Need to Know in 2025 | Sparc Energy</title>
+  <meta name="description" content="Dual disclosure frameworks are converging. The definitive comparison for Indian compliance and finance teams." />
+  <link rel="canonical" href="https://sparcenergy.in/blog/brsr-vs-tcfd-2025.html" />
+  <meta property="og:title" content="BRSR vs TCFD: What Indian CFOs Need to Know in 2025" />
+  <meta property="og:type" content="article" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/landing.css?v=3" />
+  <link rel="stylesheet" href="../css/nav-modern.css?v=1" />
+  <style>
+    :root { --forest: #0a1f12; --emerald: #1a4a2e; --mint: #52b788; --cream: #f5f0e8; --muted: #8a9e8e; --deep: #050f09; }
+    .blog-hero { background: var(--forest); padding: 80px 40px; text-align: center; }
+    .blog-hero-inner { max-width: 700px; margin: 0 auto; }
+    .blog-meta { display: flex; gap: 16px; justify-content: center; align-items: center; margin-bottom: 20px; font-size: 13px; color: var(--mint); }
+    .blog-meta-dot { width: 4px; height: 4px; background: var(--mint); border-radius: 50%; }
+    .blog-h1 { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 600; color: white; line-height: 1.2; margin-bottom: 16px; }
+    .blog-container { max-width: 900px; margin: 0 auto; padding: 60px 40px; }
+    .blog-content { font-size: 18px; line-height: 1.8; color: var(--slate); margin-bottom: 32px; }
+    .blog-content h2 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: var(--forest); margin: 40px 0 20px; }
+    .blog-content p { margin-bottom: 16px; }
+    .blog-content table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    .blog-content th, .blog-content td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+    .blog-content th { background: var(--cream); font-weight: 600; }
+    .blog-cta { background: var(--mint); color: white; padding: 32px; border-radius: 12px; text-align: center; margin: 60px 0; }
+    .blog-cta-btn { display: inline-block; background: white; color: var(--mint); padding: 12px 28px; border-radius: 6px; font-weight: 600; text-decoration: none; margin-top: 12px; }
+    @media (max-width: 640px) { .blog-hero { padding: 60px 20px; } .blog-h1 { font-size: 32px; } .blog-container { padding: 40px 20px; } .blog-content { font-size: 16px; } }
+  </style>
+</head>
+<body>
+  <div id="cookieBanner" style="display:none; position:fixed; bottom:0; left:0; right:0; background:var(--emerald); color:var(--cream); padding:16px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; z-index:10000; flex-wrap:wrap; font-family:'DM Sans',sans-serif; font-size:14px; border-top: 1px solid var(--mint);">
+    <span>We use cookies to improve your experience. By continuing, you agree to our <a href="../privacy.html" style="color:var(--mint); font-weight:600;">Privacy Policy</a>.</span>
+    <div style="display:flex; gap:10px; flex-shrink:0;">
+      <button onclick="acceptCookies()" style="background:var(--mint); color:var(--forest); border:none; padding:8px 20px; border-radius:6px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif;">Accept</button>
+      <button onclick="declineCookies()" style="background:transparent; color:var(--muted); border:1px solid var(--muted); padding:8px 16px; border-radius:6px; cursor:pointer; font-family:'DM Sans',sans-serif;">Decline</button>
+    </div>
+  </div>
+  <script>
+    function acceptCookies() { localStorage.setItem('cookie_consent','accepted'); document.getElementById('cookieBanner').style.display='none'; }
+    function declineCookies() { localStorage.setItem('cookie_consent','declined'); document.getElementById('cookieBanner').style.display='none'; }
+    if (!localStorage.getItem('cookie_consent')) { document.getElementById('cookieBanner').style.display='flex'; }
+  </script>
+
+  <header class="nav-modern" id="mainNav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <div class="brand-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg></div>
+        <div class="brand-content"><span class="brand-text">Sparc Energy</span><span class="brand-subtitle">CARBON INTELLIGENCE</span></div>
+      </a>
+      <nav class="nav-menu" id="navMenu" role="navigation">
+        <div class="nav-group">
+          <a href="../index.html" class="nav-item">Home</a>
+          <a href="../projects.html" class="nav-item">Projects</a>
+          <div class="nav-dropdown">
+            <button class="nav-item nav-trigger" aria-expanded="false">Tools<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="nav-dropdown-menu">
+              <div class="dropdown-section">
+                <a href="../tools/estimator.html" class="dropdown-item"><div class="dropdown-item-icon">📊</div><div><div class="dropdown-item-title">Carbon Credit Estimator</div></div></a>
+                <a href="../tools/scope-calculator.html" class="dropdown-item"><div class="dropdown-item-icon">🔍</div><div><div class="dropdown-item-title">Scope 1/2/3 Calculator</div></div></a>
+                <a href="../tools/brsr-generator.html" class="dropdown-item"><div class="dropdown-item-icon">📄</div><div><div class="dropdown-item-title">BRSR Report Generator</div></div></a>
+              </div>
+            </div>
+          </div>
+          <a href="../intelligence.html" class="nav-item">Carbon Intelligence</a>
+          <a href="../experts.html" class="nav-item">Experts</a>
+          <a href="../about.html" class="nav-item">About</a>
+        </div>
+      </nav>
+      <div class="nav-actions">
+        <a href="../auth.html" class="nav-btn nav-btn-ghost">Sign In</a>
+        <a href="../index.html#contact" class="nav-btn nav-btn-primary">Book a Call</a>
+        <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <section class="blog-hero">
+    <div class="blog-hero-inner">
+      <div class="blog-meta">
+        <span style="background: var(--mint); color: var(--forest); padding: 4px 12px; border-radius: 4px; font-weight: 600;">ESG Reporting</span>
+        <div class="blog-meta-dot"></div>
+        <span>February 2025</span>
+        <div class="blog-meta-dot"></div>
+        <span>5 min read</span>
+      </div>
+      <h1 class="blog-h1">BRSR vs TCFD: What Indian CFOs Need to Know in 2025</h1>
+    </div>
+  </section>
+
+  <div class="blog-container">
+    <div class="blog-content">
+      <p>India's top 1000 NSE-listed companies now face dual disclosure requirements: BRSR (mandatory) and TCFD (increasingly expected). Here's how they differ and how to satisfy both without doubling your workload.</p>
+
+      <h2>What is BRSR and Who Must File It?</h2>
+      <p>BRSR (Business Responsibility and Sustainability Report) is SEBI's mandatory disclosure framework for India's top 1000 NSE-listed companies by market cap. It covers 9 principles across governance, social, and environmental dimensions. BRSR is filed annually with the stock exchange and included in the Annual Report.</p>
+
+      <h2>What is TCFD and Who Uses It?</h2>
+      <p>TCFD (Task Force on Climate-related Financial Disclosures) is a voluntary framework used by investors and multinational companies to assess climate risk. It's not mandatory in India but is increasingly expected by global investors, lenders, and rating agencies. Many Indian companies use TCFD to communicate with international stakeholders.</p>
+
+      <h2>Key Differences</h2>
+      <table>
+        <tr>
+          <th>Aspect</th>
+          <th>BRSR</th>
+          <th>TCFD</th>
+        </tr>
+        <tr>
+          <td>Mandatory?</td>
+          <td>Yes (top 1000 NSE)</td>
+          <td>Voluntary</td>
+        </tr>
+        <tr>
+          <td>Audience</td>
+          <td>SEBI, regulators, Indian stakeholders</td>
+          <td>Global investors, lenders, rating agencies</td>
+        </tr>
+        <tr>
+          <td>Format</td>
+          <td>Structured questionnaire (9 principles)</td>
+          <td>Narrative disclosure (4 pillars)</td>
+        </tr>
+        <tr>
+          <td>Focus</td>
+          <td>Broad ESG (governance, social, environment)</td>
+          <td>Climate risk & opportunity</td>
+        </tr>
+        <tr>
+          <td>Scope</td>
+          <td>Scope 1 & 2 emissions</td>
+          <td>Scope 1, 2 & 3 emissions</td>
+        </tr>
+      </table>
+
+      <h2>Where They Overlap in 2025</h2>
+      <p>Both frameworks now require climate risk disclosure. BRSR's Principle 6 (Environment) and TCFD's Governance pillar both ask: How is your board managing climate risk? This overlap is where efficiency gains happen.</p>
+
+      <h2>How to Satisfy Both Without Doubling Workload</h2>
+      <p>The key is to build one comprehensive climate disclosure and map it to both frameworks:</p>
+      <ul>
+        <li><strong>Step 1:</strong> Conduct a single GHG inventory (Scope 1, 2, 3) using GHG Protocol.</li>
+        <li><strong>Step 2:</strong> Perform climate risk assessment (physical and transition risks) — this satisfies both BRSR and TCFD.</li>
+        <li><strong>Step 3:</strong> Document governance, strategy, and targets — use this for both filings.</li>
+        <li><strong>Step 4:</strong> Create two versions: BRSR format for SEBI, TCFD narrative for investors.</li>
+      </ul>
+
+      <h2>SEBI's Direction for 2026 and Beyond</h2>
+      <p>SEBI is moving toward mandatory TCFD-aligned climate disclosure for all listed companies by 2026. Start preparing now. Companies that adopt TCFD early will have a competitive advantage.</p>
+
+      <div class="blog-cta">
+        <div class="blog-cta-title">Use our BRSR Report Generator</div>
+        <p>Generate SEBI-compliant BRSR sections instantly using AI.</p>
+        <a href="../tools/brsr-generator.html" class="blog-cta-btn">Try the Tool</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="../index.html" class="nav-logo" style="margin-bottom:16px;display:inline-flex;">
+            <div class="logo-mark-light"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg></div>
+            <div><div class="logo-name" style="font-size:15px;">Sparc Energy</div><div class="logo-sub">CARBON INTELLIGENCE</div></div>
+          </a>
+          <p class="footer-desc">Boutique climate intelligence for organisations serious about net zero.</p>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Services</div>
+          <a href="../index.html#services" class="fl">Carbon Measurement</a>
+          <a href="../index.html#services" class="fl">Net Zero Strategy</a>
+          <a href="../index.html#services" class="fl">Credit Procurement</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Tools</div>
+          <a href="../tools/estimator.html" class="fl">Carbon Estimator</a>
+          <a href="../tools/scope-calculator.html" class="fl">Scope Calculator</a>
+          <a href="../tools/brsr-generator.html" class="fl">BRSR Generator</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Company</div>
+          <a href="../about.html" class="fl">About</a>
+          <a href="../experts.html" class="fl">Experts</a>
+          <a href="../index.html#contact" class="fl">Contact</a>
+          <a href="../privacy.html" class="fl">Privacy</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Sparc Energy. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/919441140429?text=Hi%2C%20I%20found%20Sparc%20Energy%20and%20want%20to%20know%20more%20about%20carbon%20credits" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.25.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.0851.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.122 1.532 5.857L0 24l6.335-1.51A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.366l-.358-.213-3.762.897.944-3.665-.233-.376A9.818 9.818 0 1112 21.818z"/></svg>
+  </a>
+  <style>
+    .whatsapp-float { position: fixed; bottom: 28px; right: 28px; width: 58px; height: 58px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.4); z-index: 9999; transition: transform 0.2s ease, box-shadow 0.2s ease; text-decoration: none; }
+    .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.6); }
+  </style>
+
+  <script src="../js/landing.js"></script>
+</body>
+</html>

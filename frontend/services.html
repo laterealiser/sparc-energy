@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services & Pricing — Sparc Energy</title>
+  <meta name="description" content="Transparent pricing for carbon measurement, net zero strategy, credit procurement and ESG reporting. No retainer surprises." />
+  <link rel="canonical" href="https://sparcenergy.in/services.html" />
+  <meta property="og:title" content="Services & Pricing — Sparc Energy" />
+  <meta property="og:description" content="Transparent pricing for carbon measurement, net zero strategy, credit procurement and ESG reporting." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/landing.css?v=3" />
+  <link rel="stylesheet" href="css/nav-modern.css?v=1" />
+  <style>
+    :root { --forest:#0a1f12; --emerald:#1a4a2e; --mint:#52b788; --cream:#f5f0e8; --muted:#8a9e8e; --deep:#050f09; }
+    .svc-hero { background: var(--forest); padding: 80px 40px; text-align: center; position: relative; overflow: hidden; }
+    .svc-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 50% 100%, rgba(82,183,136,0.15) 0%, transparent 70%); }
+    .svc-hero-inner { position:relative; z-index:1; max-width:700px; margin:0 auto; }
+    .svc-eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--mint); margin-bottom:20px; }
+    .svc-eyebrow::before { content:''; width:24px; height:1px; background:var(--mint); }
+    .svc-h1 { font-family:'Playfair Display',serif; font-size:clamp(36px,5vw,56px); font-weight:600; color:white; line-height:1.1; letter-spacing:-0.02em; margin-bottom:16px; }
+    .svc-sub { font-size:17px; color:rgba(255,255,255,0.65); line-height:1.6; max-width:560px; margin:0 auto; }
+    .svc-container { max-width:1100px; margin:0 auto; padding:72px 40px; }
+    .svc-grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-bottom:72px; }
+    .svc-card { background:white; border:1px solid #e5e7eb; border-radius:16px; padding:36px; position:relative; box-shadow:0 2px 8px rgba(0,0,0,0.06); transition:all 0.25s; }
+    .svc-card:hover { box-shadow:0 12px 40px rgba(0,0,0,0.1); transform:translateY(-2px); }
+    .svc-card.popular { border-color:var(--mint); }
+    .svc-popular-badge { position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--mint); color:white; padding:4px 16px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; white-space:nowrap; }
+    .svc-icon { font-size:36px; margin-bottom:16px; }
+    .svc-title { font-family:'Playfair Display',serif; font-size:22px; font-weight:600; color:var(--forest); margin-bottom:12px; }
+    .svc-desc { font-size:14px; color:#6b7280; line-height:1.7; margin-bottom:20px; }
+    .svc-includes { margin-bottom:24px; }
+    .svc-includes-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:12px; }
+    .svc-include { display:flex; align-items:flex-start; gap:10px; font-size:13.5px; color:#374151; margin-bottom:10px; line-height:1.5; }
+    .svc-include::before { content:'✓'; color:var(--mint); font-weight:700; flex-shrink:0; margin-top:1px; }
+    .svc-meta { display:flex; justify-content:space-between; align-items:flex-end; padding-top:20px; border-top:1px solid #f0f0f0; margin-bottom:20px; }
+    .svc-timeline { font-size:12px; color:var(--muted); }
+    .svc-timeline strong { display:block; font-size:13px; color:var(--forest); }
+    .svc-price { text-align:right; }
+    .svc-price-from { font-size:11px; color:var(--muted); }
+    .svc-price-num { font-family:'Playfair Display',serif; font-size:22px; font-weight:600; color:var(--forest); }
+    .svc-cta { display:block; width:100%; padding:13px; background:var(--forest); color:white; border:none; border-radius:8px; font-weight:600; font-size:14px; cursor:pointer; text-align:center; text-decoration:none; transition:all 0.2s; font-family:'DM Sans',sans-serif; }
+    .svc-cta:hover { background:var(--emerald); }
+    .svc-card.popular .svc-cta { background:var(--mint); }
+    .svc-card.popular .svc-cta:hover { background:#3da070; }
+    .faq-section { max-width:800px; margin:0 auto 72px; }
+    .faq-title { font-family:'Playfair Display',serif; font-size:32px; font-weight:600; color:var(--forest); text-align:center; margin-bottom:8px; }
+    .faq-sub { text-align:center; color:var(--muted); margin-bottom:40px; }
+    .faq-item { border-bottom:1px solid #e5e7eb; }
+    .faq-q { width:100%; text-align:left; padding:20px 0; background:none; border:none; font-size:16px; font-weight:600; color:var(--forest); cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:16px; font-family:'DM Sans',sans-serif; }
+    .faq-q:hover { color:var(--mint); }
+    .faq-arrow { font-size:18px; transition:transform 0.3s; flex-shrink:0; color:var(--mint); }
+    .faq-item.open .faq-arrow { transform:rotate(180deg); }
+    .faq-a { max-height:0; overflow:hidden; transition:max-height 0.35s ease, padding 0.35s ease; font-size:15px; color:#6b7280; line-height:1.7; }
+    .faq-item.open .faq-a { max-height:300px; padding-bottom:20px; }
+    .final-cta { background:var(--forest); border-radius:16px; padding:56px 40px; text-align:center; color:white; }
+    .final-cta-title { font-family:'Playfair Display',serif; font-size:32px; font-weight:600; margin-bottom:12px; }
+    .final-cta-sub { font-size:16px; color:rgba(255,255,255,0.7); margin-bottom:28px; }
+    .final-cta-btn { display:inline-block; background:var(--mint); color:white; padding:16px 36px; border-radius:8px; font-weight:600; font-size:15px; text-decoration:none; transition:all 0.2s; }
+    .final-cta-btn:hover { background:#3da070; transform:translateY(-2px); }
+    @media (max-width:900px) { .svc-grid { grid-template-columns:1fr; } }
+    @media (max-width:640px) { .svc-container { padding:48px 20px; } .svc-hero { padding:60px 20px; } .final-cta { padding:40px 24px; } }
+  </style>
+</head>
+<body>
+  <div id="cookieBanner" style="display:none; position:fixed; bottom:0; left:0; right:0; background:var(--emerald); color:var(--cream); padding:16px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; z-index:10000; flex-wrap:wrap; font-family:'DM Sans',sans-serif; font-size:14px; border-top:1px solid var(--mint);">
+    <span>We use cookies to improve your experience. By continuing, you agree to our <a href="privacy.html" style="color:var(--mint);font-weight:600;">Privacy Policy</a>.</span>
+    <div style="display:flex;gap:10px;flex-shrink:0;">
+      <button onclick="acceptCookies()" style="background:var(--mint);color:var(--forest);border:none;padding:8px 20px;border-radius:6px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;">Accept</button>
+      <button onclick="declineCookies()" style="background:transparent;color:var(--muted);border:1px solid var(--muted);padding:8px 16px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;">Decline</button>
+    </div>
+  </div>
+  <script>
+    function acceptCookies(){localStorage.setItem('cookie_consent','accepted');document.getElementById('cookieBanner').style.display='none';}
+    function declineCookies(){localStorage.setItem('cookie_consent','declined');document.getElementById('cookieBanner').style.display='none';}
+    if(!localStorage.getItem('cookie_consent')){document.getElementById('cookieBanner').style.display='flex';}
+  </script>
+
+  <header class="nav-modern" id="mainNav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <div class="brand-content"><span class="brand-text">Sparc Energy</span><span class="brand-subtitle">CARBON INTELLIGENCE</span></div>
+      </a>
+      <nav class="nav-menu" id="navMenu" role="navigation">
+        <div class="nav-group">
+          <a href="index.html" class="nav-item">Home</a>
+          <a href="projects.html" class="nav-item">Projects</a>
+          <a href="services.html" class="nav-item active">Services</a>
+          <div class="nav-dropdown">
+            <button class="nav-item nav-trigger" aria-expanded="false">Tools<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="nav-dropdown-menu">
+              <div class="dropdown-section">
+                <a href="tools/estimator.html" class="dropdown-item"><div class="dropdown-item-icon">📊</div><div><div class="dropdown-item-title">Carbon Credit Estimator</div><div class="dropdown-item-desc">Calculate your offset needs</div></div></a>
+                <a href="tools/asset-calculator.html" class="dropdown-item"><div class="dropdown-item-icon">💰</div><div><div class="dropdown-item-title">Asset Value Calculator</div><div class="dropdown-item-desc">Value your carbon assets</div></div></a>
+                <a href="tools/scope-calculator.html" class="dropdown-item"><div class="dropdown-item-icon">🔍</div><div><div class="dropdown-item-title">Scope 1/2/3 Calculator</div><div class="dropdown-item-desc">Measure your emissions</div></div></a>
+                <a href="tools/timeline.html" class="dropdown-item"><div class="dropdown-item-icon">⏱️</div><div><div class="dropdown-item-title">Timeline Estimator</div><div class="dropdown-item-desc">Project development timeline</div></div></a>
+                <a href="tools/price-tracker.html" class="dropdown-item"><div class="dropdown-item-icon">📈</div><div><div class="dropdown-item-title">Price Tracker</div><div class="dropdown-item-desc">Carbon market prices</div></div></a>
+                <a href="tools/brsr-generator.html" class="dropdown-item"><div class="dropdown-item-icon">📄</div><div><div class="dropdown-item-title">BRSR Report Generator</div><div class="dropdown-item-desc">Generate compliance reports</div></div></a>
+              </div>
+            </div>
+          </div>
+          <a href="intelligence.html" class="nav-item">Carbon Intelligence</a>
+          <a href="experts.html" class="nav-item">Experts</a>
+        </div>
+      </nav>
+      <div class="nav-actions">
+        <a href="auth.html" class="nav-btn nav-btn-ghost">Sign In</a>
+        <a href="index.html#contact" class="nav-btn nav-btn-primary">Book a Call</a>
+        <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <section class="svc-hero">
+    <div class="svc-hero-inner">
+      <div class="svc-eyebrow">Services & Pricing</div>
+      <h1 class="svc-h1">What We Do &<br><em>What It Costs</em></h1>
+      <p class="svc-sub">Transparent pricing. No retainer surprises. Every engagement is project-based with a fixed scope.</p>
+    </div>
+  </section>
+
+  <div class="svc-container">
+    <div class="svc-grid">
+      <div class="svc-card">
+        <div class="svc-icon">📊</div>
+        <div class="svc-title">Carbon Footprint Inventory</div>
+        <div class="svc-desc">Full Scope 1, 2 and 3 emissions inventory using GHG Protocol and India CEA factors. Audit-ready documentation.</div>
+        <div class="svc-includes">
+          <div class="svc-includes-title">Includes</div>
+          <div class="svc-include">All emission sources identified and quantified</div>
+          <div class="svc-include">Data collection templates provided</div>
+          <div class="svc-include">Final report in Excel + PDF format</div>
+          <div class="svc-include">One round of revisions included</div>
+        </div>
+        <div class="svc-meta">
+          <div class="svc-timeline"><span>Timeline</span><strong>2–4 weeks</strong></div>
+          <div class="svc-price"><div class="svc-price-from">Starting from</div><div class="svc-price-num">₹75,000</div></div>
+        </div>
+        <a href="index.html#contact" class="svc-cta">Get a Quote</a>
+      </div>
+
+      <div class="svc-card popular">
+        <div class="svc-popular-badge">Most Popular</div>
+        <div class="svc-icon">🎯</div>
+        <div class="svc-title">SBTi-Aligned Net Zero Roadmap</div>
+        <div class="svc-desc">Science-based reduction pathway with year-by-year milestones. Not aspirational — executable plans your CFO can model.</div>
+        <div class="svc-includes">
+          <div class="svc-includes-title">Includes</div>
+          <div class="svc-include">Baseline inventory (Scope 1–3)</div>
+          <div class="svc-include">Reduction pathway by scope and year</div>
+          <div class="svc-include">SBTi target-setting support</div>
+          <div class="svc-include">CFO-ready financial model</div>
+        </div>
+        <div class="svc-meta">
+          <div class="svc-timeline"><span>Timeline</span><strong>4–6 weeks</strong></div>
+          <div class="svc-price"><div class="svc-price-from">Starting from</div><div class="svc-price-num">₹1,50,000</div></div>
+        </div>
+        <a href="index.html#contact" class="svc-cta">Get a Quote</a>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-icon">🌿</div>
+        <div class="svc-title">Verified Carbon Credit Sourcing</div>
+        <div class="svc-desc">Curated access to Gold Standard and Verra VCS registered projects. Every credit vetted for permanence, additionality, and co-benefits.</div>
+        <div class="svc-includes">
+          <div class="svc-includes-title">Includes</div>
+          <div class="svc-include">Project selection matched to your profile</div>
+          <div class="svc-include">Due diligence report per project</div>
+          <div class="svc-include">Retirement certificate and documentation</div>
+          <div class="svc-include">Chain-of-custody verified</div>
+        </div>
+        <div class="svc-meta">
+          <div class="svc-timeline"><span>Timeline</span><strong>2–3 weeks</strong></div>
+          <div class="svc-price"><div class="svc-price-from">Fee</div><div class="svc-price-num">8–12%</div></div>
+        </div>
+        <a href="index.html#contact" class="svc-cta">Discuss Your Needs</a>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-icon">📋</div>
+        <div class="svc-title">BRSR, TCFD & CDP Reporting</div>
+        <div class="svc-desc">SEBI-compliant sustainability reports that satisfy auditors, investors, and regulators — without the agency price tag.</div>
+        <div class="svc-includes">
+          <div class="svc-includes-title">Includes</div>
+          <div class="svc-include">SEBI BRSR Core sections written</div>
+          <div class="svc-include">TCFD climate risk disclosure</div>
+          <div class="svc-include">Annual report sustainability narrative</div>
+          <div class="svc-include">Reviewer sign-off support</div>
+        </div>
+        <div class="svc-meta">
+          <div class="svc-timeline"><span>Timeline</span><strong>3–5 weeks</strong></div>
+          <div class="svc-price"><div class="svc-price-from">Starting from</div><div class="svc-price-num">₹1,00,000</div></div>
+        </div>
+        <a href="index.html#contact" class="svc-cta">Get a Quote</a>
+      </div>
+    </div>
+
+    <div class="faq-section">
+      <h2 class="faq-title">Common Questions</h2>
+      <p class="faq-sub">Everything you need to know before getting started</p>
+
+      <div class="faq-item">
+        <button class="faq-q">Do you work with companies outside India? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">Primarily India-focused, but we can support cross-border projects and companies with Indian operations. Our methodology follows international GHG Protocol standards applicable globally.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What size companies do you work with? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">Any company with climate reporting obligations or offset goals. BRSR is mandatory for the top 1000 NSE-listed companies, but voluntary for all others. We work with companies of all sizes — from SMEs making their first offset purchase to large corporates building full net-zero programmes.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How is the carbon footprint delivered? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">You receive an Excel workbook with all calculations and data sources, plus a PDF report formatted for audit and disclosure. Both are designed to be shared directly with investors, auditors, and regulators.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Can you help with BRSR compliance for our first year? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">Yes — first-time BRSR filers are our most common engagement. We guide you through data collection, write the required sections, and ensure your disclosure meets SEBI's current requirements.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Is a retainer required? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">No. All engagements are project-based with fixed-scope pricing. You know exactly what you're getting and what it costs before we start. No monthly retainers, no surprise invoices.</div>
+      </div>
+    </div>
+
+    <div class="final-cta">
+      <div class="final-cta-title">Not sure which service you need?</div>
+      <div class="final-cta-sub">Book a free 30-minute discovery call. We'll assess your situation and recommend the right starting point.</div>
+      <a href="index.html#contact" class="final-cta-btn">Book a Free Discovery Call</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="margin-bottom:16px;display:inline-flex;">
+            <div class="logo-mark-light"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+            <div><div class="logo-name" style="font-size:15px;">Sparc Energy</div><div class="logo-sub">CARBON INTELLIGENCE</div></div>
+          </a>
+          <p class="footer-desc">Boutique climate intelligence for organisations serious about net zero. Science-based, AI-augmented, personally delivered.</p>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Services</div>
+          <a href="services.html" class="fl">Carbon Measurement</a>
+          <a href="services.html" class="fl">Net Zero Strategy</a>
+          <a href="services.html" class="fl">Credit Procurement</a>
+          <a href="services.html" class="fl">ESG Reporting</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Tools</div>
+          <a href="tools/estimator.html" class="fl">Carbon Estimator</a>
+          <a href="tools/scope-calculator.html" class="fl">Scope Calculator</a>
+          <a href="tools/brsr-generator.html" class="fl">BRSR Generator</a>
+          <a href="intelligence.html" class="fl">Carbon AI</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Company</div>
+          <a href="about.html" class="fl">About</a>
+          <a href="experts.html" class="fl">Experts</a>
+          <a href="services.html" class="fl">Services</a>
+          <a href="faq.html" class="fl">FAQ</a>
+          <a href="blog/india-carbon-market-2025.html" class="fl">Blog</a>
+          <a href="index.html#contact" class="fl">Contact</a>
+          <a href="privacy.html" class="fl">Privacy</a>
+          <a href="terms.html" class="fl">Terms</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Sparc Energy. All rights reserved.</span>
+        <div class="footer-certs"><span>🌿 Verra VCS</span><span>🥇 Gold Standard</span><span>📊 SBTi Aligned</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/919441140429?text=Hi%2C%20I%20found%20Sparc%20Energy%20and%20want%20to%20know%20more%20about%20carbon%20credits" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.25.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.0851.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.122 1.532 5.857L0 24l6.335-1.51A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.366l-.358-.213-3.762.897.944-3.665-.233-.376A9.818 9.818 0 1112 21.818z"/></svg>
+  </a>
+  <style>
+    .whatsapp-float{position:fixed;bottom:28px;right:28px;width:58px;height:58px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.4);z-index:9999;transition:transform 0.2s ease,box-shadow 0.2s ease;text-decoration:none;}
+    .whatsapp-float:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,0.6);}
+  </style>
+
+  <script src="js/landing.js"></script>
+  <script>
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+  </script>
+</body>
+</html>

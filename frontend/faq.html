@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frequently Asked Questions — Carbon Credits & Net Zero | Sparc Energy</title>
+  <meta name="description" content="Answers to the most common questions about carbon credits, BRSR reporting, India CCTS, and net zero strategy." />
+  <link rel="canonical" href="https://sparcenergy.in/faq.html" />
+  <meta property="og:title" content="FAQ — Carbon Credits & Net Zero | Sparc Energy" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/landing.css?v=3" />
+  <link rel="stylesheet" href="css/nav-modern.css?v=1" />
+  <style>
+    :root { --forest:#0a1f12; --emerald:#1a4a2e; --mint:#52b788; --cream:#f5f0e8; --muted:#8a9e8e; --deep:#050f09; }
+    .faq-hero { background:var(--forest); padding:80px 40px; text-align:center; position:relative; overflow:hidden; }
+    .faq-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 50% 100%, rgba(82,183,136,0.15) 0%, transparent 70%); }
+    .faq-hero-inner { position:relative; z-index:1; max-width:700px; margin:0 auto; }
+    .faq-eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--mint); margin-bottom:20px; }
+    .faq-eyebrow::before { content:''; width:24px; height:1px; background:var(--mint); }
+    .faq-h1 { font-family:'Playfair Display',serif; font-size:clamp(36px,5vw,52px); font-weight:600; color:white; line-height:1.1; margin-bottom:16px; }
+    .faq-sub { font-size:17px; color:rgba(255,255,255,0.65); line-height:1.6; max-width:560px; margin:0 auto; }
+    .faq-container { max-width:800px; margin:0 auto; padding:72px 40px; }
+    .faq-category { margin-bottom:56px; }
+    .faq-cat-title { font-family:'Playfair Display',serif; font-size:24px; font-weight:600; color:var(--forest); margin-bottom:24px; padding-bottom:12px; border-bottom:2px solid var(--mint); }
+    .faq-item { border-bottom:1px solid #e5e7eb; }
+    .faq-q { width:100%; text-align:left; padding:20px 0; background:none; border:none; font-size:15.5px; font-weight:600; color:var(--forest); cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:16px; font-family:'DM Sans',sans-serif; line-height:1.4; }
+    .faq-q:hover { color:var(--mint); }
+    .faq-arrow { font-size:18px; transition:transform 0.3s; flex-shrink:0; color:var(--mint); }
+    .faq-item.open .faq-arrow { transform:rotate(180deg); }
+    .faq-item.open .faq-q { color:var(--mint); }
+    .faq-a { max-height:0; overflow:hidden; transition:max-height 0.35s ease, padding 0.35s ease; font-size:15px; color:#6b7280; line-height:1.75; }
+    .faq-item.open .faq-a { max-height:400px; padding-bottom:20px; }
+    .faq-cta { background:var(--mint); border-radius:16px; padding:48px 40px; text-align:center; color:white; margin-top:56px; }
+    .faq-cta-title { font-family:'Playfair Display',serif; font-size:28px; font-weight:600; margin-bottom:12px; }
+    .faq-cta-sub { font-size:15px; margin-bottom:24px; opacity:0.95; }
+    .faq-cta-btn { display:inline-block; background:white; color:var(--mint); padding:14px 32px; border-radius:8px; font-weight:600; text-decoration:none; transition:all 0.2s; }
+    .faq-cta-btn:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.15); }
+    @media (max-width:640px) { .faq-hero { padding:60px 20px; } .faq-container { padding:48px 20px; } }
+  </style>
+</head>
+<body>
+  <div id="cookieBanner" style="display:none; position:fixed; bottom:0; left:0; right:0; background:var(--emerald); color:var(--cream); padding:16px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; z-index:10000; flex-wrap:wrap; font-family:'DM Sans',sans-serif; font-size:14px; border-top:1px solid var(--mint);">
+    <span>We use cookies to improve your experience. By continuing, you agree to our <a href="privacy.html" style="color:var(--mint);font-weight:600;">Privacy Policy</a>.</span>
+    <div style="display:flex;gap:10px;flex-shrink:0;">
+      <button onclick="acceptCookies()" style="background:var(--mint);color:var(--forest);border:none;padding:8px 20px;border-radius:6px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;">Accept</button>
+      <button onclick="declineCookies()" style="background:transparent;color:var(--muted);border:1px solid var(--muted);padding:8px 16px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;">Decline</button>
+    </div>
+  </div>
+  <script>
+    function acceptCookies(){localStorage.setItem('cookie_consent','accepted');document.getElementById('cookieBanner').style.display='none';}
+    function declineCookies(){localStorage.setItem('cookie_consent','declined');document.getElementById('cookieBanner').style.display='none';}
+    if(!localStorage.getItem('cookie_consent')){document.getElementById('cookieBanner').style.display='flex';}
+  </script>
+
+  <header class="nav-modern" id="mainNav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <div class="brand-content"><span class="brand-text">Sparc Energy</span><span class="brand-subtitle">CARBON INTELLIGENCE</span></div>
+      </a>
+      <nav class="nav-menu" id="navMenu" role="navigation">
+        <div class="nav-group">
+          <a href="index.html" class="nav-item">Home</a>
+          <a href="projects.html" class="nav-item">Projects</a>
+          <a href="services.html" class="nav-item">Services</a>
+          <div class="nav-dropdown">
+            <button class="nav-item nav-trigger" aria-expanded="false">Tools<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="nav-dropdown-menu">
+              <div class="dropdown-section">
+                <a href="tools/estimator.html" class="dropdown-item"><div class="dropdown-item-icon">📊</div><div><div class="dropdown-item-title">Carbon Credit Estimator</div><div class="dropdown-item-desc">Calculate your offset needs</div></div></a>
+                <a href="tools/asset-calculator.html" class="dropdown-item"><div class="dropdown-item-icon">💰</div><div><div class="dropdown-item-title">Asset Value Calculator</div><div class="dropdown-item-desc">Value your carbon assets</div></div></a>
+                <a href="tools/scope-calculator.html" class="dropdown-item"><div class="dropdown-item-icon">🔍</div><div><div class="dropdown-item-title">Scope 1/2/3 Calculator</div><div class="dropdown-item-desc">Measure your emissions</div></div></a>
+                <a href="tools/timeline.html" class="dropdown-item"><div class="dropdown-item-icon">⏱️</div><div><div class="dropdown-item-title">Timeline Estimator</div><div class="dropdown-item-desc">Project development timeline</div></div></a>
+                <a href="tools/price-tracker.html" class="dropdown-item"><div class="dropdown-item-icon">📈</div><div><div class="dropdown-item-title">Price Tracker</div><div class="dropdown-item-desc">Carbon market prices</div></div></a>
+                <a href="tools/brsr-generator.html" class="dropdown-item"><div class="dropdown-item-icon">📄</div><div><div class="dropdown-item-title">BRSR Report Generator</div><div class="dropdown-item-desc">Generate compliance reports</div></div></a>
+              </div>
+            </div>
+          </div>
+          <a href="intelligence.html" class="nav-item">Carbon Intelligence</a>
+          <a href="experts.html" class="nav-item">Experts</a>
+        </div>
+      </nav>
+      <div class="nav-actions">
+        <a href="auth.html" class="nav-btn nav-btn-ghost">Sign In</a>
+        <a href="index.html#contact" class="nav-btn nav-btn-primary">Book a Call</a>
+        <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <section class="faq-hero">
+    <div class="faq-hero-inner">
+      <div class="faq-eyebrow">FAQ</div>
+      <h1 class="faq-h1">Frequently Asked Questions</h1>
+      <p class="faq-sub">Everything you need to know about carbon credits, BRSR, India CCTS, and working with Sparc Energy.</p>
+    </div>
+  </section>
+
+  <div class="faq-container">
+
+    <div class="faq-category">
+      <h2 class="faq-cat-title">Carbon Credits</h2>
+      <div class="faq-item">
+        <button class="faq-q">What is a carbon credit? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">A carbon credit represents one tonne of CO₂ (or equivalent greenhouse gas) that has been reduced, avoided, or removed from the atmosphere. Credits are issued by registries like Verra VCS or Gold Standard after independent verification. Companies purchase and retire credits to offset their residual emissions.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What is the difference between avoidance and removal credits? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">Avoidance credits prevent emissions that would otherwise occur — for example, protecting a forest from deforestation. Removal credits actively take CO₂ out of the atmosphere — for example, reforestation or direct air capture. Removal credits are generally considered higher quality and command premium prices.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How do I know a carbon credit is real and not greenwash? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">Look for: (1) a unique serial number on a public registry, (2) third-party verification by an accredited auditor, (3) a publicly available Project Design Document (PDD), (4) a permanence buffer or risk pool, and (5) demonstrated additionality. If any of these are missing, the credit is suspect.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What certifications should I look for: VCS, Gold Standard or CCTS? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">All three are credible. Verra VCS is the most liquid voluntary market globally. Gold Standard is considered premium, with stronger co-benefit requirements. India CCTS is the domestic compliance market administered by BEE. For voluntary offsetting, VCS or Gold Standard are recommended. For compliance obligations, CCTS credits are required.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How much do carbon credits cost in India? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">Prices vary by standard and project type. India CCTS credits trade around ₹850/tCO₂e. Voluntary market credits (VCS) range from ₹1,200–₹2,000/tCO₂e. Gold Standard premium credits can reach ₹2,500–₹4,000/tCO₂e. Check our live Price Tracker for current indicative prices.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Can I retire credits for a specific year's emissions? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">Yes. When retiring credits, you specify the vintage year (when the emission reduction occurred) and the purpose (e.g., "offsetting FY 2024–25 Scope 1 emissions"). The registry records this permanently. Best practice is to retire credits from the same year as the emissions you're offsetting.</div>
+      </div>
+    </div>
+
+    <div class="faq-category">
+      <h2 class="faq-cat-title">BRSR & Reporting</h2>
+      <div class="faq-item">
+        <button class="faq-q">What is BRSR and is it mandatory for my company? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">BRSR (Business Responsibility and Sustainability Report) is SEBI's mandatory sustainability disclosure framework. It is mandatory for the top 1000 NSE-listed companies by market capitalisation. All other companies may file voluntarily. BRSR covers 9 principles across governance, social, and environmental dimensions.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What is the difference between BRSR Core and full BRSR? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">BRSR Core is a subset of the full BRSR, covering the most material ESG indicators. It is subject to mandatory third-party assurance for the top 150 NSE companies. Full BRSR covers all 9 principles in detail. Most companies start with BRSR Core and expand to full BRSR over time.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">When is the BRSR filing deadline for FY 2024–25? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">BRSR is filed as part of the Annual Report, which must be submitted to the stock exchange within 60 days of the AGM. For most companies with a March 31 year-end, this means filing by September–October 2025. Check SEBI's latest circulars for any deadline extensions.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Can AI-generated BRSR content be used for SEBI submission? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">AI-generated content can be used as a starting point, but must be reviewed, verified, and signed off by a qualified professional before submission. The data inputs must be accurate and the final report must reflect your actual company performance. Our BRSR Generator is designed to accelerate drafting, not replace expert review.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What is TCFD and do Indian companies need to file it? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">TCFD (Task Force on Climate-related Financial Disclosures) is a voluntary framework for climate risk disclosure. It is not currently mandatory in India, but is increasingly expected by global investors, lenders, and rating agencies. SEBI is moving toward mandatory TCFD-aligned disclosure for all listed companies by 2026.</div>
+      </div>
+    </div>
+
+    <div class="faq-category">
+      <h2 class="faq-cat-title">India CCTS</h2>
+      <div class="faq-item">
+        <button class="faq-q">What is the India Carbon Credit Trading Scheme? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">The Carbon Credit Trading Scheme (CCTS) is India's domestic compliance carbon market, administered by the Bureau of Energy Efficiency (BEE). It creates tradeable credits for energy efficiency improvements by large industrial facilities. Companies that exceed their energy reduction targets earn credits; those that fall short must purchase them.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Which sectors are covered under India CCTS? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">CCTS covers India's most energy-intensive sectors: steel, cement, aluminium, fertilisers, petrochemicals, textiles, pulp and paper, chlor-alkali, and large commercial buildings. Any facility consuming more than 100 tonnes of oil equivalent (TOE) annually may be designated as a consumer under the scheme.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How are Energy Saving Certificates (ESCerts) different from CCTS? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">ESCerts were the predecessor to CCTS under the PAT (Perform, Achieve and Trade) scheme. CCTS is the evolved, broader framework that replaces and expands PAT. CCTS credits are denominated in tCO₂e (carbon equivalent), while ESCerts were denominated in energy units. The transition to CCTS is ongoing.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">When will CCTS trading formally begin? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">BEE has indicated that CCTS trading will begin in 2025–26, with the first compliance cycle running through 2026. The exact timeline depends on BEE's notification of designated consumers and the establishment of the trading platform. Companies should begin baseline assessments now to be ready.</div>
+      </div>
+    </div>
+
+    <div class="faq-category">
+      <h2 class="faq-cat-title">Working with Sparc Energy</h2>
+      <div class="faq-item">
+        <button class="faq-q">How long does a carbon footprint inventory take? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">Typically 2–4 weeks from data collection to final report. The timeline depends on how quickly you can provide energy bills, fuel records, and activity data. We provide a structured data collection template to make this as fast as possible.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Do you provide certified documentation? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">We provide audit-ready documentation that follows GHG Protocol standards. For third-party certification (required for BRSR Core assurance), we work with accredited verification bodies. We can manage the entire verification process on your behalf.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What information do I need to provide to get started? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">For a carbon footprint inventory: 12 months of energy bills (electricity, fuel), vehicle fleet data, and basic company information (headcount, revenue, locations). We provide a data collection template that makes this straightforward. For BRSR, we need the above plus HR data and governance information.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How do I book a consultation? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">Use the contact form on our homepage, email info@sparcenergy.in, or message us on WhatsApp at +91 94411 40429. The first 30-minute consultation is always free. We'll assess your situation and recommend the right starting point.</div>
+      </div>
+    </div>
+
+    <div class="faq-cta">
+      <div class="faq-cta-title">Still have questions?</div>
+      <div class="faq-cta-sub">Book a free 30-minute call. We'll answer everything specific to your situation.</div>
+      <a href="index.html#contact" class="faq-cta-btn">Book a Free Consultation</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="margin-bottom:16px;display:inline-flex;">
+            <div class="logo-mark-light"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+            <div><div class="logo-name" style="font-size:15px;">Sparc Energy</div><div class="logo-sub">CARBON INTELLIGENCE</div></div>
+          </a>
+          <p class="footer-desc">Boutique climate intelligence for organisations serious about net zero. Science-based, AI-augmented, personally delivered.</p>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Services</div>
+          <a href="services.html" class="fl">Carbon Measurement</a>
+          <a href="services.html" class="fl">Net Zero Strategy</a>
+          <a href="services.html" class="fl">Credit Procurement</a>
+          <a href="services.html" class="fl">ESG Reporting</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Tools</div>
+          <a href="tools/estimator.html" class="fl">Carbon Estimator</a>
+          <a href="tools/scope-calculator.html" class="fl">Scope Calculator</a>
+          <a href="tools/brsr-generator.html" class="fl">BRSR Generator</a>
+          <a href="intelligence.html" class="fl">Carbon AI</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Company</div>
+          <a href="about.html" class="fl">About</a>
+          <a href="experts.html" class="fl">Experts</a>
+          <a href="services.html" class="fl">Services</a>
+          <a href="faq.html" class="fl">FAQ</a>
+          <a href="blog/india-carbon-market-2025.html" class="fl">Blog</a>
+          <a href="index.html#contact" class="fl">Contact</a>
+          <a href="privacy.html" class="fl">Privacy</a>
+          <a href="terms.html" class="fl">Terms</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Sparc Energy. All rights reserved.</span>
+        <div class="footer-certs"><span>🌿 Verra VCS</span><span>🥇 Gold Standard</span><span>📊 SBTi Aligned</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/919441140429?text=Hi%2C%20I%20found%20Sparc%20Energy%20and%20want%20to%20know%20more%20about%20carbon%20credits" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.25.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.0851.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.122 1.532 5.857L0 24l6.335-1.51A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.366l-.358-.213-3.762.897.944-3.665-.233-.376A9.818 9.818 0 1112 21.818z"/></svg>
+  </a>
+  <style>
+    .whatsapp-float{position:fixed;bottom:28px;right:28px;width:58px;height:58px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.4);z-index:9999;transition:transform 0.2s ease,box-shadow 0.2s ease;text-decoration:none;}
+    .whatsapp-float:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,0.6);}
+  </style>
+
+  <script src="js/landing.js"></script>
+  <script>
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+  </script>
+</body>
+</html>
