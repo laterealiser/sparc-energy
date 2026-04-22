@@ -440,10 +440,6 @@ body {
   flex-shrink: 0;
 }
 
-/* WhatsApp clears cookie banner height */
-.whatsapp-float {
-  bottom: 28px !important;
-}
 
 @media (max-width: 640px) {
   .fab-modern {
