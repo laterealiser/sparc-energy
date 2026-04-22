@@ -104,7 +104,8 @@ ul {
 .fab {
   position: fixed;
   bottom: 24px;
-  right: 24px;
+  left: 24px;
+  right: auto;
   z-index: 900;
   display: flex;
   align-items: center;
