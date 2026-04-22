@@ -6,6 +6,110 @@
   <title>Book a Free Consultation - Sparc Energy</title>
   <meta name="description" content="Book a free carbon credit consultation with Sparc Energy." />
   <link rel="stylesheet" href="css/styles.css?v=4" />
+  <style>
+    /* Highlight email and scheduling sections */
+    .card-glow {
+      position: relative;
+      border: 2px solid #52b788;
+      box-shadow: 0 0 20px rgba(82, 183, 136, 0.3);
+      animation: pulse-glow 2s infinite;
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(82, 183, 136, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(82, 183, 136, 0.5); }
+    }
+    
+    .card-glow::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 16px;
+      background: #52b788;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      z-index: 1;
+    }
+    
+    .card-glow:nth-child(1)::before {
+      content: 'Email Form';
+    }
+    
+    .card:not(.card-glow) {
+      position: relative;
+      border: 2px solid #2563EB;
+      box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+      animation: pulse-blue 2s infinite;
+    }
+    
+    @keyframes pulse-blue {
+      0%, 100% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(37, 99, 235, 0.5); }
+    }
+    
+    .card:not(.card-glow)::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 16px;
+      background: #2563EB;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      z-index: 1;
+      content: 'Schedule Directly';
+    }
+    
+    /* Remove highlighting after 10 seconds */
+    .card-glow, .card:not(.card-glow) {
+      animation: highlight-fade 10s forwards;
+    }
+    
+    @keyframes highlight-fade {
+      0%, 50% { 
+        border-color: #52b788;
+        box-shadow: 0 0 20px rgba(82, 183, 136, 0.3);
+      }
+      100% { 
+        border-color: transparent;
+        box-shadow: none;
+      }
+    }
+    
+    .card:not(.card-glow) {
+      animation: highlight-fade-blue 10s forwards;
+    }
+    
+    @keyframes highlight-fade-blue {
+      0%, 50% { 
+        border-color: #2563EB;
+        box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+      }
+      100% { 
+        border-color: transparent;
+        box-shadow: none;
+      }
+    }
+    
+    /* Hide labels after fade */
+    .card-glow::before, .card:not(.card-glow)::before {
+      animation: label-fade 10s forwards;
+    }
+    
+    @keyframes label-fade {
+      0%, 50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+  </style>
 </head>
 <body>
   <div class="vid-bg-wrap">
