@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free AI BRSR Report Generator — SEBI Compliant | Sparc Energy</title>
+  <meta name="description" content="Generate BRSR-compliant sustainability report sections instantly using AI. Free tool for Indian listed companies. Covers Section A and Section C Principle 6." />
+  <link rel="canonical" href="https://sparcenergy.in/tools/brsr-generator.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/landing.css?v=3" />
+  <link rel="stylesheet" href="../css/nav-modern.css?v=1" />
+  <style>
+    :root {
+      --forest: #0a1f12;
+      --emerald: #1a4a2e;
+      --mint: #52b788;
+      --cream: #f5f0e8;
+      --muted: #8a9e8e;
+      --deep: #050f09;
+    }
+    .brsr-hero { background: var(--forest); padding: 80px 40px; text-align: center; position: relative; overflow: hidden; }
+    .brsr-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(82,183,136,0.15) 0%, transparent 70%); }
+    .brsr-hero-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+    .brsr-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mint); margin-bottom: 20px; }
+    .brsr-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--mint); }
+    .brsr-h1 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 56px); font-weight: 600; color: white; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .brsr-sub { font-size: 17px; color: rgba(255,255,255,0.65); line-height: 1.6; max-width: 560px; margin: 0 auto 32px; }
+    .badge-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; font-size: 12px; font-weight: 600; color: white; }
+    .brsr-container { max-width: 900px; margin: 0 auto; padding: 60px 40px; }
+    .api-box { background: #fef3c7; border: 1px solid #fcd34d; border-radius: 12px; padding: 20px; margin-bottom: 32px; }
+    .api-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #92400e; margin-bottom: 8px; }
+    .api-input { width: 100%; padding: 10px 12px; font-size: 14px; border: 1.5px solid #fcd34d; border-radius: 6px; font-family: 'DM Sans', sans-serif; }
+    .api-helper { font-size: 12px; color: #92400e; margin-top: 8px; line-height: 1.5; }
+    .api-helper a { color: #92400e; font-weight: 600; }
+    .form-section { background: white; border-radius: 12px; padding: 28px; margin-bottom: 24px; border: 1px solid #e5e7eb; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--forest); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--mint); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-row.full { grid-template-columns: 1fr; }
+    .form-group { display: flex; flex-direction: column; }
+    .form-label { font-size: 13px; font-weight: 600; color: var(--forest); margin-bottom: 6px; }
+    .form-input, .form-select, .form-textarea { padding: 10px 12px; font-size: 14px; border: 1.5px solid #e5e7eb; border-radius: 6px; font-family: 'DM Sans', sans-serif; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--mint); box-shadow: 0 0 0 3px rgba(82,183,136,0.12); }
+    .form-textarea { resize: vertical; min-height: 80px; }
+    .form-helper { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .toggle-group { display: flex; gap: 8px; }
+    .toggle-btn { flex: 1; padding: 10px; border: 1.5px solid #e5e7eb; border-radius: 6px; background: white; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+    .toggle-btn.active { background: var(--mint); color: white; border-color: var(--mint); }
+    .generate-btn { width: 100%; padding: 16px; background: var(--mint); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 24px; }
+    .generate-btn:hover { background: var(--emerald); }
+    .generate-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .results-panel { background: var(--deep); color: white; border-radius: 12px; padding: 28px; margin-top: 32px; display: none; }
+    .results-panel.show { display: block; }
+    .results-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+    .results-content { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 16px; margin-bottom: 16px; max-height: 400px; overflow-y: auto; font-size: 13px; line-height: 1.6; white-space: pre-wrap; word-wrap: break-word; }
+    .results-actions { display: flex; gap: 12px; margin-top: 16px; }
+    .btn-action { flex: 1; padding: 12px; background: var(--mint); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .btn-action:hover { background: var(--emerald); }
+    .disclaimer { background: #fee2e2; border: 1px solid #fecaca; border-radius: 8px; padding: 16px; margin-top: 24px; }
+    .disclaimer-title { font-weight: 700; color: #991b1b; margin-bottom: 8px; }
+    .disclaimer-text { font-size: 12px; color: #991b1b; line-height: 1.6; }
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 8px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (max-width: 640px) {
+      .brsr-container { padding: 40px 20px; }
+      .brsr-hero { padding: 60px 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      .results-actions { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav-modern" id="mainNav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
+        </div>
+        <div class="brand-content">
+          <span class="brand-text">Sparc Energy</span>
+          <span class="brand-subtitle">CARBON INTELLIGENCE</span>
+        </div>
+      </a>
+      <nav class="nav-menu" id="navMenu" role="navigation">
+        <div class="nav-group">
+          <a href="../index.html" class="nav-item">Home</a>
+          <a href="../projects.html" class="nav-item">Projects</a>
+          <div class="nav-dropdown">
+            <button class="nav-item nav-trigger" aria-expanded="false">Resources<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="nav-dropdown-menu">
+              <div class="dropdown-section">
+                <div class="dropdown-label">Tools</div>
+                <a href="estimator.html" class="dropdown-item"><div class="dropdown-item-icon">📊</div><div><div class="dropdown-item-title">Carbon Credit Estimator</div><div class="dropdown-item-desc">Calculate your offset needs</div></div></a>
+                <a href="scope-calculator.html" class="dropdown-item"><div class="dropdown-item-icon">🔍</div><div><div class="dropdown-item-title">Scope 1/2/3 Calculator</div><div class="dropdown-item-desc">Measure your emissions</div></div></a>
+                <a href="brsr-generator.html" class="dropdown-item"><div class="dropdown-item-icon">📄</div><div><div class="dropdown-item-title">BRSR Report Generator</div><div class="dropdown-item-desc">Generate compliance reports</div></div></a>
+              </div>
+              <div class="dropdown-section">
+                <div class="dropdown-label">Learn</div>
+                <a href="../intelligence.html" class="dropdown-item"><div class="dropdown-item-icon">🤖</div><div><div class="dropdown-item-title">Carbon Intelligence AI</div><div class="dropdown-item-desc">Ask our AI assistant</div></div></a>
+                <a href="../carbon-101.html" class="dropdown-item"><div class="dropdown-item-icon">📚</div><div><div class="dropdown-item-title">Carbon 101</div><div class="dropdown-item-desc">Learn the basics</div></div></a>
+              </div>
+            </div>
+          </div>
+          <a href="../experts.html" class="nav-item">Experts</a>
+          <a href="../about.html" class="nav-item">About</a>
+        </div>
+      </nav>
+      <div class="nav-actions">
+        <a href="../auth.html" class="nav-btn nav-btn-ghost">Sign In</a>
+        <a href="../auth.html?mode=register" class="nav-btn nav-btn-primary">Sign Up</a>
+        <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <section class="brsr-hero">
+    <div class="brsr-hero-inner">
+      <div class="brsr-eyebrow">AI-Powered Tool</div>
+      <h1 class="brsr-h1">AI BRSR Report Generator</h1>
+      <p class="brsr-sub">Generate SEBI-compliant BRSR sustainability report sections instantly. Powered by Claude AI.</p>
+      <div class="badge-row">
+        <div class="badge">SEBI BRSR 2023</div>
+        <div class="badge">Section A</div>
+        <div class="badge">Section C P6</div>
+        <div class="badge">AI-Powered</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="brsr-container">
+    <div class="api-box">
+      <div class="api-label">Your Anthropic API Key</div>
+      <input type="password" id="apiKey" class="api-input" placeholder="sk-ant-api03-..." />
+      <div class="api-helper">Required to generate the report. Your key is sent directly to Anthropic's servers and never stored by us. <a href="https://console.anthropic.com" target="_blank">Get a free API key →</a></div>
+    </div>
+
+    <form id="brsr-form">
+      <!-- Section A: Company Identity -->
+      <div class="form-section">
+        <div class="section-title">Section A: Company Identity</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">CIN Number</label>
+            <input type="text" id="cin" class="form-input" placeholder="L12345AB1234ABC123456" />
+            <div class="form-helper">Format: L12345AB1234ABC123456</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Company Name *</label>
+            <input type="text" id="companyName" class="form-input" placeholder="Acme Corp Ltd" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Year of Incorporation</label>
+            <input type="number" id="yearInc" class="form-input" placeholder="2010" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">NIC Sector Code</label>
+            <input type="text" id="nicCode" class="form-input" placeholder="2710" />
+            <div class="form-helper"><a href="https://mospi.gov.in/classification" target="_blank">Find code →</a></div>
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="form-group">
+            <label class="form-label">Registered Address</label>
+            <textarea id="address" class="form-textarea" placeholder="123 Business Park, Mumbai, MH 400001"></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Corporate Website</label>
+            <input type="url" id="website" class="form-input" placeholder="https://example.com" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Listed on Stock Exchange?</label>
+            <div class="toggle-group">
+              <button type="button" class="toggle-btn active" data-listed="no">No</button>
+              <button type="button" class="toggle-btn" data-listed="yes">Yes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section B: Business -->
+      <div class="form-section">
+        <div class="section-title">Section B: Business</div>
+        <div class="form-row full">
+          <div class="form-group">
+            <label class="form-label">Main Products or Services</label>
+            <textarea id="products" class="form-textarea" placeholder="Manufacturing of automotive components..."></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Total Turnover Last FY (Rs. Crores) *</label>
+            <input type="number" id="turnover" class="form-input" placeholder="500" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Number of Office Locations</label>
+            <input type="number" id="offices" class="form-input" placeholder="5" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Manufacturing Plants</label>
+            <input type="number" id="plants" class="form-input" placeholder="2" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Section C: Emissions -->
+      <div class="form-section">
+        <div class="section-title">Section C: GHG Emissions</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Scope 1 Emissions (tCO₂e) *</label>
+            <input type="number" id="scope1" class="form-input" placeholder="5000" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Scope 2 Emissions (tCO₂e) *</label>
+            <input type="number" id="scope2" class="form-input" placeholder="3000" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">GHG Reduction Initiatives?</label>
+            <div class="toggle-group">
+              <button type="button" class="toggle-btn active" data-reduction="no">No</button>
+              <button type="button" class="toggle-btn" data-reduction="yes">Yes</button>
+            </div>
+          </div>
+        </div>
+        <div class="form-row full" id="reductionRow" style="display:none;">
+          <div class="form-group">
+            <label class="form-label">Describe Initiatives</label>
+            <textarea id="reductionDesc" class="form-textarea" placeholder="Solar installation, energy efficiency..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section D: Energy & Water -->
+      <div class="form-section">
+        <div class="section-title">Section D: Energy & Water</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Grid Electricity (kWh/year)</label>
+            <input type="number" id="electricity" class="form-input" placeholder="500000" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Total Water Withdrawal (kL/year)</label>
+            <input type="number" id="water" class="form-input" placeholder="10000" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Section E: Employees -->
+      <div class="form-section">
+        <div class="section-title">Section E: Employees</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Total Permanent Employees</label>
+            <input type="number" id="employees" class="form-input" placeholder="500" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Women Employees</label>
+            <input type="number" id="womenEmployees" class="form-input" placeholder="150" />
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="generate-btn" id="generateBtn">Generate BRSR Report</button>
+    </form>
+
+    <div class="results-panel" id="resultsPanel">
+      <div class="results-title" id="resultsTitle">BRSR Report Generated</div>
+      <div class="results-content" id="resultsContent"></div>
+      <div class="results-actions">
+        <button class="btn-action" id="copyBtn">Copy to Clipboard</button>
+        <button class="btn-action" id="downloadBtn">Download as Word</button>
+        <button class="btn-action" id="regenerateBtn">Generate Again</button>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <div class="disclaimer-title">⚠ Important: AI-Generated Content</div>
+      <div class="disclaimer-text">This report is AI-generated based on the data you provided. It must be reviewed, verified, and certified by a qualified BRSR consultant before submission to SEBI. Sparc Energy is not responsible for the accuracy of AI-generated content. For a certified BRSR report, <a href="../index.html#contact" style="color: #991b1b; font-weight: 600;">book a consultation with our team</a>.</div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="../index.html" class="nav-logo" style="margin-bottom:16px;display:inline-flex;">
+            <div class="logo-mark-light"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg></div>
+            <div><div class="logo-name" style="font-size:15px;">Sparc Energy</div><div class="logo-sub">CARBON INTELLIGENCE</div></div>
+          </a>
+          <p class="footer-desc">Boutique climate intelligence for organisations serious about net zero. Science-based, AI-augmented, personally delivered.</p>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Services</div>
+          <a href="../index.html#services" class="fl">Carbon Measurement</a>
+          <a href="../index.html#services" class="fl">Net Zero Strategy</a>
+          <a href="../index.html#services" class="fl">Credit Procurement</a>
+          <a href="../index.html#services" class="fl">ESG Reporting</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Tools</div>
+          <a href="estimator.html" class="fl">Carbon Estimator</a>
+          <a href="scope-calculator.html" class="fl">Scope Calculator</a>
+          <a href="brsr-generator.html" class="fl">BRSR Generator</a>
+          <a href="../intelligence.html" class="fl">Carbon AI</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Company</div>
+          <a href="../about.html" class="fl">About</a>
+          <a href="../experts.html" class="fl">Experts</a>
+          <a href="../carbon-101.html" class="fl">Carbon 101</a>
+          <a href="../index.html#contact" class="fl">Contact</a>
+          <a href="../privacy.html" class="fl">Privacy</a>
+          <a href="../terms.html" class="fl">Terms</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Sparc Energy. All rights reserved.</span>
+        <div class="footer-certs"><span>🌿 Verra VCS</span><span>🥇 Gold Standard</span><span>📊 SBTi Aligned</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/landing.js"></script>
+  <script>
+    const toggles = document.querySelectorAll('[data-listed], [data-reduction]');
+    toggles.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const group = btn.parentElement;
+        group.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (btn.dataset.reduction !== undefined) {
+          document.getElementById('reductionRow').style.display = btn.dataset.reduction === 'yes' ? 'grid' : 'none';
+        }
+      });
+    });
+
+    document.getElementById('generateBtn').addEventListener('click', async () => {
+      const apiKey = document.getElementById('apiKey').value.trim();
+      if (!apiKey) {
+        alert('Please enter your Anthropic API key');
+        return;
+      }
+
+      const companyName = document.getElementById('companyName').value.trim();
+      const turnover = document.getElementById('turnover').value.trim();
+      const scope1 = document.getElementById('scope1').value.trim();
+      const scope2 = document.getElementById('scope2').value.trim();
+
+      if (!companyName || !turnover || !scope1 || !scope2) {
+        alert('Please fill in all required fields (marked with *)');
+        return;
+      }
+
+      const btn = document.getElementById('generateBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Generating...';
+
+      const formData = {
+        companyName,
+        cin: document.getElementById('cin').value,
+        turnover,
+        scope1,
+        scope2,
+        employees: document.getElementById('employees').value,
+        electricity: document.getElementById('electricity').value,
+        water: document.getElementById('water').value,
+        products: document.getElementById('products').value
+      };
+
+      try {
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'x-api-key': apiKey,
+            'anthropic-version': '2023-06-01',
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            model: 'claude-opus-4-1-20250805',
+            max_tokens: 1500,
+            system: 'You are a BRSR expert. Generate professional BRSR report text for Section A and Section C Principle 6. Use formal language, SI units, and SEBI terminology.',
+            messages: [{
+              role: 'user',
+              content: `Generate BRSR report sections for: ${JSON.stringify(formData)}`
+            }]
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const generatedText = data.content[0].text;
+
+        document.getElementById('resultsTitle').textContent = `${companyName} — BRSR Report Draft`;
+        document.getElementById('resultsContent').textContent = generatedText;
+        document.getElementById('resultsPanel').classList.add('show');
+
+        btn.disabled = false;
+        btn.innerHTML = 'Generate BRSR Report';
+      } catch (error) {
+        alert(`Generation failed: ${error.message}`);
+        btn.disabled = false;
+        btn.innerHTML = 'Generate BRSR Report';
+      }
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      const text = document.getElementById('resultsContent').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Copied to clipboard!');
+      });
+    });
+
+    document.getElementById('regenerateBtn').addEventListener('click', () => {
+      document.getElementById('resultsPanel').classList.remove('show');
+      document.getElementById('generateBtn').focus();
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const text = document.getElementById('resultsContent').textContent;
+      const companyName = document.getElementById('companyName').value;
+      const element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', `${companyName}-BRSR-Report.txt`);
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    });
+  </script>
+</body>
+</html>

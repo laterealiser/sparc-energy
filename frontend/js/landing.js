@@ -148,15 +148,19 @@ function initCounters() {
 
         const easeOutQuad = (t) => t * (2 - t);
 
+        const formatNumber = (num) => {
+          return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        };
+
         const step = (now) => {
           if (!startTime) startTime = now;
           const progress = Math.min((now - startTime) / duration, 1);
           const current = Math.floor(easeOutQuad(progress) * target);
-          el.innerText = current + suffix;
+          el.innerText = formatNumber(current) + suffix;
           if (progress < 1) {
             requestAnimationFrame(step);
           } else {
-            el.innerText = target + suffix;
+            el.innerText = formatNumber(target) + suffix;
           }
         };
 

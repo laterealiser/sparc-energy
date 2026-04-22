@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scope 1/2/3 Emissions Calculator — Sparc Energy</title>
+  <meta name="description" content="Calculate your full Scope 1, 2 and 3 carbon footprint instantly. Free tool using India CEA and GHG Protocol emission factors." />
+  <link rel="canonical" href="https://sparcenergy.in/tools/scope-calculator.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/landing.css?v=3" />
+  <link rel="stylesheet" href="../css/nav-modern.css?v=1" />
+  <style>
+    :root {
+      --forest: #0a1f12;
+      --emerald: #1a4a2e;
+      --mint: #52b788;
+      --cream: #f5f0e8;
+      --muted: #8a9e8e;
+      --deep: #050f09;
+    }
+    .scope-hero { background: var(--forest); padding: 80px 40px; text-align: center; position: relative; overflow: hidden; }
+    .scope-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(82,183,136,0.15) 0%, transparent 70%); }
+    .scope-hero-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+    .scope-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mint); margin-bottom: 20px; }
+    .scope-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--mint); }
+    .scope-h1 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 56px); font-weight: 600; color: white; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .scope-sub { font-size: 17px; color: rgba(255,255,255,0.65); line-height: 1.6; max-width: 560px; margin: 0 auto 32px; }
+    .badge-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; font-size: 12px; font-weight: 600; color: white; }
+    .calculator-container { max-width: 1200px; margin: 0 auto; padding: 60px 40px; }
+    .calc-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 380px; gap: 32px; }
+    .scope-section { background: white; border-radius: 12px; padding: 32px; border-left: 4px solid; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .scope-1 { border-left-color: #ef4444; }
+    .scope-2 { border-left-color: #f59e0b; }
+    .scope-3 { border-left-color: var(--mint); }
+    .scope-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: var(--forest); margin-bottom: 24px; }
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--forest); margin-bottom: 6px; }
+    .form-factor { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .form-input { width: 100%; padding: 10px 12px; font-size: 14px; border: 1.5px solid #e5e7eb; border-radius: 6px; font-family: 'DM Sans', sans-serif; }
+    .form-input:focus { outline: none; border-color: var(--mint); box-shadow: 0 0 0 3px rgba(82,183,136,0.12); }
+    .toggle-group { display: flex; gap: 8px; margin-top: 8px; }
+    .toggle-btn { flex: 1; padding: 10px; border: 1.5px solid #e5e7eb; border-radius: 6px; background: white; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+    .toggle-btn.active { background: var(--mint); color: white; border-color: var(--mint); }
+    .results-panel { background: white; border-radius: 12px; padding: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: sticky; top: 100px; height: fit-content; }
+    .results-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: var(--forest); margin-bottom: 20px; }
+    .result-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+    .result-row:last-child { border-bottom: none; }
+    .result-label { color: var(--muted); }
+    .result-value { font-weight: 600; color: var(--forest); }
+    .result-total { padding: 16px; background: var(--mint); border-radius: 8px; margin-top: 16px; text-align: center; }
+    .result-total-num { font-size: 28px; font-weight: 700; color: white; }
+    .result-total-label { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 4px; }
+    .chart-container { margin: 20px 0; height: 200px; }
+    .cta-buttons { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+    .btn-primary { padding: 12px; background: var(--forest); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; display: inline-block; transition: all 0.2s; }
+    .btn-primary:hover { background: var(--emerald); }
+    .btn-secondary { padding: 12px; background: white; color: var(--forest); border: 1.5px solid var(--forest); border-radius: 6px; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; display: inline-block; transition: all 0.2s; }
+    .btn-secondary:hover { background: var(--cream); }
+    .disclaimer { background: #fef3c7; border: 1px solid #fcd34d; border-radius: 8px; padding: 16px; font-size: 12px; color: #92400e; margin-top: 20px; line-height: 1.6; }
+    @media (max-width: 1024px) {
+      .calc-grid { grid-template-columns: 1fr 1fr; }
+      .results-panel { position: static; }
+    }
+    @media (max-width: 640px) {
+      .calc-grid { grid-template-columns: 1fr; }
+      .calculator-container { padding: 40px 20px; }
+      .scope-hero { padding: 60px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav-modern" id="mainNav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
+        </div>
+        <div class="brand-content">
+          <span class="brand-text">Sparc Energy</span>
+          <span class="brand-subtitle">CARBON INTELLIGENCE</span>
+        </div>
+      </a>
+      <nav class="nav-menu" id="navMenu" role="navigation">
+        <div class="nav-group">
+          <a href="../index.html" class="nav-item">Home</a>
+          <a href="../projects.html" class="nav-item">Projects</a>
+          <div class="nav-dropdown">
+            <button class="nav-item nav-trigger" aria-expanded="false">Resources<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="nav-dropdown-menu">
+              <div class="dropdown-section">
+                <div class="dropdown-label">Tools</div>
+                <a href="estimator.html" class="dropdown-item"><div class="dropdown-item-icon">📊</div><div><div class="dropdown-item-title">Carbon Credit Estimator</div><div class="dropdown-item-desc">Calculate your offset needs</div></div></a>
+                <a href="scope-calculator.html" class="dropdown-item"><div class="dropdown-item-icon">🔍</div><div><div class="dropdown-item-title">Scope 1/2/3 Calculator</div><div class="dropdown-item-desc">Measure your emissions</div></div></a>
+                <a href="brsr-generator.html" class="dropdown-item"><div class="dropdown-item-icon">📄</div><div><div class="dropdown-item-title">BRSR Report Generator</div><div class="dropdown-item-desc">Generate compliance reports</div></div></a>
+              </div>
+              <div class="dropdown-section">
+                <div class="dropdown-label">Learn</div>
+                <a href="../intelligence.html" class="dropdown-item"><div class="dropdown-item-icon">🤖</div><div><div class="dropdown-item-title">Carbon Intelligence AI</div><div class="dropdown-item-desc">Ask our AI assistant</div></div></a>
+                <a href="../carbon-101.html" class="dropdown-item"><div class="dropdown-item-icon">📚</div><div><div class="dropdown-item-title">Carbon 101</div><div class="dropdown-item-desc">Learn the basics</div></div></a>
+              </div>
+            </div>
+          </div>
+          <a href="../experts.html" class="nav-item">Experts</a>
+          <a href="../about.html" class="nav-item">About</a>
+        </div>
+      </nav>
+      <div class="nav-actions">
+        <a href="../auth.html" class="nav-btn nav-btn-ghost">Sign In</a>
+        <a href="../auth.html?mode=register" class="nav-btn nav-btn-primary">Sign Up</a>
+        <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <section class="scope-hero">
+    <div class="scope-hero-inner">
+      <div class="scope-eyebrow">Emissions Calculator</div>
+      <h1 class="scope-h1">Scope 1 / 2 / 3 Emissions Calculator</h1>
+      <p class="scope-sub">Calculate your full carbon footprint across all emission scopes using GHG Protocol and India CEA factors.</p>
+      <div class="badge-row">
+        <div class="badge">Scope 1</div>
+        <div class="badge">Scope 2</div>
+        <div class="badge">Scope 3</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="calculator-container">
+    <div class="calc-grid">
+      <!-- SCOPE 1 -->
+      <div class="scope-section scope-1">
+        <h2 class="scope-title">Scope 1: Direct Emissions</h2>
+        <div class="form-group">
+          <label class="form-label">Diesel consumed (litres/year)</label>
+          <input type="number" class="form-input" id="diesel" placeholder="0" min="0" />
+          <div class="form-factor">2.68 kgCO₂/litre</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Petrol consumed (litres/year)</label>
+          <input type="number" class="form-input" id="petrol" placeholder="0" min="0" />
+          <div class="form-factor">2.31 kgCO₂/litre</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">CNG consumed (kg/year)</label>
+          <input type="number" class="form-input" id="cng" placeholder="0" min="0" />
+          <div class="form-factor">2.04 kgCO₂/kg</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">LPG consumed (kg/year)</label>
+          <input type="number" class="form-input" id="lpg" placeholder="0" min="0" />
+          <div class="form-factor">1.51 kgCO₂/kg</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Company vehicles (number)</label>
+          <input type="number" class="form-input" id="vehicles" placeholder="0" min="0" />
+          <div class="form-factor">15,000 km/yr @ 0.21 kgCO₂/km</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">On-site manufacturing?</label>
+          <div class="toggle-group">
+            <button class="toggle-btn active" data-mfg="no">No</button>
+            <button class="toggle-btn" data-mfg="yes">Yes</button>
+          </div>
+          <div class="form-factor" id="mfgNote" style="display:none; margin-top: 8px;">Estimated manufacturing uplift applied (×1.5)</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Refrigerant leakage HFC (kg/year)</label>
+          <input type="number" class="form-input" id="refrigerant" placeholder="0" min="0" />
+          <div class="form-factor">1,430 GWP (HFC-134a equivalent)</div>
+        </div>
+      </div>
+
+      <!-- SCOPE 2 -->
+      <div class="scope-section scope-2">
+        <h2 class="scope-title">Scope 2: Indirect Energy</h2>
+        <div class="form-group">
+          <label class="form-label">Grid electricity consumed (kWh/year)</label>
+          <input type="number" class="form-input" id="electricity" placeholder="0" min="0" />
+          <div class="form-factor">India CEA: 0.82 kgCO₂/kWh</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Renewable energy purchased (%)</label>
+          <input type="number" class="form-input" id="renewable" placeholder="0" min="0" max="100" />
+          <div class="form-factor">% of total electricity</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Purchased steam or heat (GJ/year)</label>
+          <input type="number" class="form-input" id="steam" placeholder="0" min="0" />
+          <div class="form-factor">0.055 tCO₂/GJ</div>
+        </div>
+      </div>
+
+      <!-- SCOPE 3 -->
+      <div class="scope-section scope-3">
+        <h2 class="scope-title">Scope 3: Value Chain</h2>
+        <div class="form-group">
+          <label class="form-label">Business air travel (km/year)</label>
+          <input type="number" class="form-input" id="airTravel" placeholder="0" min="0" />
+          <div class="form-factor">0.255 kgCO₂/km economy</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Employee commute avg km/day</label>
+          <input type="number" class="form-input" id="commuteKm" placeholder="0" min="0" />
+          <div class="form-factor">One-way distance</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Number of employees</label>
+          <input type="number" class="form-input" id="employees" placeholder="0" min="0" />
+          <div class="form-factor">250 working days/year</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Road freight shipped (tonne-km/year)</label>
+          <input type="number" class="form-input" id="freight" placeholder="0" min="0" />
+          <div class="form-factor">0.062 kgCO₂/tonne-km</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Waste to landfill (tonnes/year)</label>
+          <input type="number" class="form-input" id="waste" placeholder="0" min="0" />
+          <div class="form-factor">0.5 tCO₂e/tonne</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Purchased goods spend (Rs./year)</label>
+          <input type="number" class="form-input" id="goods" placeholder="0" min="0" />
+          <div class="form-factor">0.0005 tCO₂/Rs (EEIO)</div>
+        </div>
+      </div>
+
+      <!-- RESULTS PANEL -->
+      <div class="results-panel">
+        <h3 class="results-title">Your Emissions</h3>
+        <canvas id="emissionsChart" class="chart-container"></canvas>
+        <div class="result-row">
+          <span class="result-label">Scope 1</span>
+          <span class="result-value"><span id="scope1Result">0.00</span> tCO₂e</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Scope 2</span>
+          <span class="result-value"><span id="scope2Result">0.00</span> tCO₂e</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Scope 3</span>
+          <span class="result-value"><span id="scope3Result">0.00</span> tCO₂e</span>
+        </div>
+        <div class="result-total">
+          <div class="result-total-num"><span id="totalResult">0.00</span></div>
+          <div class="result-total-label">tCO₂e / year</div>
+        </div>
+        <div style="margin-top: 20px; padding: 16px; background: #f0fdf4; border-radius: 8px; font-size: 13px; color: #166534;">
+          <strong>Credits needed (100% offset):</strong> <span id="creditsNeeded">0</span> credits/year
+        </div>
+        <div class="cta-buttons">
+          <a href="../index.html#contact" class="btn-primary">Get a Reduction Plan</a>
+          <button class="btn-secondary" id="downloadPdf">Download Report as PDF</button>
+        </div>
+        <div class="disclaimer">
+          ⚠ This is an indicative estimate only. For a certified GHG inventory, contact Sparc Energy.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="../index.html" class="nav-logo" style="margin-bottom:16px;display:inline-flex;">
+            <div class="logo-mark-light"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg></div>
+            <div><div class="logo-name" style="font-size:15px;">Sparc Energy</div><div class="logo-sub">CARBON INTELLIGENCE</div></div>
+          </a>
+          <p class="footer-desc">Boutique climate intelligence for organisations serious about net zero. Science-based, AI-augmented, personally delivered.</p>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Services</div>
+          <a href="../index.html#services" class="fl">Carbon Measurement</a>
+          <a href="../index.html#services" class="fl">Net Zero Strategy</a>
+          <a href="../index.html#services" class="fl">Credit Procurement</a>
+          <a href="../index.html#services" class="fl">ESG Reporting</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Tools</div>
+          <a href="estimator.html" class="fl">Carbon Estimator</a>
+          <a href="scope-calculator.html" class="fl">Scope Calculator</a>
+          <a href="brsr-generator.html" class="fl">BRSR Generator</a>
+          <a href="../intelligence.html" class="fl">Carbon AI</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Company</div>
+          <a href="../about.html" class="fl">About</a>
+          <a href="../experts.html" class="fl">Experts</a>
+          <a href="../carbon-101.html" class="fl">Carbon 101</a>
+          <a href="../index.html#contact" class="fl">Contact</a>
+          <a href="../privacy.html" class="fl">Privacy</a>
+          <a href="../terms.html" class="fl">Terms</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Sparc Energy. All rights reserved.</span>
+        <div class="footer-certs"><span>🌿 Verra VCS</span><span>🥇 Gold Standard</span><span>📊 SBTi Aligned</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="../js/landing.js"></script>
+  <script>
+    let chart = null;
+    const mfgToggle = document.querySelectorAll('[data-mfg]');
+    let manufacturing = false;
+
+    mfgToggle.forEach(btn => {
+      btn.addEventListener('click', () => {
+        mfgToggle.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        manufacturing = btn.dataset.mfg === 'yes';
+        document.getElementById('mfgNote').style.display = manufacturing ? 'block' : 'none';
+        calculate();
+      });
+    });
+
+    const inputs = document.querySelectorAll('.form-input');
+    inputs.forEach(input => input.addEventListener('input', calculate));
+
+    function calculate() {
+      const diesel = parseFloat(document.getElementById('diesel').value) || 0;
+      const petrol = parseFloat(document.getElementById('petrol').value) || 0;
+      const cng = parseFloat(document.getElementById('cng').value) || 0;
+      const lpg = parseFloat(document.getElementById('lpg').value) || 0;
+      const vehicles = parseFloat(document.getElementById('vehicles').value) || 0;
+      const refrigerant = parseFloat(document.getElementById('refrigerant').value) || 0;
+
+      let scope1 = (diesel * 2.68 + petrol * 2.31 + cng * 2.04 + lpg * 1.51 + vehicles * 15000 * 0.21 + refrigerant * 1.43) / 1000;
+      if (manufacturing) scope1 *= 1.5;
+
+      const electricity = parseFloat(document.getElementById('electricity').value) || 0;
+      const renewable = parseFloat(document.getElementById('renewable').value) || 0;
+      const steam = parseFloat(document.getElementById('steam').value) || 0;
+      const renewableFraction = renewable / 100;
+      const scope2 = ((electricity * (1 - renewableFraction) * 0.82) + steam * 55) / 1000;
+
+      const airTravel = parseFloat(document.getElementById('airTravel').value) || 0;
+      const commuteKm = parseFloat(document.getElementById('commuteKm').value) || 0;
+      const employees = parseFloat(document.getElementById('employees').value) || 0;
+      const freight = parseFloat(document.getElementById('freight').value) || 0;
+      const waste = parseFloat(document.getElementById('waste').value) || 0;
+      const goods = parseFloat(document.getElementById('goods').value) || 0;
+
+      const scope3 = (airTravel * 0.255 + commuteKm * 2 * employees * 250 * 0.21 + freight * 0.062 + waste * 0.5 + goods * 0.0005) / 1000;
+
+      const total = scope1 + scope2 + scope3;
+
+      document.getElementById('scope1Result').textContent = scope1.toFixed(2);
+      document.getElementById('scope2Result').textContent = scope2.toFixed(2);
+      document.getElementById('scope3Result').textContent = scope3.toFixed(2);
+      document.getElementById('totalResult').textContent = total.toFixed(2);
+      document.getElementById('creditsNeeded').textContent = Math.ceil(total);
+
+      updateChart(scope1, scope2, scope3);
+    }
+
+    function updateChart(s1, s2, s3) {
+      const ctx = document.getElementById('emissionsChart').getContext('2d');
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Scope 1', 'Scope 2', 'Scope 3'],
+          datasets: [{
+            data: [s1, s2, s3],
+            backgroundColor: ['#ef4444', '#f59e0b', '#52b788'],
+            borderColor: 'white',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: { position: 'bottom', labels: { font: { size: 12 }, padding: 16 } }
+          }
+        }
+      });
+    }
+
+    document.getElementById('downloadPdf').addEventListener('click', () => {
+      const element = document.querySelector('.calculator-container');
+      const opt = { margin: 10, filename: 'scope-calculator-report.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' } };
+      html2pdf().set(opt).from(element).save();
+    });
+
+    calculate();
+  </script>
+</body>
+</html>

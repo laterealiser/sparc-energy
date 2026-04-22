@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carbon Price Tracker — Global & India Markets | Sparc Energy</title>
+  <meta name="description" content="Track EU ETS, California, India CCTS and voluntary carbon credit prices. Free weekly-updated price dashboard for carbon market participants." />
+  <link rel="canonical" href="https://sparcenergy.in/tools/price-tracker.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/landing.css?v=3" />
+  <link rel="stylesheet" href="../css/nav-modern.css?v=1" />
+  <style>
+    :root {
+      --forest: #0a1f12;
+      --emerald: #1a4a2e;
+      --mint: #52b788;
+      --cream: #f5f0e8;
+      --muted: #8a9e8e;
+      --deep: #050f09;
+    }
+    .price-hero { background: var(--forest); padding: 80px 40px; text-align: center; position: relative; overflow: hidden; }
+    .price-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(82,183,136,0.15) 0%, transparent 70%); }
+    .price-hero-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+    .price-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mint); margin-bottom: 20px; }
+    .price-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--mint); }
+    .price-h1 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 56px); font-weight: 600; color: white; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .price-sub { font-size: 17px; color: rgba(255,255,255,0.65); line-height: 1.6; max-width: 560px; margin: 0 auto; }
+    .price-container { max-width: 1200px; margin: 0 auto; padding: 60px 40px; }
+    .sparc-index { background: var(--emerald); border-radius: 12px; padding: 32px; margin-bottom: 48px; color: white; text-align: center; box-shadow: 0 4px 16px rgba(26,74,46,0.2); }
+    .sparc-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.9; margin-bottom: 12px; }
+    .sparc-value { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 700; margin-bottom: 8px; }
+    .sparc-change { font-size: 16px; font-weight: 600; }
+    .sparc-change.positive { color: #86efac; }
+    .sparc-change.negative { color: #fca5a5; }
+    .sparc-note { font-size: 12px; opacity: 0.8; margin-top: 12px; }
+    .markets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 48px; }
+    .market-card { background: var(--emerald); border-radius: 12px; padding: 24px; color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.2s; }
+    .market-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+    .market-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+    .market-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; }
+    .market-ticker { background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+    .market-price { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+    .market-inr { font-size: 12px; opacity: 0.8; margin-bottom: 12px; }
+    .market-change { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+    .market-change.positive { color: #86efac; }
+    .market-change.negative { color: #fca5a5; }
+    .market-source { font-size: 11px; opacity: 0.7; margin-bottom: 8px; }
+    .market-desc { font-size: 12px; opacity: 0.85; line-height: 1.4; }
+    .chart-container { background: white; border-radius: 12px; padding: 32px; margin-bottom: 32px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .chart-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: var(--forest); margin-bottom: 24px; }
+    .chart-canvas { max-height: 300px; }
+    .disclaimer { background: #fef3c7; border: 1px solid #fcd34d; border-radius: 8px; padding: 20px; margin-bottom: 32px; }
+    .disclaimer-title { font-weight: 700; color: #92400e; margin-bottom: 8px; }
+    .disclaimer-text { font-size: 13px; color: #92400e; line-height: 1.6; }
+    .cta-banner { background: var(--mint); border-radius: 12px; padding: 32px; text-align: center; color: white; }
+    .cta-banner-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; margin-bottom: 12px; }
+    .cta-banner-text { font-size: 14px; margin-bottom: 20px; opacity: 0.95; }
+    .cta-btn { display: inline-block; background: white; color: var(--mint); padding: 12px 28px; border-radius: 6px; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
+    @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    @media (max-width: 640px) {
+      .price-container { padding: 40px 20px; }
+      .price-hero { padding: 60px 20px; }
+      .sparc-value { font-size: 36px; }
+      .markets-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav-modern" id="mainNav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
+        </div>
+        <div class="brand-content">
+          <span class="brand-text">Sparc Energy</span>
+          <span class="brand-subtitle">CARBON INTELLIGENCE</span>
+        </div>
+      </a>
+      <nav class="nav-menu" id="navMenu" role="navigation">
+        <div class="nav-group">
+          <a href="../index.html" class="nav-item">Home</a>
+          <a href="../projects.html" class="nav-item">Projects</a>
+          <div class="nav-dropdown">
+            <button class="nav-item nav-trigger" aria-expanded="false">Resources<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="nav-dropdown-menu">
+              <div class="dropdown-section">
+                <div class="dropdown-label">Tools</div>
+                <a href="estimator.html" class="dropdown-item"><div class="dropdown-item-icon">📊</div><div><div class="dropdown-item-title">Carbon Credit Estimator</div><div class="dropdown-item-desc">Calculate your offset needs</div></div></a>
+                <a href="scope-calculator.html" class="dropdown-item"><div class="dropdown-item-icon">🔍</div><div><div class="dropdown-item-title">Scope 1/2/3 Calculator</div><div class="dropdown-item-desc">Measure your emissions</div></div></a>
+                <a href="brsr-generator.html" class="dropdown-item"><div class="dropdown-item-icon">📄</div><div><div class="dropdown-item-title">BRSR Report Generator</div><div class="dropdown-item-desc">Generate compliance reports</div></div></a>
+              </div>
+              <div class="dropdown-section">
+                <div class="dropdown-label">Learn</div>
+                <a href="../intelligence.html" class="dropdown-item"><div class="dropdown-item-icon">🤖</div><div><div class="dropdown-item-title">Carbon Intelligence AI</div><div class="dropdown-item-desc">Ask our AI assistant</div></div></a>
+                <a href="../carbon-101.html" class="dropdown-item"><div class="dropdown-item-icon">📚</div><div><div class="dropdown-item-title">Carbon 101</div><div class="dropdown-item-desc">Learn the basics</div></div></a>
+              </div>
+            </div>
+          </div>
+          <a href="../experts.html" class="nav-item">Experts</a>
+          <a href="../about.html" class="nav-item">About</a>
+        </div>
+      </nav>
+      <div class="nav-actions">
+        <a href="../auth.html" class="nav-btn nav-btn-ghost">Sign In</a>
+        <a href="../auth.html?mode=register" class="nav-btn nav-btn-primary">Sign Up</a>
+        <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <section class="price-hero">
+    <div class="price-hero-inner">
+      <div class="price-eyebrow">Market Dashboard</div>
+      <h1 class="price-h1">Carbon Price Tracker</h1>
+      <p class="price-sub">Global and India carbon credit market prices updated weekly</p>
+    </div>
+  </section>
+
+  <div class="price-container">
+    <div class="sparc-index">
+      <div class="sparc-label">SPARC Weekly Index</div>
+      <div class="sparc-value" id="indexValue">—</div>
+      <div class="sparc-change" id="indexChange">—</div>
+      <div class="sparc-note">Indicative voluntary market index. Updated weekly.</div>
+    </div>
+
+    <div class="markets-grid" id="marketsGrid">
+      <div class="market-card skeleton" style="height: 200px;"></div>
+      <div class="market-card skeleton" style="height: 200px;"></div>
+      <div class="market-card skeleton" style="height: 200px;"></div>
+      <div class="market-card skeleton" style="height: 200px;"></div>
+      <div class="market-card skeleton" style="height: 200px;"></div>
+      <div class="market-card skeleton" style="height: 200px;"></div>
+    </div>
+
+    <div class="chart-container">
+      <h3 class="chart-title">Price Comparison (USD equivalent)</h3>
+      <canvas id="priceChart" class="chart-canvas"></canvas>
+    </div>
+
+    <div class="disclaimer">
+      <div class="disclaimer-title">⚠ Important Disclaimer</div>
+      <div class="disclaimer-text">Prices shown are indicative and for reference only. Not financial advice. Last updated: <span id="lastUpdated">—</span>. Updated weekly by the Sparc Energy team.</div>
+    </div>
+
+    <div class="cta-banner">
+      <div class="cta-banner-title">Ready to buy carbon credits?</div>
+      <div class="cta-banner-text">Our team can help you find the right credits for your portfolio</div>
+      <a href="../index.html#contact" class="cta-btn">Talk to Our Team</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="../index.html" class="nav-logo" style="margin-bottom:16px;display:inline-flex;">
+            <div class="logo-mark-light"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg></div>
+            <div><div class="logo-name" style="font-size:15px;">Sparc Energy</div><div class="logo-sub">CARBON INTELLIGENCE</div></div>
+          </a>
+          <p class="footer-desc">Boutique climate intelligence for organisations serious about net zero. Science-based, AI-augmented, personally delivered.</p>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Services</div>
+          <a href="../index.html#services" class="fl">Carbon Measurement</a>
+          <a href="../index.html#services" class="fl">Net Zero Strategy</a>
+          <a href="../index.html#services" class="fl">Credit Procurement</a>
+          <a href="../index.html#services" class="fl">ESG Reporting</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Tools</div>
+          <a href="estimator.html" class="fl">Carbon Estimator</a>
+          <a href="scope-calculator.html" class="fl">Scope Calculator</a>
+          <a href="brsr-generator.html" class="fl">BRSR Generator</a>
+          <a href="../intelligence.html" class="fl">Carbon AI</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Company</div>
+          <a href="../about.html" class="fl">About</a>
+          <a href="../experts.html" class="fl">Experts</a>
+          <a href="../carbon-101.html" class="fl">Carbon 101</a>
+          <a href="../index.html#contact" class="fl">Contact</a>
+          <a href="../privacy.html" class="fl">Privacy</a>
+          <a href="../terms.html" class="fl">Terms</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Sparc Energy. All rights reserved.</span>
+        <div class="footer-certs"><span>🌿 Verra VCS</span><span>🥇 Gold Standard</span><span>📊 SBTi Aligned</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/landing.js"></script>
+  <script>
+    async function loadPrices() {
+      try {
+        const response = await fetch('../data/prices.json');
+        const data = await response.json();
+
+        document.getElementById('lastUpdated').textContent = data.lastUpdated;
+
+        const index = data.sparc_weekly_index;
+        document.getElementById('indexValue').textContent = `₹${index.value.toLocaleString()}`;
+        const changeClass = index.change >= 0 ? 'positive' : 'negative';
+        const changeSymbol = index.change >= 0 ? '↑' : '↓';
+        document.getElementById('indexChange').innerHTML = `<span class="${changeClass}">${changeSymbol} ${Math.abs(index.change)} (${index.changePercent > 0 ? '+' : ''}${index.changePercent}%)</span>`;
+
+        const grid = document.getElementById('marketsGrid');
+        grid.innerHTML = '';
+
+        data.markets.forEach(market => {
+          const inrPrice = market.currency === 'INR' ? market.price : market.currency === 'EUR' ? market.price * 1.08 * data.usdToInr : market.price * data.usdToInr;
+          const changeClass = market.change >= 0 ? 'positive' : 'negative';
+          const changeSymbol = market.change >= 0 ? '↑' : '↓';
+
+          const card = document.createElement('div');
+          card.className = 'market-card';
+          card.innerHTML = `
+            <div class="market-header">
+              <div class="market-name">${market.name}</div>
+              <div class="market-ticker">${market.ticker}</div>
+            </div>
+            <div class="market-price">${market.currency === 'INR' ? '₹' : market.currency === 'EUR' ? '€' : '$'}${market.price.toFixed(2)}</div>
+            <div class="market-inr">≈ ₹${inrPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}/credit</div>
+            <div class="market-change ${changeClass}">${changeSymbol} ${Math.abs(market.change).toFixed(2)} (${market.changePercent > 0 ? '+' : ''}${market.changePercent.toFixed(2)}%)</div>
+            <div class="market-source">Source: ${market.source}</div>
+            <div class="market-desc">${market.description}</div>
+          `;
+          grid.appendChild(card);
+        });
+
+        renderChart(data);
+      } catch (error) {
+        console.error('Error loading prices:', error);
+        document.getElementById('marketsGrid').innerHTML = '<p style="color: red;">Error loading prices. Please try again later.</p>';
+      }
+    }
+
+    function renderChart(data) {
+      const markets = data.markets;
+      const labels = markets.map(m => m.ticker);
+      const prices = markets.map(m => {
+        if (m.currency === 'INR') return m.price / data.usdToInr;
+        if (m.currency === 'EUR') return m.price * 1.08;
+        return m.price;
+      });
+
+      const ctx = document.getElementById('priceChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Price (USD/tCO₂e)',
+            data: prices,
+            backgroundColor: '#52b788',
+            borderRadius: 6,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: { beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    loadPrices();
+  </script>
+</body>
+</html>

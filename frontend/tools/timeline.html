@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carbon Credit Project Timeline — Sparc Energy</title>
+  <meta name="description" content="See exactly how long Verra VCS, Gold Standard and BEE CCTS carbon projects take from start to first credit issuance. Interactive timeline tool." />
+  <link rel="canonical" href="https://sparcenergy.in/tools/timeline.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/landing.css?v=3" />
+  <link rel="stylesheet" href="../css/nav-modern.css?v=1" />
+  <style>
+    :root {
+      --forest: #0a1f12;
+      --emerald: #1a4a2e;
+      --mint: #52b788;
+      --cream: #f5f0e8;
+      --muted: #8a9e8e;
+      --deep: #050f09;
+    }
+    .timeline-hero { background: var(--forest); padding: 80px 40px; text-align: center; position: relative; overflow: hidden; }
+    .timeline-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(82,183,136,0.15) 0%, transparent 70%); }
+    .timeline-hero-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+    .timeline-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mint); margin-bottom: 20px; }
+    .timeline-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--mint); }
+    .timeline-h1 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 56px); font-weight: 600; color: white; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .timeline-sub { font-size: 17px; color: rgba(255,255,255,0.65); line-height: 1.6; max-width: 560px; margin: 0 auto; }
+    .timeline-container { max-width: 1200px; margin: 0 auto; padding: 60px 40px; }
+    .selector-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 48px; }
+    .selector-card { background: white; border: 1.5px solid #e5e7eb; border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.2s; }
+    .selector-card:hover { border-color: var(--mint); box-shadow: 0 4px 12px rgba(82,183,136,0.1); }
+    .selector-card.active { border-color: var(--mint); background: rgba(82,183,136,0.05); }
+    .selector-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 8px; }
+    .selector-value { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: var(--forest); }
+    .gantt-container { background: white; border-radius: 12px; padding: 32px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 32px; overflow-x: auto; }
+    .gantt-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: var(--forest); margin-bottom: 24px; }
+    .gantt-chart { position: relative; min-width: 600px; }
+    .gantt-axis { display: flex; gap: 0; margin-bottom: 24px; }
+    .gantt-tick { flex: 1; text-align: center; font-size: 11px; color: var(--muted); font-weight: 600; }
+    .gantt-bars { position: relative; height: 200px; }
+    .gantt-bar { position: absolute; height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .gantt-bar:hover { filter: brightness(1.1); }
+    .gantt-bar-label { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); white-space: nowrap; }
+    .gantt-bar-cost { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 10px; opacity: 0.9; }
+    .phase-land { background: #94a3b8; }
+    .phase-pdd { background: #3b82f6; }
+    .phase-consult { background: #8b5cf6; }
+    .phase-validation { background: #f59e0b; }
+    .phase-registration { background: #ef4444; }
+    .phase-monitoring { background: #22c55e; }
+    .phase-issuance { background: var(--mint); box-shadow: 0 0 16px rgba(82,183,136,0.4); }
+    .summary-card { background: var(--cream); border: 1px solid #e5d4c1; border-radius: 12px; padding: 24px; margin-bottom: 32px; }
+    .summary-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--forest); margin-bottom: 12px; }
+    .summary-text { font-size: 14px; color: var(--forest); line-height: 1.6; }
+    .cost-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .cost-table th, .cost-table td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 13px; }
+    .cost-table th { background: #f9fafb; font-weight: 600; color: var(--forest); }
+    .cost-table td { color: var(--muted); }
+    .cta-buttons { display: flex; gap: 16px; margin-top: 32px; }
+    .btn-primary { padding: 12px 24px; background: var(--forest); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; }
+    .btn-primary:hover { background: var(--emerald); }
+    .btn-secondary { padding: 12px 24px; background: white; color: var(--forest); border: 1.5px solid var(--forest); border-radius: 6px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; }
+    .btn-secondary:hover { background: var(--cream); }
+    @media (max-width: 1024px) {
+      .selector-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .timeline-container { padding: 40px 20px; }
+      .timeline-hero { padding: 60px 20px; }
+      .gantt-container { padding: 20px; }
+      .cta-buttons { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav-modern" id="mainNav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
+        </div>
+        <div class="brand-content">
+          <span class="brand-text">Sparc Energy</span>
+          <span class="brand-subtitle">CARBON INTELLIGENCE</span>
+        </div>
+      </a>
+      <nav class="nav-menu" id="navMenu" role="navigation">
+        <div class="nav-group">
+          <a href="../index.html" class="nav-item">Home</a>
+          <a href="../projects.html" class="nav-item">Projects</a>
+          <div class="nav-dropdown">
+            <button class="nav-item nav-trigger" aria-expanded="false">Resources<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="nav-dropdown-menu">
+              <div class="dropdown-section">
+                <div class="dropdown-label">Tools</div>
+                <a href="estimator.html" class="dropdown-item"><div class="dropdown-item-icon">📊</div><div><div class="dropdown-item-title">Carbon Credit Estimator</div><div class="dropdown-item-desc">Calculate your offset needs</div></div></a>
+                <a href="scope-calculator.html" class="dropdown-item"><div class="dropdown-item-icon">🔍</div><div><div class="dropdown-item-title">Scope 1/2/3 Calculator</div><div class="dropdown-item-desc">Measure your emissions</div></div></a>
+                <a href="brsr-generator.html" class="dropdown-item"><div class="dropdown-item-icon">📄</div><div><div class="dropdown-item-title">BRSR Report Generator</div><div class="dropdown-item-desc">Generate compliance reports</div></div></a>
+              </div>
+              <div class="dropdown-section">
+                <div class="dropdown-label">Learn</div>
+                <a href="../intelligence.html" class="dropdown-item"><div class="dropdown-item-icon">🤖</div><div><div class="dropdown-item-title">Carbon Intelligence AI</div><div class="dropdown-item-desc">Ask our AI assistant</div></div></a>
+                <a href="../carbon-101.html" class="dropdown-item"><div class="dropdown-item-icon">📚</div><div><div class="dropdown-item-title">Carbon 101</div><div class="dropdown-item-desc">Learn the basics</div></div></a>
+              </div>
+            </div>
+          </div>
+          <a href="../experts.html" class="nav-item">Experts</a>
+          <a href="../about.html" class="nav-item">About</a>
+        </div>
+      </nav>
+      <div class="nav-actions">
+        <a href="../auth.html" class="nav-btn nav-btn-ghost">Sign In</a>
+        <a href="../auth.html?mode=register" class="nav-btn nav-btn-primary">Sign Up</a>
+        <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <section class="timeline-hero">
+    <div class="timeline-hero-inner">
+      <div class="timeline-eyebrow">Project Timeline</div>
+      <h1 class="timeline-h1">Carbon Credit Project Timeline</h1>
+      <p class="timeline-sub">See how long your project takes from today to first credit issuance</p>
+    </div>
+  </section>
+
+  <div class="timeline-container">
+    <div class="selector-row">
+      <div class="selector-card active" data-standard="verra">
+        <div class="selector-label">Standard</div>
+        <div class="selector-value">Verra VCS</div>
+      </div>
+      <div class="selector-card" data-standard="gold">
+        <div class="selector-label">Standard</div>
+        <div class="selector-value">Gold Standard</div>
+      </div>
+      <div class="selector-card" data-standard="bee">
+        <div class="selector-label">Standard</div>
+        <div class="selector-value">BEE India CCTS</div>
+      </div>
+      <div class="selector-card" data-standard="cdm">
+        <div class="selector-label">Standard</div>
+        <div class="selector-value">CDM</div>
+      </div>
+    </div>
+
+    <div class="selector-row">
+      <div class="selector-card active" data-type="reforestation">
+        <div class="selector-label">Project Type</div>
+        <div class="selector-value">Reforestation / AFOLU</div>
+      </div>
+      <div class="selector-card" data-type="solar">
+        <div class="selector-label">Project Type</div>
+        <div class="selector-value">Solar / Renewable</div>
+      </div>
+      <div class="selector-card" data-type="biogas">
+        <div class="selector-label">Project Type</div>
+        <div class="selector-value">Biogas / Waste</div>
+      </div>
+    </div>
+
+    <div class="gantt-container">
+      <h3 class="gantt-title" id="ganttTitle">Verra VCS + Reforestation Timeline</h3>
+      <div class="gantt-chart">
+        <div class="gantt-axis">
+          <div class="gantt-tick">0</div>
+          <div class="gantt-tick">3</div>
+          <div class="gantt-tick">6</div>
+          <div class="gantt-tick">9</div>
+          <div class="gantt-tick">12</div>
+          <div class="gantt-tick">18</div>
+          <div class="gantt-tick">24</div>
+          <div class="gantt-tick">30</div>
+          <div class="gantt-tick">36</div>
+        </div>
+        <div class="gantt-bars" id="ganttBars"></div>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-title" id="summaryTitle">From today to first credit: approximately 18–24 months</div>
+      <div class="summary-text" id="summaryText">Total estimated validation & registration costs: Rs.4–13 lakhs</div>
+    </div>
+
+    <table class="cost-table">
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>Typical Cost</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PDD Writing</td>
+          <td>Rs.2–12L</td>
+          <td>Depends on project complexity</td>
+        </tr>
+        <tr>
+          <td>Validation</td>
+          <td>Rs.3–15L</td>
+          <td>Accredited third-party auditor</td>
+        </tr>
+        <tr>
+          <td>Registration</td>
+          <td>Rs.1–6L</td>
+          <td>Registry fees vary by standard</td>
+        </tr>
+        <tr>
+          <td>Monitoring (annual)</td>
+          <td>Rs.1–3L</td>
+          <td>Required every verification period</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="cta-buttons">
+      <a href="../index.html#contact" class="btn-primary">Start My Project — Talk to an Expert</a>
+      <a href="../experts.html" class="btn-secondary">Find a PDD Writer</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="../index.html" class="nav-logo" style="margin-bottom:16px;display:inline-flex;">
+            <div class="logo-mark-light"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg></div>
+            <div><div class="logo-name" style="font-size:15px;">Sparc Energy</div><div class="logo-sub">CARBON INTELLIGENCE</div></div>
+          </a>
+          <p class="footer-desc">Boutique climate intelligence for organisations serious about net zero. Science-based, AI-augmented, personally delivered.</p>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Services</div>
+          <a href="../index.html#services" class="fl">Carbon Measurement</a>
+          <a href="../index.html#services" class="fl">Net Zero Strategy</a>
+          <a href="../index.html#services" class="fl">Credit Procurement</a>
+          <a href="../index.html#services" class="fl">ESG Reporting</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Tools</div>
+          <a href="estimator.html" class="fl">Carbon Estimator</a>
+          <a href="scope-calculator.html" class="fl">Scope Calculator</a>
+          <a href="brsr-generator.html" class="fl">BRSR Generator</a>
+          <a href="../intelligence.html" class="fl">Carbon AI</a>
+        </div>
+        <div class="footer-col">
+          <div class="fc-title">Company</div>
+          <a href="../about.html" class="fl">About</a>
+          <a href="../experts.html" class="fl">Experts</a>
+          <a href="../carbon-101.html" class="fl">Carbon 101</a>
+          <a href="../index.html#contact" class="fl">Contact</a>
+          <a href="../privacy.html" class="fl">Privacy</a>
+          <a href="../terms.html" class="fl">Terms</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Sparc Energy. All rights reserved.</span>
+        <div class="footer-certs"><span>🌿 Verra VCS</span><span>🥇 Gold Standard</span><span>📊 SBTi Aligned</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/landing.js"></script>
+  <script>
+    const timelineData = {
+      verra: {
+        reforestation: {
+          title: 'Verra VCS + Reforestation',
+          months: 24,
+          range: '18–24',
+          cost: '4–13',
+          bars: [
+            { name: 'Land Assessment', start: 0, end: 1, class: 'phase-land' },
+            { name: 'PDD Writing', start: 1, end: 4, class: 'phase-pdd', cost: 'Rs.2–8L' },
+            { name: 'Validation', start: 4, end: 10, class: 'phase-validation', cost: 'Rs.3–10L' },
+            { name: 'Registration', start: 10, end: 12, class: 'phase-registration', cost: 'Rs.1–3L' },
+            { name: 'Monitoring', start: 12, end: 18, class: 'phase-monitoring' },
+            { name: 'First Credit Issuance', start: 18, end: 24, class: 'phase-issuance' }
+          ]
+        },
+        solar: {
+          title: 'Verra VCS + Solar/Renewable',
+          months: 16,
+          range: '12–16',
+          cost: '5–16',
+          bars: [
+            { name: 'PDD Writing', start: 0, end: 3, class: 'phase-pdd', cost: 'Rs.2–6L' },
+            { name: 'Validation', start: 3, end: 7, class: 'phase-validation', cost: 'Rs.3–8L' },
+            { name: 'Registration', start: 7, end: 9, class: 'phase-registration', cost: 'Rs.1–2L' },
+            { name: 'Monitoring', start: 9, end: 12, class: 'phase-monitoring' },
+            { name: 'First Credit Issuance', start: 12, end: 16, class: 'phase-issuance' }
+          ]
+        }
+      },
+      gold: {
+        reforestation: {
+          title: 'Gold Standard + Reforestation',
+          months: 30,
+          range: '22–30',
+          cost: '11–26',
+          bars: [
+            { name: 'PDD Writing', start: 0, end: 4, class: 'phase-pdd', cost: 'Rs.4–10L' },
+            { name: 'Stakeholder Consultation', start: 4, end: 6, class: 'phase-consult' },
+            { name: 'Validation', start: 6, end: 12, class: 'phase-validation', cost: 'Rs.5–12L' },
+            { name: 'Registration', start: 12, end: 16, class: 'phase-registration', cost: 'Rs.2–4L' },
+            { name: 'Monitoring', start: 16, end: 22, class: 'phase-monitoring' },
+            { name: 'First Credit Issuance', start: 22, end: 30, class: 'phase-issuance' }
+          ]
+        },
+        solar: {
+          title: 'Gold Standard + Solar/Renewable',
+          months: 24,
+          range: '18–24',
+          cost: '9–21',
+          bars: [
+            { name: 'PDD Writing', start: 0, end: 3, class: 'phase-pdd', cost: 'Rs.3–8L' },
+            { name: 'Stakeholder Consultation', start: 3, end: 5, class: 'phase-consult' },
+            { name: 'Validation', start: 5, end: 10, class: 'phase-validation', cost: 'Rs.4–10L' },
+            { name: 'Registration', start: 10, end: 14, class: 'phase-registration', cost: 'Rs.2–3L' },
+            { name: 'Monitoring', start: 14, end: 18, class: 'phase-monitoring' },
+            { name: 'First Credit Issuance', start: 18, end: 24, class: 'phase-issuance' }
+          ]
+        }
+      },
+      bee: {
+        any: {
+          title: 'BEE India CCTS',
+          months: 15,
+          range: '8–15',
+          cost: '3–9',
+          bars: [
+            { name: 'Registration', start: 0, end: 2, class: 'phase-registration' },
+            { name: 'Baseline Assessment', start: 2, end: 4, class: 'phase-pdd', cost: 'Rs.1–3L' },
+            { name: 'Validation', start: 4, end: 8, class: 'phase-validation', cost: 'Rs.2–6L' },
+            { name: 'First Credit Issuance', start: 8, end: 15, class: 'phase-issuance' }
+          ]
+        }
+      },
+      cdm: {
+        any: {
+          title: 'CDM',
+          months: 36,
+          range: '24–36',
+          cost: '13–33',
+          bars: [
+            { name: 'PDD Writing', start: 0, end: 4, class: 'phase-pdd', cost: 'Rs.5–12L' },
+            { name: 'Validation', start: 4, end: 10, class: 'phase-validation', cost: 'Rs.5–15L' },
+            { name: 'EB Registration', start: 10, end: 18, class: 'phase-registration', cost: 'Rs.3–6L' },
+            { name: 'Monitoring', start: 18, end: 24, class: 'phase-monitoring' },
+            { name: 'First Credit Issuance', start: 24, end: 36, class: 'phase-issuance' }
+          ]
+        }
+      }
+    };
+
+    let selectedStandard = 'verra';
+    let selectedType = 'reforestation';
+
+    document.querySelectorAll('[data-standard]').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('[data-standard]').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        selectedStandard = card.dataset.standard;
+        updateTimeline();
+      });
+    });
+
+    document.querySelectorAll('[data-type]').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('[data-type]').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        selectedType = card.dataset.type;
+        updateTimeline();
+      });
+    });
+
+    function updateTimeline() {
+      const data = timelineData[selectedStandard];
+      const timeline = data[selectedType] || data.any || data.reforestation;
+
+      document.getElementById('ganttTitle').textContent = timeline.title;
+      document.getElementById('summaryTitle').textContent = `From today to first credit: approximately ${timeline.range} months`;
+      document.getElementById('summaryText').textContent = `Total estimated validation & registration costs: Rs.${timeline.cost} lakhs`;
+
+      const ganttBars = document.getElementById('ganttBars');
+      ganttBars.innerHTML = '';
+
+      timeline.bars.forEach((bar, idx) => {
+        const width = ((bar.end - bar.start) / 36) * 100;
+        const left = (bar.start / 36) * 100;
+        const barEl = document.createElement('div');
+        barEl.className = `gantt-bar ${bar.class}`;
+        barEl.style.left = `${left}%`;
+        barEl.style.width = `${width}%`;
+        barEl.style.top = `${idx * 40}px`;
+        barEl.innerHTML = `<span class="gantt-bar-label">${bar.name}</span>${bar.cost ? `<span class="gantt-bar-cost">${bar.cost}</span>` : ''}`;
+        barEl.title = `${bar.name}: Month ${bar.start}–${bar.end}`;
+        ganttBars.appendChild(barEl);
+      });
+    }
+
+    updateTimeline();
+  </script>
+</body>
+</html>
