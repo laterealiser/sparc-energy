@@ -9,7 +9,6 @@ let scrollY = window.scrollY;
 
 function initNav() {
   const nav = document.getElementById('mainNav');
-  const fab = document.getElementById('fab');
   const burger = document.getElementById('navBurger');
   const menu = document.getElementById('navMenu');
 
@@ -26,14 +25,7 @@ function initNav() {
       nav.classList.remove('scrolled');
     }
 
-    // FAB visibility
-    if (fab) {
-      if (scrollY > window.innerHeight * 0.8) {
-        fab.classList.add('visible');
-      } else {
-        fab.classList.remove('visible');
-      }
-    }
+
   }, { passive: true });
 
   // Mobile menu toggle

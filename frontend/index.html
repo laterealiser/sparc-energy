@@ -19,8 +19,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="css/landing.css?v=3" />
-  <link rel="stylesheet" href="css/nav-modern.css?v=1" />
+  <link rel="stylesheet" href="css/landing.css?v=4" />
+  <link rel="stylesheet" href="css/nav-modern.css?v=2" />
   <!-- GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RQY0S1QFLH"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-RQY0S1QFLH');</script>
@@ -222,7 +222,7 @@
         that take climate seriously.
       </p>
       <div class="hero-btns">
-        <a href="#contact" class="btn-hero-primary">Book a Free Consultation</a>
+        <a href="auth.html" class="btn-hero-primary">Signup Now — Start Your Journey</a>
         <a href="projects.html" class="btn-hero-ghost">Explore Certified Projects</a>
       </div>
     </div>
@@ -659,7 +659,7 @@
     <div class="container">
       <div class="contact-split">
         <div class="contact-left reveal-l">
-          <h2 class="sect-h2">Book a Free Consultation</h2>
+          <h2 class="sect-h2">Signup Now</h2>
           <p class="contact-sub">The first conversation is always free.</p>
           <div class="consultation-benefits">
             <div class="benefit">→ Get a personalised carbon footprint estimate</div>
@@ -728,7 +728,7 @@
               <div class="char-counter"><span id="char-count">0</span>/500</div>
             </div>
             <button type="submit" class="btn-form" id="consultationBtn">
-              <span id="consultationBtnTxt">Schedule My Free Consultation</span>
+               <span id="consultationBtnTxt">Signup for Free Intelligence</span>
               <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
@@ -930,7 +930,7 @@
               form.reset();
               okBox.classList.remove('hidden');
               btn.disabled = false;
-              document.getElementById('consultationBtnTxt').textContent = 'Schedule My Free Consultation';
+              document.getElementById('consultationBtnTxt').textContent = 'Signup for Free Intelligence';
               
               // Hide success message after 5 seconds
               setTimeout(() => {
@@ -944,7 +944,7 @@
             errorBox.textContent = 'Error sending form. Please try again or email info@sparcenergy.in';
             errorBox.classList.remove('hidden');
             btn.disabled = false;
-            document.getElementById('consultationBtnTxt').textContent = 'Schedule My Free Consultation';
+            document.getElementById('consultationBtnTxt').textContent = 'Signup for Free Intelligence';
           });
         });
       }
@@ -967,3 +967,4 @@
 </body>
 
 </html>
+
