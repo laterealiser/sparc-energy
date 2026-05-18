@@ -172,12 +172,12 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-// ── Contact Form ──
 function initForm() {
-  const form = document.getElementById('contactForm');
-  const btn = document.getElementById('formBtn');
-  const txt = document.getElementById('formBtnTxt');
-  const ok = document.getElementById('formOk');
+  // Support both form IDs used across pages
+  const form = document.getElementById('contactForm') || document.getElementById('consultationForm');
+  const btn = document.getElementById('formBtn') || document.getElementById('consultationBtn');
+  const txt = document.getElementById('formBtnTxt') || document.getElementById('consultationBtnTxt');
+  const ok = document.getElementById('formOk') || document.getElementById('consultationOk');
 
   if (!form) return;
 
@@ -185,7 +185,7 @@ function initForm() {
     e.preventDefault();
 
     // basic validation
-    const inputs = form.querySelectorAll('input[required], textarea[required]');
+    const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
     let valid = true;
     inputs.forEach(i => {
       if (!i.value.trim()) {
@@ -197,17 +197,31 @@ function initForm() {
 
     if (!valid) return;
 
-    btn.disabled = true;
-    txt.innerText = 'Sending...';
+    if (btn) btn.disabled = true;
+    if (txt) txt.innerText = 'Sending...';
 
-    // Simulate async send
-    setTimeout(() => {
-      form.reset();
-      btn.disabled = false;
-      txt.innerText = 'Send Message';
-      ok.classList.remove('hidden');
-      setTimeout(() => ok.classList.add('hidden'), 5000);
-    }, 1200);
+    // Submit via fetch to Formspree
+    const formData = new FormData(form);
+    fetch(form.action || 'https://formspree.io/f/mnjlgqgl', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(res => {
+      if (res.ok) {
+        form.reset();
+        if (ok) { ok.classList.remove('hidden'); setTimeout(() => ok.classList.add('hidden'), 5000); }
+        if (btn) btn.disabled = false;
+        if (txt) txt.innerText = 'Send Message';
+      } else {
+        throw new Error('Form failed');
+      }
+    })
+    .catch(() => {
+      if (btn) btn.disabled = false;
+      if (txt) txt.innerText = 'Send Message';
+      alert('Error sending. Please email info@sparcenergy.in directly.');
+    });
   });
 }
 

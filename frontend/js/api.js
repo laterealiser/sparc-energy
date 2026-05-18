@@ -7,7 +7,11 @@ const SUPABASE_URL = 'https://loldpnnmjqttgvsxcgnr.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxvbGRwbm5tanF0dGd2c3hjZ25yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMzEzODYsImV4cCI6MjA5MDcwNzM4Nn0.Jy12HHwMsWgrFA-TKdJ8WcWOMZYB97G9-SSJGdvwT3w';
 
 // Use global supabase object from CDN
-const sp = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// Guard: supabase CDN must be loaded before this script
+if (typeof supabase === 'undefined') {
+  console.error('[Sparc] Supabase CDN not loaded. Add: <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> before api.js');
+}
+const sp = (typeof supabase !== 'undefined') ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
 // 2. Custom Rust API Base (Supabase-ready Matching Engine)
 const API_BASE = 'https://sparc-energy.onrender.com/api'; // Render Deployment URL
@@ -16,6 +20,7 @@ const API_BASE = 'https://sparc-energy.onrender.com/api'; // Render Deployment U
  * Main API fetch wrapper for Custom Rust endpoints
  */
 async function api(endpoint, options = {}) {
+  if (!sp) { console.error('[Sparc] API call failed: Supabase not initialised.'); return null; }
   const { data: { session } } = await sp.auth.getSession();
   const token = session?.access_token;
 
@@ -87,7 +92,7 @@ function subscribeToMarket() {
 
 function initRazorpay(amount, orderId) {
   const options = {
-    key: "rzp_test_...", // From Supabase config / .env
+    key: "rzp_test_REPLACE_WITH_REAL_KEY", // TODO: Replace with live Razorpay key before going live
     amount: amount * 100, // In paise
     currency: "INR",
     name: "Sparc Energy",
